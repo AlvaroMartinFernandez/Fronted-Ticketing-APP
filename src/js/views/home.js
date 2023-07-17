@@ -1,15 +1,29 @@
 import React from "react";
-import rigoImage from "../../img/rigo-baby.jpg";
+import { Link } from 'react-router-dom';
+
 import "../../styles/home.css";
+
+import Features from "../component/Features";
+import Testimonials from "../component/Testimonials";
+import Pricing from "../component/Pricing";
+import Footer from "../component/footer";
+import HeroSection from "../component/HeroSecction";
+
+
 
 export const Home = () => (
 	<div className="text-center mt-5">
-		<h1>Hello Rigo!</h1>
-		<p>
-			<img src={rigoImage} />
-		</p>
-		<a href="#" className="btn btn-success">
-			If you see this green button, bootstrap is working
-		</a>
+		<Link to="/dashboard" className="cta-link">
+  Acceder al Dashboard
+</Link>
+
+		<HeroSection />
+
+		<Features />
+		<Testimonials />
+
+		<Pricing />
+
+
 	</div>
 );
