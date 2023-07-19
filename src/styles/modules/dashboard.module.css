@@ -1,0 +1,86 @@
+/* Estilos para el contenedor principal del dashboard */
+.dashboardContainer {
+  display: flex;
+  height: 100vh;
+  overflow: hidden; /* Ocultamos el contenido que desborde del dashboard */
+}
+
+/* Estilos para la barra lateral */
+.sidebar {
+  flex: 0 0 200px;
+  background-color: #007bff; /* Color azul */
+  color: #fff; /* Color de texto blanco */
+  padding: 20px;
+  box-shadow: 2px 0px 6px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar button {
+  display: block;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #fff; /* Color de texto blanco */
+}
+
+/* Estilos para el contenido principal */
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f5ff; /* Color azul claro */
+  overflow-y: auto;
+}
+
+/* Estilos para el modal desplegable */
+.modal {
+  position: absolute;
+  top: 70px; /* Ajustamos el posicionamiento para evitar choques */
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #007bff; /* Color azul */
+  color: #fff; /* Color de texto blanco */
+  box-shadow: 2px 0px 6px rgba(0, 0, 0, 0.15);
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.modalList {
+  list-style: none;
+  padding: 0;
+}
+
+.modalList li {
+  padding: 10px 20px;
+  border-bottom: 1px solid #0056b3; /* Color azul más oscuro */
+  cursor: pointer;
+}
+
+.modalList li:last-child {
+  border-bottom: none;
+}
+
+.modalList li:hover {
+  background-color: #0056b3; /* Color azul más oscuro */
+}
+
+/* Estilos para el botón del modal desplegable */
+.modalButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  background-color: #007bff; /* Color azul */
+  color: #fff; /* Color de texto blanco */
+  border: none;
+  cursor: pointer;
+}

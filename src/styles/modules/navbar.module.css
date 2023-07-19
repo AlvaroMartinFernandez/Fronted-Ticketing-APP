@@ -1,0 +1,82 @@
+/* src/styles/modules/navbar.module.css */
+
+/* Estilos para el navbar */
+.navbar {
+  background-color: #fff;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el logo */
+.logo {
+  font-size: 24px;
+}
+
+/* Estilos para el icono del logo */
+.icon {
+  color: #333;
+}
+
+/* Estilos para los enlaces del navbar */
+.nav-links {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+/* Estilos para cada enlace del navbar */
+.nav-link {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  position: relative;
+}
+
+/* Estilos para el efecto hover en los enlaces */
+.nav-link:hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 3px;
+  background-color: #333;
+}
+
+/* Estilos para el botón de registrarse */
+.signup-button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.signup-button:hover {
+  background-color: #222;
+}
+
+/* Estilos para los botones de inicio de sesión y registro */
+.auth-buttons {
+  margin-left: 20px;
+}
+
+/* Estilos para los botones de inicio de sesión y registro en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .auth-buttons {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .login-button,
+  .signup-button {
+    display: block;
+    width: 100%;
+  }
+}

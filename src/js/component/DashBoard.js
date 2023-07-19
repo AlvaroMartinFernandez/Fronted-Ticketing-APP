@@ -1,91 +1,59 @@
 import React, { useState } from 'react';
 import { BiHome, BiMessage, BiBarChartAlt2, BiCog } from 'react-icons/bi';
+import Modal from 'react-modal';
+import styles from '../../styles/modules/dashboard.module.css';
 
-// Estilos de Zendesk (ejemplo)
-const zendeskColors = {
-  primary: '#2E7ACB',
-  secondary: '#F1F5F8',
-  text: '#333333',
-};
-
-// Estilos personalizados
-const styles = {
-  dashboardContainer: {
-    display: 'grid',
-    gridTemplateColumns: '250px 1fr',
-    gap: '20px',
-    padding: '20px',
-    background: zendeskColors.secondary,
-  },
-  sidebar: {
-    background: zendeskColors.primary,
-    color: 'white',
-    padding: '10px',
-  },
-  menuItem: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '10px',
-    marginBottom: '10px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  menuItemActive: {
-    background: 'rgba(255, 255, 255, 0.1)',
-  },
-  content: {
-    background: 'white',
-    padding: '20px',
-    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-  },
-};
-
-const Tickets = () => (
+const Orders = () => (
   <div>
-    <h3>Tickets</h3>
-    <table>
-      {/* Contenido de la tabla de tickets */}
-    </table>
+    <h3>Pedidos</h3>
+    <p>Contenido de la tabla de pedidos</p>
   </div>
 );
 
-const Statistics = () => (
+const Departments = () => (
   <div>
-    <h3>Estadísticas</h3>
-    {/* Contenido de estadísticas */}
+    <h3>Departamentos</h3>
+    <p>Contenido de la tabla de departamentos</p>
   </div>
 );
 
-const Messaging = () => (
+const Clients = () => (
   <div>
-    <h3>Messaging Component</h3>
-    {/* Contenido de la sección de Mensajes */}
+    <h3>Clientes</h3>
+    <p>Contenido de la tabla de clientes</p>
   </div>
 );
 
 const Settings = () => (
   <div>
     <h3>Ajustes</h3>
-    {/* Contenido de la sección de Ajustes */}
+    <p>Contenido de la sección de Ajustes</p>
   </div>
 );
 
 const Dashboard = () => {
-  const [selectedComponent, setSelectedComponent] = useState('tickets');
+  const [selectedComponent, setSelectedComponent] = useState('orders');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleComponentSelect = (component) => {
     setSelectedComponent(component);
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const renderSelectedComponent = () => {
-    if (selectedComponent === 'tickets') {
-      return <Tickets />;
-    } else if (selectedComponent === 'messaging') {
-      return <Messaging />;
-    } else if (selectedComponent === 'reports') {
-      return <div>Reports Component</div>;
-    } else if (selectedComponent === 'statistics') {
-      return <Statistics />;
+    if (selectedComponent === 'orders') {
+      return <Orders />;
+    } else if (selectedComponent === 'departments') {
+      return <Departments />;
+    } else if (selectedComponent === 'clients') {
+      return <Clients />;
     } else if (selectedComponent === 'settings') {
       return <Settings />;
     } else {
@@ -94,73 +62,56 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <div style={styles.dashboardContainer}>
-        <div style={styles.sidebar}>
-          <div
-            style={{
-              ...styles.menuItem,
-              ...(selectedComponent === 'home' && styles.menuItemActive),
-            }}
-            onClick={() => handleComponentSelect('home')}
-          >
-            <BiHome style={{ marginRight: '10px' }} />
-            <span>Home</span>
-          </div>
-          <div
-            style={{
-              ...styles.menuItem,
-              ...(selectedComponent === 'tickets' && styles.menuItemActive),
-            }}
-            onClick={() => handleComponentSelect('tickets')}
-          >
-            <BiMessage style={{ marginRight: '10px' }} />
-            <span>Tickets</span>
-          </div>
-          <div
-            style={{
-              ...styles.menuItem,
-              ...(selectedComponent === 'messaging' && styles.menuItemActive),
-            }}
-            onClick={() => handleComponentSelect('messaging')}
-          >
-            <BiMessage style={{ marginRight: '10px' }} />
-            <span>Messaging</span>
-          </div>
-          <div
-            style={{
-              ...styles.menuItem,
-              ...(selectedComponent === 'reports' && styles.menuItemActive),
-            }}
-            onClick={() => handleComponentSelect('reports')}
-          >
-            <BiBarChartAlt2 style={{ marginRight: '10px' }} />
-            <span>Reports</span>
-          </div>
-          <div
-            style={{
-              ...styles.menuItem,
-              ...(selectedComponent === 'statistics' && styles.menuItemActive),
-            }}
-            onClick={() => handleComponentSelect('statistics')}
-          >
-            <BiBarChartAlt2 style={{ marginRight: '10px' }} />
-            <span>Statistics</span>
-          </div>
-          <div
-            style={{
-              ...styles.menuItem,
-              ...(selectedComponent === 'settings' && styles.menuItemActive),
-            }}
-            onClick={() => handleComponentSelect('settings')}
-          >
-            <BiCog style={{ marginRight: '10px' }} />
-            <span>Settings</span>
-          </div>
+    <div className={styles.container}>
+      <h2 className={styles.dashboardTitle}>Dashboard</h2>
+      <div className={styles.dashboardContainer}>
+        <div className={styles.sidebar}>
+          <button onClick={() => handleComponentSelect('orders')}>
+            <BiHome /> Pedidos
+          </button>
+          <button onClick={() => handleComponentSelect('departments')}>
+            <BiMessage /> Departamentos
+          </button>
+          <button onClick={() => handleComponentSelect('clients')}>
+            <BiBarChartAlt2 /> Clientes
+          </button>
+          <button onClick={() => handleComponentSelect('settings')}>
+            <BiCog /> Ajustes
+          </button>
         </div>
-        <div style={styles.content}>{renderSelectedComponent()}</div>
+        <div className={styles.content}>{renderSelectedComponent()}</div>
       </div>
+
+      {/* Botón para abrir el modal */}
+      <button onClick={handleOpenModal}>Crear Usuario</button>
+
+      {/* Modal para la creación de usuarios */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        style={{
+          overlay: styles['modal-overlay'],
+          content: styles['modal-content'],
+        }}
+        contentLabel="Crear Usuario"
+      >
+        <h2>Crear Usuario</h2>
+        {/* Formulario de creación de usuarios */}
+        <form>
+          <label>
+            Nombre:
+            <input type="text" />
+          </label>
+          <label>
+            Email:
+            <input type="email" />
+          </label>
+          <button type="submit">Guardar Usuario</button>
+        </form>
+
+        {/* Botón para cerrar el modal */}
+        <button onClick={handleCloseModal}>Cancelar</button>
+      </Modal>
     </div>
   );
 };

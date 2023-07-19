@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaPhone, FaEnvelope, FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
+import styles from '../../styles/modules/footer.module.css';
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-column">
+    <footer className={styles.footer}>
+      <div className={styles['footer-container']}>
+        <div className={styles['footer-column']}>
           <h3>Atención al cliente</h3>
           <ul>
             <li>
@@ -19,7 +20,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="footer-column">
+        <div className={styles['footer-column']}>
           <h3>Soporte</h3>
           <ul>
             <li>
@@ -30,9 +31,9 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="footer-column">
+        <div className={styles['footer-column']}>
           <h3>Síguenos</h3>
-          <ul className="social-icons">
+          <ul className={styles['social-icons']}>
             <li>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
                 <FaTwitter />
@@ -51,7 +52,7 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className="footer-bottom">
+      <div className={styles['footer-bottom']}>
         <p>&copy; {new Date().getFullYear()} Todos los derechos reservados.</p>
       </div>
     </footer>

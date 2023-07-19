@@ -1,46 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BiRocket } from 'react-icons/bi';
+import styles from '../../styles/modules/navbar.module.css'; // Ruta correcta para importar los estilos CSS modules
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <div className="logo">
+    <nav className={styles.navbar}>
+      <div className={styles.logo}>
         <Link to="/">
-          <BiRocket size={32} />
+          <BiRocket size={32} className={styles.icon} />
         </Link>
       </div>
-      <ul className="nav-links">
+      <ul className={styles['nav-links']}>
         <li>
-          <Link to="/products">Productos</Link>
+          <Link to="/products" className={styles['nav-link']}>Productos</Link>
         </li>
         <li>
-          <Link to="/prices">Precios</Link>
+          <Link to="/prices" className={styles['nav-link']}>Precios</Link>
         </li>
         <li>
-          <Link to="/solutions">Soluciones</Link>
+          <Link to="/solutions" className={styles['nav-link']}>Soluciones</Link>
         </li>
         <li>
-          <Link to="/demo">Demostración</Link>
+          <Link to="/demo" className={styles['nav-link']}>Demostración</Link>
         </li>
         <li>
-          <Link to="/services">Servicios</Link>
+          <Link to="/services" className={styles['nav-link']}>Servicios</Link>
         </li>
         <li>
-          <Link to="/resources">Recursos</Link>
-        </li>
-        <li>
-          <Link to="/free-trial" className="button">
-            Prueba gratuita
-          </Link>
+          <Link to="/resources" className={styles['nav-link']}>Recursos</Link>
         </li>
       </ul>
-      <Link to="/login" className="login-button">
-        Iniciar sesión
-      </Link>
-      <Link to="/signup" className="signup-button">
-        Registrarse
-      </Link>
+      <div className={styles['auth-buttons']}>
+        <Link to="/login" className={styles['login-button']}>Iniciar sesión</Link>
+      </div>
+      <div className={styles['auth-buttons']}>
+        <Link to="/signup" className={`${styles['signup-button']} ${styles['button']}`}>
+          Registrarse
+        </Link>
+      </div>
     </nav>
   );
 };

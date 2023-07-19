@@ -1,0 +1,43 @@
+/* Estilos para el contenido del modal */
+.modalContent {
+    padding: 20px;
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .modalContent h3 {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin: 0;
+  }
+  
+  .modalContent p {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  .modalContent .searchBar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+  }
+  
+  .modalContent .searchBar input {
+    flex: 1;
+    border: none;
+    padding: 5px;
+  }
+  
+  .modalContent .searchBar button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
