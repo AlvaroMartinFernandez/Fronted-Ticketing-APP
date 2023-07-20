@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Container,
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  AppBar,
-  Toolbar,
-  IconButton,
-  InputBase,
-  Modal,
-  TextField,
-  Button,
-  Typography,
+  Container, Box, List, ListItem, ListItemText, AppBar, Toolbar, IconButton, InputBase, Modal, TextField, Button, Typography,
 } from '@mui/material';
 import {
   Search as SearchIcon,
@@ -68,7 +56,7 @@ const Dashboard = () => {
   const components = {
     Inicio: (
       <div>
-        <Typography variant="body2">Contenido para la página de Inicio</Typography>
+        Contenido para la página de Inicio
       </div>
     ),
     Clientes: <div>Contenido para la página de Clientes</div>,

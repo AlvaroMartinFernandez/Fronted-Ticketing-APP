@@ -2,8 +2,8 @@
 
 /* Estilos para el footer */
 .footer {
-    background-color: #7a5aee;
-    color: #fff;
+  background: linear-gradient(to right, #2e75b6, #4ab19d); /* Cambia el gradiente a los colores que desees */
+  color: #fff; /* Color de texto */
     padding: 40px 0;
     text-align: center;
   }

@@ -10,11 +10,9 @@ const HeroSection = () => {
   return (
     <section className={styles.hero}>
       <div className={styles['hero-content']}>
-        <h1>Bienvenido a nuestra aplicación</h1>
+        <h1>¡Bienvenidos a nuestra aplicación de gestión de tickets, impulsada por ChatGPT!</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget justo non turpis
-          pharetra luctus. Etiam eu nunc quis justo luctus malesuada. Nunc auctor, tortor ac
-          placerat dapibus, mauris arcu ultrices velit, non fringilla mi magna nec mauris.
+        Nuestra aplicación está diseñada para ofrecerte una solución eficiente y efectiva para manejar tus tickets de soporte y atención al cliente. Con la ayuda de ChatGPT, una inteligencia artificial de procesamiento del lenguaje natural, la gestión de tickets nunca ha sido tan fácil y rápida.
         </p>
         <button className={styles['start-button']}>Empezar</button>
       </div>

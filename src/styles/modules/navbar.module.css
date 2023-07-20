@@ -80,3 +80,23 @@
     width: 100%;
   }
 }
+
+.userIcon {
+  margin-right: 8px;
+}
+
+/* Personalizar el botón de iniciar sesión */
+.login-button {
+  /* Agrega tus estilos personalizados aquí */
+  /* Por ejemplo: */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+}

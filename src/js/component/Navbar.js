@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BiRocket } from 'react-icons/bi';
+import { BiRocket,BiUser } from 'react-icons/bi';
 import styles from '../../styles/modules/navbar.module.css'; // Ruta correcta para importar los estilos CSS modules
 
 const Navbar = () => {
@@ -32,7 +32,8 @@ const Navbar = () => {
         </li>
       </ul>
       <div className={styles['auth-buttons']}>
-        <Link to="/login" className={styles['login-button']}>Iniciar sesión</Link>
+        <Link to="/login" className={styles['login-button']}><BiUser size={20} className={styles.userIcon} />
+          Iniciar sesión</Link>
       </div>
       <div className={styles['auth-buttons']}>
         <Link to="/signup" className={`${styles['signup-button']} ${styles['button']}`}>
