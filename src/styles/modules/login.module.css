@@ -1,0 +1,65 @@
+/* login.module.css */
+
+/* Estilos para el contenedor del formulario de inicio de sesión */
+.loginContainer {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para el título de inicio de sesión */
+  .loginTitle {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+  
+  /* Estilos para el formulario de inicio de sesión */
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Estilos para los campos de entrada de inicio de sesión */
+  .loginInput {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  /* Estilos para el botón de inicio de sesión */
+  .loginButton {
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .loginButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilos para el enlace de registro */
+  .signupLink {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .signupLink a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .signupLink a:hover {
+    text-decoration: underline;
+  }
+  

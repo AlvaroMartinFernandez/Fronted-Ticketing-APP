@@ -1,7 +1,7 @@
 // src/components/HeroSection.js
 import React from 'react';
 import styles from '../../styles/modules/heroSection.module.css'; // Importa los estilos con CSS modules
-import empresa1 from "../../img/empresa1.jpg";
+import empresa4 from "../../img/empresa4.jpg";
 import empresa1Hover from '../../img/empresa2.jpg';
 
 
@@ -19,7 +19,7 @@ const HeroSection = () => {
         <button className={styles['start-button']}>Empezar</button>
       </div>
       <div className={styles['hero-image']}>
-      <img src={empresa1} alt="Imagen de bienvenida" />
+      <img src={empresa4} alt="Imagen de bienvenida" />
       </div>
     </section>
   );

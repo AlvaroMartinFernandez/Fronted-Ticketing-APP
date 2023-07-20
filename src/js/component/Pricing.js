@@ -4,7 +4,7 @@ import styles from '../../styles/modules/pricing.module.css'; // Ruta correcta p
 
 const Pricing = () => {
   return (
-    <section id="pricing" className={styles.pricing}>
+    <section id="pricing" className={`${styles.pricing} ${styles.blueBackground}`}>
       <h2 className={styles['section-title']}>Planes de precios</h2>
       <div className={styles['pricing-plan']}>
         <h3 className={styles['plan-title']}>Plan Básico</h3>

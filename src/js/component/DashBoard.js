@@ -1,116 +1,176 @@
 import React, { useState } from 'react';
-import { BiHome, BiMessage, BiBarChartAlt2, BiCog } from 'react-icons/bi';
-import Modal from 'react-modal';
+import {
+  Container,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  AppBar,
+  Toolbar,
+  IconButton,
+  InputBase,
+  Modal,
+  TextField,
+  Button,
+  Typography,
+} from '@mui/material';
+import {
+  Search as SearchIcon,
+  HelpOutline as HelpOutlineIcon,
+  AddCircleOutline as AddCircleOutlineIcon,
+} from '@mui/icons-material';
+
 import styles from '../../styles/modules/dashboard.module.css';
 
-const Orders = () => (
-  <div>
-    <h3>Pedidos</h3>
-    <p>Contenido de la tabla de pedidos</p>
-  </div>
-);
-
-const Departments = () => (
-  <div>
-    <h3>Departamentos</h3>
-    <p>Contenido de la tabla de departamentos</p>
-  </div>
-);
-
-const Clients = () => (
-  <div>
-    <h3>Clientes</h3>
-    <p>Contenido de la tabla de clientes</p>
-  </div>
-);
-
-const Settings = () => (
-  <div>
-    <h3>Ajustes</h3>
-    <p>Contenido de la sección de Ajustes</p>
-  </div>
-);
-
 const Dashboard = () => {
-  const [selectedComponent, setSelectedComponent] = useState('orders');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState('Inicio');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [newUser, setNewUser] = useState({
+    name: '',
+    lastName: '',
+    company: '',
+    phone: '',
+    email: '',
+  });
 
-  const handleComponentSelect = (component) => {
-    setSelectedComponent(component);
+  const handleItemClick = (componentName) => {
+    setSelectedComponent(componentName);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleModalOpen = () => {
+    setModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
-  const renderSelectedComponent = () => {
-    if (selectedComponent === 'orders') {
-      return <Orders />;
-    } else if (selectedComponent === 'departments') {
-      return <Departments />;
-    } else if (selectedComponent === 'clients') {
-      return <Clients />;
-    } else if (selectedComponent === 'settings') {
-      return <Settings />;
-    } else {
-      return null;
-    }
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setNewUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveUser = () => {
+    console.log('Nuevo usuario:', newUser);
+    setModalOpen(false);
+    setNewUser({
+      name: '',
+      lastName: '',
+      company: '',
+      phone: '',
+      email: '',
+    });
+  };
+
+  const components = {
+    Inicio: (
+      <div>
+        <Typography variant="body2">Contenido para la página de Inicio</Typography>
+      </div>
+    ),
+    Clientes: <div>Contenido para la página de Clientes</div>,
+    Departamentos: <div>Contenido para la página de Departamentos</div>,
+    Ajustes: <div>Contenido para la página de Ajustes</div>,
   };
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.dashboardTitle}>Dashboard</h2>
-      <div className={styles.dashboardContainer}>
-        <div className={styles.sidebar}>
-          <button onClick={() => handleComponentSelect('orders')}>
-            <BiHome /> Pedidos
-          </button>
-          <button onClick={() => handleComponentSelect('departments')}>
-            <BiMessage /> Departamentos
-          </button>
-          <button onClick={() => handleComponentSelect('clients')}>
-            <BiBarChartAlt2 /> Clientes
-          </button>
-          <button onClick={() => handleComponentSelect('settings')}>
-            <BiCog /> Ajustes
-          </button>
-        </div>
-        <div className={styles.content}>{renderSelectedComponent()}</div>
-      </div>
+    <div>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="search">
+            <SearchIcon />
+          </IconButton>
+          <InputBase
+            placeholder="Buscar..."
+            className={styles.searchInput}
+            inputProps={{ 'aria-label': 'Buscar' }}
+          />
+          <IconButton color="inherit" onClick={handleModalOpen}>
+            <AddCircleOutlineIcon />
+          </IconButton>
+          <IconButton color="inherit">
+            <HelpOutlineIcon />
+          </IconButton>
+          <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' } }}>
+            Hola soy Maria, ¿necesitas ayuda?
+          </Typography>
+        </Toolbar>
+      </AppBar>
 
-      {/* Botón para abrir el modal */}
-      <button onClick={handleOpenModal}>Crear Usuario</button>
+      <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ width: '20%', padding: 2 }}>
+          <List>
+            {Object.keys(components).map((componentName) => (
+              <ListItem
+                key={componentName}
+                button
+                selected={selectedComponent === componentName}
+                onClick={() => handleItemClick(componentName)}
+              >
+                <ListItemText primary={componentName} />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
 
-      {/* Modal para la creación de usuarios */}
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={handleCloseModal}
-        style={{
-          overlay: styles['modal-overlay'],
-          content: styles['modal-content'],
-        }}
-        contentLabel="Crear Usuario"
-      >
-        <h2>Crear Usuario</h2>
-        {/* Formulario de creación de usuarios */}
-        <form>
-          <label>
-            Nombre:
-            <input type="text" />
-          </label>
-          <label>
-            Email:
-            <input type="email" />
-          </label>
-          <button type="submit">Guardar Usuario</button>
-        </form>
+        <Box sx={{ width: '70%', padding: 2 }}>{components[selectedComponent]}</Box>
+      </Container>
 
-        {/* Botón para cerrar el modal */}
-        <button onClick={handleCloseModal}>Cancelar</button>
+      <Modal open={isModalOpen} onClose={handleModalClose}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: '#fff', p: 4 }}>
+          <h2>Crear Nuevo Usuario</h2>
+          <TextField
+            label="Nombre"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="name"
+            value={newUser.name}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Apellido"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="lastName"
+            value={newUser.lastName}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Empresa"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="company"
+            value={newUser.company}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Teléfono"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="phone"
+            value={newUser.phone}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Correo"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            name="email"
+            value={newUser.email}
+            onChange={handleInputChange}
+          />
+          <Button variant="contained" color="primary" onClick={handleSaveUser}>
+            Guardar
+          </Button>
+        </Box>
       </Modal>
     </div>
   );
