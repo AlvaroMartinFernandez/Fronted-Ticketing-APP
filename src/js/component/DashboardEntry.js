@@ -7,7 +7,7 @@ const DashboardEntry = () => {
   return (
     <div className={styles['dashboard-entry']}>
       <Link to="/dashboard" className={styles['cta-link']}>
-        Acceder al Dashboard
+      TickIaMe
       </Link>
     </div>
   );

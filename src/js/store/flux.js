@@ -1,45 +1,40 @@
+// getState.js
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
-		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
+	  store: {
+		demo: [
+		  {
+			title: "FIRST",
+			background: "white",
+			initial: "white"
+		  },
+		  {
+			title: "SECOND",
+			background: "white",
+			initial: "white"
+		  }
+		],
+		users: [] // Agregamos un array para almacenar los datos de los usuarios
+	  },
+	  actions: {
+		// Resto de acciones...
+  
+		// Agregar la acción para cargar datos de usuarios utilizando fetch
+		loadUsersData: () => {
+		  fetch('https://randomuser.me/api/?results=50')
+			.then(response => response.json())
+			.then(data => {
+			  // Una vez que obtengamos los datos, actualizamos el estado con los usuarios
+			  setStore({ users: data.results });
+			})
+			.catch(error => {
+			  console.error('Error fetching users:', error);
+			});
 		}
+	  }
 	};
-};
-
-export default getState;
+  };
+  
+  export default getState;
+  

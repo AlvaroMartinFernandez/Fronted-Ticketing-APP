@@ -1,0 +1,57 @@
+/* fortalezas.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.fortaleza-image {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.fortaleza-image:hover {
+  transform: scale(1.1); /* Efecto de escala al pasar el cursor sobre la imagen */
+}
+
+.fortaleza-text {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+  opacity: 0; /* Ocultar el texto al principio */
+  transition: opacity 0.2s ease;
+  background-clip: text; /* Aplicar el gradiente al texto */
+  color: transparent; /* Hacer el texto transparente para mostrar el gradiente */
+  background-image: linear-gradient(to right, #2e75b6, #4ab19d); /* Gradiente de color */
+}
+
+.fortaleza-container:hover .fortaleza-text {
+  opacity: 1; /* Mostrar el texto cuando se pase el cursor sobre el contenedor */
+  color: #ffffff;
+}
+
+.button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #4ab19d;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #2e75b6;
+}
