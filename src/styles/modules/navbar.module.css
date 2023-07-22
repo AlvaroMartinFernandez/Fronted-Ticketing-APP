@@ -9,6 +9,7 @@
   align-items: center;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
 }
 
 /* Estilos para el logo */
@@ -26,6 +27,7 @@
   display: flex;
   list-style: none;
   padding: 0;
+  margin-top: 3%;
 }
 
 /* Estilos para cada enlace del navbar */
@@ -99,4 +101,10 @@
   align-items: center;
   cursor: pointer;
   text-decoration: none;
+}
+
+.checkIcon {
+  margin-left: 5px;
+  vertical-align: middle;
+  color: #4CAF50; /* Puedes cambiar el color según tu preferencia */
 }

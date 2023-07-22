@@ -48,7 +48,7 @@ const Fortalezas = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ duration: 0.5 }} /* Cambia la duración de la animación */
         >
           <h2 className={styles['fortaleza-text']}>
             {currentFortaleza.text}
