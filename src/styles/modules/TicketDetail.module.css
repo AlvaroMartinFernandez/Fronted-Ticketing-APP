@@ -1,0 +1,49 @@
+.container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  info {
+    margin-bottom: 10px;
+  }
+  
+  .info-label {
+    font-weight: bold;
+  }
+  
+  .info-value {
+    margin-left: 10px;
+  }
+  
+  .description {
+    margin-bottom: 20px;
+  }
+  
+  .conversation {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+  }
+  
+  .conversation-item {
+    margin-bottom: 10px;
+  }
+  
+  .conversation-item .user {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .conversation-item .message {
+    background-color: #f2f2f2;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  

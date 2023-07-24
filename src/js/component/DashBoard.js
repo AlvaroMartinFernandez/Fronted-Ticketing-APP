@@ -1,18 +1,47 @@
-import React, { useEffect, useContext } from 'react';
-import { Context } from '../store/appContext';
-import TicketList from './TicketList';
+// Dashboard.js
+import React, { useState, useEffect } from 'react';
+import Sidebar from './Sidebar';
+import axios from 'axios';
+import UserList from './UserList';
+import styles from '../../styles/modules/dashboard.module.css'; // Cambia la ruta según tu estructura de carpetas y archivos
 
 const Dashboard = () => {
-  const { store, actions } = useContext(Context);
+  const [users, setUsers] = useState([]);
+  const [activeSection, setActiveSection] = useState('Tickets');
 
   useEffect(() => {
-    actions.loadUsersData();
+    // Obtener los datos de usuarios al montar el componente
+    fetchUsersData();
   }, []);
 
+  const fetchUsersData = async () => {
+    try {
+      // Realizar la solicitud GET a la API para obtener los usuarios
+      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/users/');
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+    }
+  };
+
+  // Función para cambiar la sección activa
+  const handleSectionChange = section => {
+    setActiveSection(section);
+  };
+
   return (
-    <div>
-      {/* Renderizar el componente TicketList con los datos de usuarios */}
-      <TicketList users={store.users} />
+    <div className={styles.dashboard}>
+      {/* Aquí se coloca el Sidebar */}
+      <Sidebar activeSection={activeSection} handleSectionChange={handleSectionChange} />
+
+      {/* Aquí colocamos el contenido de la sección */}
+      <div className={styles.content}>
+        {/* Mostramos el contenido según la sección activa */}
+        {activeSection === 'Usuarios' && (
+          <UserList users={users} />
+        )}
+       
+      </div>
     </div>
   );
 };

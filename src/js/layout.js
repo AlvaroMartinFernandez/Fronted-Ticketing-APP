@@ -11,6 +11,8 @@ import Login from "./component/Login";
 import Signup from "./component/Signup";
 import Faq from "./component/faq";
 
+
+
 const Layout = () => {
   const basename = process.env.BASENAME || "";
 
@@ -20,6 +22,8 @@ const Layout = () => {
 
         <Navbar />
         <Routes>
+       
+       
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/demo" element={<Demo />} />

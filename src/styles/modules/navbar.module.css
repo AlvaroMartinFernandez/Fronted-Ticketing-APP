@@ -9,7 +9,6 @@
   align-items: center;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
 }
 
 /* Estilos para el logo */
@@ -64,9 +63,12 @@
   background-color: #222;
 }
 
-/* Estilos para los botones de inicio de sesión y registro */
 .auth-buttons {
+  /* Eliminamos el width: 100% para que el div solo ocupe el ancho necesario */
+  /* Agregamos un margen derecho para separar los botones */
   margin-left: 20px;
+  margin-right: 20px; /* Puedes ajustar este valor según el espaciado deseado */
+  display: flex; /* Asegurarse de que los botones estén en línea */
 }
 
 /* Estilos para los botones de inicio de sesión y registro en pantallas pequeñas */

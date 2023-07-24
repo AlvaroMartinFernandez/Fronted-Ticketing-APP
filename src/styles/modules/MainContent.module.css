@@ -1,0 +1,7 @@
+/* MainContent.module.css */
+
+.mainContent {
+    padding: 20px;
+    margin-left: 250px; /* Ancho del Sidebar para dejar espacio para el contenido principal */
+  }
+  

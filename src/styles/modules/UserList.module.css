@@ -1,0 +1,74 @@
+/* Estilos para el contenedor principal */
+.container {
+    padding: 20px;
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilos para el contenedor de búsqueda */
+  .searchContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .searchIcon {
+    margin-right: 10px;
+  }
+  
+  .searchInput {
+    flex: 1;
+    height: 36px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .searchButton {
+    margin-left: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Estilos para el contenedor del filtro */
+  .tableContainer {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  /* Estilos para la lista de usuarios */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  /* Estilos para cada usuario */
+  li {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Estilos para el icono de usuario sin resultados */
+  .noUsers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 50px;
+  }
+  
+  .userSlashIcon {
+    font-size: 36px;
+    color: #ccc;
+    margin-bottom: 10px;
+  }
+  

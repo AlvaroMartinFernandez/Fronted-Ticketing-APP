@@ -32,3 +32,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.dashboard {
+  display: flex;
+}
+
+
+
+.content {
+  flex: 1;
+  padding: 20px; /* Puedes ajustar el espacio según lo necesites */
+}
