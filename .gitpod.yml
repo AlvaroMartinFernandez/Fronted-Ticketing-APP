@@ -1,0 +1,13 @@
+ports:
+    - port: 3000
+      onOpen: open-browser
+tasks:
+    - init: >
+        npm install &&
+        cp .env.example .env
+      command: >
+        python docs/assets/greeting.py
+
+vscode:
+  extensions:
+    - esbenp.prettier-vscode

@@ -1,0 +1,61 @@
+/* login.module.css */
+
+.loginContainer {
+  max-width: 400px;
+  margin: 25px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.loginTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginInput {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.loginButton {
+  padding: 10px 20px;
+  background-color: #4ab19d;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: #2e75b6;
+}
+
+.signupLink {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.signupLink a {
+  color: #4ab19d;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signupLink a:hover {
+  color: #2e75b6;
+}

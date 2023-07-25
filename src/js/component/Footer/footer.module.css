@@ -1,0 +1,80 @@
+/* src/styles/modules/footer.module.css */
+
+/* Estilos para el footer */
+.footer {
+  background: linear-gradient(to right, #2e75b6, #4ab19d); /* Cambia el gradiente a los colores que desees */
+  color: #fff; /* Color de texto */
+  padding: 40px 0;
+  text-align: center;
+}
+
+/* Estilos para el contenedor del footer */
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* Estilos para cada columna del footer */
+.footer-column {
+  flex: 1;
+  padding: 0 20px;
+}
+
+/* Estilos para el título de cada columna */
+.footer-column h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* Estilos para la lista de elementos del footer */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Estilos para cada elemento de la lista del footer */
+.footer-column li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  transition: background-color 0.2s ease; /* Agregamos una transición suave al hacer hover */
+}
+
+/* Estilos para el ícono del footer */
+.footer-column svg {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+/* Estilos para el enlace del footer */
+.footer-column a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Estilos para el enlace del footer al hacer hover */
+.footer-column a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para los íconos de redes sociales */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Estilos para los íconos de redes sociales individualmente */
+.social-icons li {
+  margin: 0 10px;
+}
+
+/* Estilos para el texto de derechos reservados */
+.footer-bottom p {
+  margin: 0;
+}
+
+/* Estilos para cambiar el color de fondo al hacer hover en los elementos del footer */
+.footer-column li:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Cambia el color de fondo al hacer hover */
+}

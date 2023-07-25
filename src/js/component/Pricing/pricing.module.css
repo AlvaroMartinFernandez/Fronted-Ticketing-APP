@@ -1,0 +1,89 @@
+
+
+/* Estilos para la sección de precios */
+.pricing {
+    padding: 40px 0;
+    text-align: center;
+  }
+  
+  /* Estilos para cada plan de precios */
+  .pricing-plan {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para el título del plan */
+  .plan-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para la descripción del plan */
+  .plan-description {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para los beneficios clave del plan */
+  .plan-benefit {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    background-color: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  /* Estilos para la lista de beneficios del plan */
+  .plan-benefits-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+  }
+  
+  /* Estilos para cada beneficio del plan */
+  .plan-benefits-list li {
+    margin-bottom: 5px;
+    padding-left: 20px;
+    position: relative;
+  }
+  
+  /* Estilos para el ícono de viñeta */
+  .plan-benefits-list li::before {
+    content: '\2022'; /* Código de la viñeta */
+    position: absolute;
+    left: 0;
+    top: 4px;
+    font-size: 12px;
+    color: #333;
+  }
+  
+  /* Estilos para el precio del plan */
+  .plan-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para el botón de seleccionar plan */
+  .plan-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .plan-button:hover {
+    background-color: #222;
+  }
+  
+  .blueBackground {
+    background-color: #b3d0f7; /* Puedes ajustar el color según tus preferencias */
+  }

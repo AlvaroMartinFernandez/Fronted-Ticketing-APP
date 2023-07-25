@@ -1,0 +1,62 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import styles from './fortalezas.module.css';
+
+import fortaleza1 from "../../../img/fortaleza1.jpg";
+import fortaleza2 from "../../../img/fortaleza2.jpg";
+import fortaleza3 from "../../../img/fortaleza3.jpg";
+
+const fortalezasData = [
+  {
+    id: 1,
+    text: '1: Resolución rápida de problemas.',
+    imageUrl: fortaleza1,
+  },
+  {
+    id: 2,
+    text: '2: Interfaz intuitiva y fácil de usar',
+    imageUrl: fortaleza2,
+  },
+  {
+    id: 3,
+    text: '3: Personalización y adaptabilidad.',
+    imageUrl: fortaleza3,
+  },
+  
+];
+
+const Fortalezas = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % fortalezasData.length);
+  };
+
+  const currentFortaleza = fortalezasData[currentIndex];
+
+  return (
+    <div className={styles.container}>
+      <div className={styles['fortaleza-container']} onClick={handleNext}>
+        <motion.img
+          src={currentFortaleza.imageUrl}
+          alt={`Fortaleza ${currentFortaleza.id}`}
+          className={styles['fortaleza-image']}
+          whileHover={{ scale: 1.1 }}
+        />
+        <motion.div
+          className={styles['fortaleza-text-container']}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }} /* Cambia la duración de la animación */
+        >
+          <h2 className={styles['fortaleza-text']}>
+            {currentFortaleza.text}
+          </h2>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default Fortalezas;

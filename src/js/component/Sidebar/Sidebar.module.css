@@ -1,0 +1,40 @@
+/* Sidebar.module.css */
+.sidebar {
+  width: 250px;
+  height: 100%;
+  background-color: #f1f1f1;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebarNav {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebarNav li {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.sidebarNav li:hover {
+  background-color: #ddd;
+}
+
+.sidebarNav li.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
