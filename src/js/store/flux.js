@@ -33,7 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           // Hacemos una solicitud POST a la API para iniciar sesión y obtener el token
           const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/api/login/',
+            'https://backend-ticketing-app-production.up.railway.app/users/login/',
             {
               email: email,
               password: password,
@@ -50,6 +50,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({ accessToken: response.data.access_token, isLoggedIn: true });
             // Almacenamos el token en el localStorage para que persista en futuras sesiones
             localStorage.setItem('accessToken', response.data.access_token);
+    
+            console.log(response.data)
             return true; // Devolvemos true si el inicio de sesión fue exitoso
           } else {
             return false; // Devolvemos false si el inicio de sesión falló
@@ -71,7 +73,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       validateToken: async () => {
         try {
           if (getStore().accessToken) {
-            const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/api/validate-token', {
+            const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/validate-token', {
               headers: {
                 Authorization: `Bearer ${getStore().accessToken}`, // Agregamos el token de autenticación al encabezado
               },
@@ -105,7 +107,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       signup: async (email, password) => {
         try {
           const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/api/signup/',
+            'https://backend-ticketing-app-production.up.railway.app/api/users/signup/',
             {
               email: email,
               password: password,
