@@ -4,11 +4,11 @@ import { Home } from "./views/home";
 import { Demo } from "./views/demo";
 import injectContext from "./store/appContext";
 
-import Navbar from "./component/Navbar";
-import Footer from "./component/footer";
-import DashBoard from "./component/DashBoard";
-import Login from "./component/Login";
-import Signup from "./component/Signup";
+import Navbar from "./component/Navbar/Navbar";
+import Footer from "./component/Footer/footer";
+import DashBoard from "./component/DashBoard/DashBoard";
+import Login from "./component/Login/Login";
+import Signup from "./component/Signup/Signup";
 import Faq from "./component/faq";
 
 
@@ -22,8 +22,8 @@ const Layout = () => {
 
         <Navbar />
         <Routes>
-       
-       
+
+
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/demo" element={<Demo />} />

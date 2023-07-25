@@ -2,22 +2,22 @@
 import React from 'react';
 
 import "../../styles/home.css";
-import DashboardEntry from "../component/DashboardEntry";
-import Features from "../component/Features";
-import Testimonials from "../component/Testimonials";
-import Pricing from "../component/Pricing";
-import Footer from "../component/footer";
-import HeroSection from "../component/HeroSecction";
-import Fortalezas from "../component/Fortalezas";
-import VideoBackground from '../component/VideoBackground';
-import VideoBackground2 from '../component/VideoBackground2';
+import DashboardEntry from "../component/DashboardEntry/DashboardEntry";
+import Features from "../component/Features/Features";
+import Testimonials from "../component/Testimonials/Testimonials";
+import Pricing from "../component/Pricing/Pricing";
+import Footer from "../component/Footer/footer";
+import HeroSection from "../component/HeroSecction/HeroSecction";
+import Fortalezas from "../component/Fortalezas/Fortalezas";
+import VideoBackground from '../component/VideoBackground/VideoBackground';
+import VideoBackground2 from '../component/VideoBackground2/VideoBackground2';
 
 
 
 export const Home = () => (
   <div className="text-center mt-5">
     <DashboardEntry />
-    
+
     <HeroSection />
     <VideoBackground />
     <Fortalezas />
@@ -25,8 +25,8 @@ export const Home = () => (
     <Features />
     <Testimonials />
     <Pricing />
-	
 
-    
+
+
   </div>
 );

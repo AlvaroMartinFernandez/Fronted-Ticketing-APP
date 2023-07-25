@@ -72,3 +72,27 @@
     margin-bottom: 10px;
   }
   
+  /* Estilos para la barra de búsqueda */
+.searchContainer {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.searchIcon {
+  font-size: 18px;
+  color: #aaa;
+  margin-right: 5px;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 8px;
+  background-color: transparent;
+}

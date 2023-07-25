@@ -1,11 +1,11 @@
 // Sidebar.js
 import React, { useState } from 'react';
-import styles from '../../styles/modules/Sidebar.module.css';
+import styles from './Sidebar.module.css';
 
 const Sidebar = ({ handleSectionChange, activeSection }) => {
   return (
     <div className={styles.sidebar}>
-      <h2>Sidebar</h2>
+      <h2>Dashboard</h2>
 
       {/* Enlaces del sidebar */}
       <ul className={styles.sidebarNav}>

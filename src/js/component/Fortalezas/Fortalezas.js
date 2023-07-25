@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import styles from '../../styles/modules/fortalezas.module.css';
+import styles from './fortalezas.module.css';
 
-import fortaleza1 from "../../img/fortaleza1.jpg";
-import fortaleza2 from "../../img/fortaleza2.jpg";
-import fortaleza3 from "../../img/fortaleza3.jpg";
+import fortaleza1 from "../../../img/fortaleza1.jpg";
+import fortaleza2 from "../../../img/fortaleza2.jpg";
+import fortaleza3 from "../../../img/fortaleza3.jpg";
 
 const fortalezasData = [
   {

@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Context } from '../store/appContext';
-import styles from '../../styles/modules/login.module.css'; // Importa los estilos de los módulos CSS
+import { Redirect } from 'react-router-dom';
+
+import { Context } from '../../store/appContext';
+import styles from './login.module.css'; // Importa los estilos de los módulos CSS
 
 const Login = () => {
   const { actions } = useContext(Context);
@@ -12,9 +14,7 @@ const Login = () => {
     // Llamamos a la acción de inicio de sesión y esperamos el resultado
     const loginSuccess = await actions.login(email, password);
     if (loginSuccess) {
-      // El inicio de sesión fue exitoso, redirigimos a la página de inicio
-      // Puedes usar React Router o cualquier otra forma de navegación
-      // window.location.href = '/home';
+
       console.log('Inicio de sesión exitoso');
     } else {
       console.log('Inicio de sesión fallido');

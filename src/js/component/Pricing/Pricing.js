@@ -1,6 +1,6 @@
 // src/components/Pricing.js
 import React from 'react';
-import styles from '../../styles/modules/pricing.module.css'; // Ruta correcta para importar los estilos CSS modules
+import styles from './pricing.module.css'; // Ruta correcta para importar los estilos CSS modules
 
 const Pricing = () => {
   return (

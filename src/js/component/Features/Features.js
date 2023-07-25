@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaClipboardList, FaComments, FaChartBar, FaRobot } from 'react-icons/fa';
-import styles from '../../styles/modules/features.module.css';
+import styles from './features.module.css';
 
 const Features = () => {
   return (

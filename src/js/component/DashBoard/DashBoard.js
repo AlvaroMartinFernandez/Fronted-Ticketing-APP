@@ -1,9 +1,9 @@
-// Dashboard.js
+
 import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar/Sidebar';
 import axios from 'axios';
-import UserList from './UserList';
-import styles from '../../styles/modules/dashboard.module.css'; // Cambia la ruta según tu estructura de carpetas y archivos
+import UserList from '../UserList/UserList';
+import styles from './dashboard.module.css';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -40,7 +40,7 @@ const Dashboard = () => {
         {activeSection === 'Usuarios' && (
           <UserList users={users} />
         )}
-       
+
       </div>
     </div>
   );

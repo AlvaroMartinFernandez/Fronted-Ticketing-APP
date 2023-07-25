@@ -1,9 +1,6 @@
-// src/components/HeroSection.js
 import React from 'react';
-import styles from '../../styles/modules/heroSection.module.css'; // Importa los estilos con CSS modules
-import empresa4 from "../../img/empresa4.jpg";
-import empresa1Hover from '../../img/empresa2.jpg';
-
+import styles from './heroSection.module.css'; 
+import empresa4 from "../../../img/empresa4.jpg";
 
 
 const HeroSection = () => {
