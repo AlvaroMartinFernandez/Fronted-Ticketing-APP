@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BiRocket,BiUser } from 'react-icons/bi';
-import styles from './navbar.module.css'; // Ruta correcta para importar los estilos CSS modules
+import styles from './navbar.module.css'; 
 import { AiOutlineRobot,AiOutlineCheckCircle } from 'react-icons/ai';
 
 const Navbar = () => {

@@ -1,4 +1,4 @@
-// Sidebar.js
+
 import React, { useState } from 'react';
 import styles from './Sidebar.module.css';
 
@@ -7,7 +7,6 @@ const Sidebar = ({ handleSectionChange, activeSection }) => {
     <div className={styles.sidebar}>
       <h2>Dashboard</h2>
 
-      {/* Enlaces del sidebar */}
       <ul className={styles.sidebarNav}>
         {/* Evento onClick para cambiar la sección activa */}
         <li onClick={() => handleSectionChange('Tickets')} className={activeSection === 'Tickets' ? styles.active : ''}>

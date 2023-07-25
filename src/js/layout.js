@@ -9,7 +9,7 @@ import Footer from "./component/Footer/footer";
 import DashBoard from "./component/DashBoard/DashBoard";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
-import Faq from "./component/faq";
+import Faq from "./component/Faqs/faq";
 
 
 

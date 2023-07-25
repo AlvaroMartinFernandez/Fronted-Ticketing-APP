@@ -93,12 +93,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // Acción para cargar datos de usuarios utilizando el token de autenticación
       loadUsersData: async () => {
-        // ...
+        
       },
 
       // Acción para cargar datos de tickets utilizando el token de autenticación
       loadTicketsData: async () => {
-        // ...
+      
       },
 
       // Acción para registrarse y almacenar el token en el estado y en el localStorage
@@ -131,8 +131,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
-
-      // ...
     },
   };
 };

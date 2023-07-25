@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import axios from 'axios';
@@ -31,10 +30,7 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      {/* Aquí se coloca el Sidebar */}
       <Sidebar activeSection={activeSection} handleSectionChange={handleSectionChange} />
-
-      {/* Aquí colocamos el contenido de la sección */}
       <div className={styles.content}>
         {/* Mostramos el contenido según la sección activa */}
         {activeSection === 'Usuarios' && (

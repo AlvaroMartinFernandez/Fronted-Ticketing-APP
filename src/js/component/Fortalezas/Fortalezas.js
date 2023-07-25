@@ -9,20 +9,20 @@ import fortaleza3 from "../../../img/fortaleza3.jpg";
 const fortalezasData = [
   {
     id: 1,
-    text: 'Resolución rápida de problemas.',
+    text: '1: Resolución rápida de problemas.',
     imageUrl: fortaleza1,
   },
   {
     id: 2,
-    text: 'Interfaz intuitiva y fácil de usar',
+    text: '2: Interfaz intuitiva y fácil de usar',
     imageUrl: fortaleza2,
   },
   {
     id: 3,
-    text: 'Personalización y adaptabilidad.',
+    text: '3: Personalización y adaptabilidad.',
     imageUrl: fortaleza3,
   },
-  // Agrega más fortalezas si es necesario
+  
 ];
 
 const Fortalezas = () => {

@@ -16,6 +16,8 @@
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .fortaleza-image:hover {
@@ -23,15 +25,17 @@
 }
 
 .fortaleza-text {
-  font-size: 18px;
+  font-size: 25px;
   font-weight: bold;
   text-align: center;
-  margin: 20px 0;
-  opacity: 0; /* Ocultar el texto al principio */
+  margin: 20px ;
+  opacity: 0; 
   transition: opacity 0.2s ease;
   background-clip: text; /* Aplicar el gradiente al texto */
   color: transparent; /* Hacer el texto transparente para mostrar el gradiente */
   background-image: linear-gradient(to right, #2e75b6, #4ab19d); /* Gradiente de color */
+  
+  
 }
 
 .fortaleza-container:hover .fortaleza-text {

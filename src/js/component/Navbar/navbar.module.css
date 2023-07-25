@@ -14,11 +14,12 @@
 /* Estilos para el logo */
 .logo {
   font-size: 24px;
+  margin-left: 50px;
 }
 
 /* Estilos para el icono del logo */
 .icon {
-  color: #333;
+  color:linear-gradient(to right, #2e75b6, #4ab19d);
 }
 
 /* Estilos para los enlaces del navbar */

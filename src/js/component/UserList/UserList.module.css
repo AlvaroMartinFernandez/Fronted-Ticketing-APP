@@ -49,13 +49,6 @@
     padding: 0;
   }
   
-  /* Estilos para cada usuario */
-  li {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
   
   /* Estilos para el icono de usuario sin resultados */
   .noUsers {
