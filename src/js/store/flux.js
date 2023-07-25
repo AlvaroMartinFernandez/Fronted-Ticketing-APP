@@ -5,15 +5,21 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       users: [],
       tickets: [],
-      accessToken: localStorage.getItem('accessToken') || null, // Estado para almacenar el token de autenticación
-      isLoggedIn: false, // Estado para verificar si el usuario está autenticado
+      accessToken: localStorage.getItem('accessToken') || null,
+      isLoggedIn: false,
+      // Propiedades para almacenar los datos del usuario
+      name: "",
+      password: "",
+      email: "",
+      user_name: "",
+      //role: "", 
     },
     actions: {
       loadAllUsersData: async () => {
         try {
           const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/users/', {
             headers: {
-              Authorization: `Bearer ${getStore().accessToken}`, // Agregamos el token de autenticación al encabezado
+              Authorization: `Bearer ${getStore().accessToken}`,
             },
           });
 
@@ -28,7 +34,72 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Acción para iniciar sesión y almacenar el token en el estado y en el localStorage
+      loadUserData: async (id) => {
+        try {
+          const response = await axios.get(`https://backend-ticketing-app-production.up.railway.app/users/${id}`, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            // Actualizamos el estado con los datos del usuario obtenidos de la API
+            setStore({ users: [response.data] });
+          } else {
+            console.error('Error al cargar datos del usuario:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error al cargar datos del usuario:', error);
+        }
+      },
+
+      // Función para actualizar datos de un usuario por su ID
+      updateUserData: async (id, userData) => {
+        try {
+          const response = await axios.put(`https://backend-ticketing-app-production.up.railway.app/users/${id}`, userData, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            // Actualizamos el estado con los datos actualizados del usuario obtenidos de la API
+            setStore({ users: [response.data] });
+            return true;
+          } else {
+            console.error('Error al actualizar datos del usuario:', response.statusText);
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al actualizar datos del usuario:', error);
+          return false;
+        }
+      },
+
+      // Función para eliminar un usuario por su ID
+      deleteUserData: async (id) => {
+        try {
+          const response = await axios.delete(`https://backend-ticketing-app-production.up.railway.app/users/${id}`, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            // Actualizamos el estado eliminando el usuario del array de usuarios
+            setStore({ users: getStore().users.filter((user) => user.id !== id) });
+            return true;
+          } else {
+            console.error('Error al eliminar usuario:', response.statusText);
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al eliminar usuario:', error);
+          return false;
+        }
+      },
+
+      // Función para iniciar sesión y almacenar el token en el estado y en el localStorage
       login: async (email, password) => {
         try {
           // Hacemos una solicitud POST a la API para iniciar sesión y obtener el token
@@ -50,8 +121,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({ accessToken: response.data.access_token, isLoggedIn: true });
             // Almacenamos el token en el localStorage para que persista en futuras sesiones
             localStorage.setItem('accessToken', response.data.access_token);
-    
-            console.log(response.data)
+            // Actualizamos los datos del usuario en el estado
+            setStore({
+              name: response.data.name,
+              email: response.data.email,
+              user_name: response.data.user_name,
+              role: response.data.role,
+              
+            });
             return true; // Devolvemos true si el inicio de sesión fue exitoso
           } else {
             return false; // Devolvemos false si el inicio de sesión falló
@@ -62,77 +139,43 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Acción para cerrar sesión y eliminar el token del estado y del localStorage
-      logout: () => {
-        // Eliminamos el token del estado y del localStorage
-        setStore({ accessToken: null, isLoggedIn: false });
-        localStorage.removeItem('accessToken');
-      },
-
-      // Acción para validar el token almacenado en el estado y en el localStorage
-      validateToken: async () => {
+      // Función para cerrar sesión y eliminar el token del estado y del localStorage
+      logout: async () => {
         try {
-          if (getStore().accessToken) {
-            const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/validate-token', {
-              headers: {
-                Authorization: `Bearer ${getStore().accessToken}`, // Agregamos el token de autenticación al encabezado
-              },
-            });
-
-            if (response.status === 200) {
-              // El token es válido, actualizamos el estado para indicar que el usuario está autenticado
-              setStore({ isLoggedIn: true });
-            } else {
-              // El token no es válido, cerramos sesión
-              setStore({ accessToken: null, isLoggedIn: false });
-              localStorage.removeItem('accessToken');
-            }
-          }
-        } catch (error) {
-          console.error('Error al validar el token:', error);
-        }
-      },
-
-      // Acción para cargar datos de usuarios utilizando el token de autenticación
-      loadUsersData: async () => {
-        
-      },
-
-      // Acción para cargar datos de tickets utilizando el token de autenticación
-      loadTicketsData: async () => {
-      
-      },
-
-      // Acción para registrarse y almacenar el token en el estado y en el localStorage
-      signup: async (email, password) => {
-        try {
+          // Hacemos una solicitud POST a la API para cerrar sesión
           const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/api/users/signup/',
-            {
-              email: email,
-              password: password,
-            },
+            'https://backend-ticketing-app-production.up.railway.app/users/logout/',
+            {},
             {
               headers: {
+                Authorization: `Bearer ${getStore().accessToken}`,
                 'Content-Type': 'application/json',
               },
             }
           );
 
           if (response.status === 200) {
-            // Almacenamos el token en el estado
-            setStore({ accessToken: response.data.access_token, isLoggedIn: true });
-            // Almacenamos el token en el localStorage para que persista en futuras sesiones
-            localStorage.setItem('accessToken', response.data.access_token);
-            return true; // Devolvemos true si el registro fue exitoso
+            // Eliminamos el token del estado y del localStorage
+            setStore({ accessToken: null, isLoggedIn: false });
+            localStorage.removeItem('accessToken');
+            // Restablecemos los datos del usuario en el estado
+            setStore({
+              name: "",
+              email: "",
+              user_name: "",
+              role: "",
+              
+            });
+            return true; // Devolvemos true si el cierre de sesión fue exitoso
           } else {
-            return false; // Devolvemos false si el registro falló
+            return false; // Devolvemos false si el cierre de sesión falló
           }
         } catch (error) {
-          console.error('Error al registrar el usuario:', error);
+          console.error('Error al cerrar sesión:', error);
           return false;
         }
       },
+
     },
   };
 };

@@ -9,10 +9,6 @@ const UserList = ({ users }) => {
     setSearchQuery(e.target.value);
   };
 
-  // Filtrar los usuarios que coincidan con el valor de búsqueda
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className={styles.container}>
@@ -28,16 +24,7 @@ const UserList = ({ users }) => {
           className={styles.searchInput}
         />
       </div>
-      <ul className={styles.userList}>
-        {filteredUsers.map(user => (
-          <li key={user.id} className={styles.userItem}>
-            <h3>{user.name}</h3>
-            <p>Correo: {user.email}</p>
-            <p>Nombre de usuario: {user.user_name}</p>
-            {/* Aquí puedes mostrar más detalles del usuario si lo deseas */}
-          </li>
-        ))}
-      </ul>
+     
     </div>
   );
 };
