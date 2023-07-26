@@ -7,12 +7,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       tickets: [],
       accessToken: localStorage.getItem('accessToken') || null,
       isLoggedIn: false,
-      // Propiedades para almacenar los datos del usuario
       name: "",
       password: "",
       email: "",
       user_name: "",
-      //role: "", 
+      role: "",
     },
     actions: {
       loadAllUsersData: async () => {
@@ -127,8 +126,11 @@ const getState = ({ getStore, getActions, setStore }) => {
               email: response.data.email,
               user_name: response.data.user_name,
               role: response.data.role,
+              password: response.data.password,
               
             });
+
+            console.log("Token de autenticación:", response.data.access_token); // Agregamos el console.log aquí
             return true; // Devolvemos true si el inicio de sesión fue exitoso
           } else {
             return false; // Devolvemos false si el inicio de sesión falló

@@ -1,8 +1,8 @@
 /* login.module.css */
 
-.loginContainer {
-  max-width: 400px;
-  margin: 25px auto;
+.login-container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -10,52 +10,52 @@
   background-color: #fff;
 }
 
-.loginTitle {
+.login-container h2 {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
 }
 
-.loginForm {
+.login-container form {
   display: flex;
   flex-direction: column;
 }
 
-.loginInput {
+.login-container input {
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.loginButton {
+.login-button {
   padding: 10px 20px;
-  background-color: #4ab19d;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #4ab19d;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.loginButton:hover {
+.login-button:hover {
   background-color: #2e75b6;
 }
 
-.signupLink {
+.login-container p {
   text-align: center;
   margin-top: 20px;
 }
 
-.signupLink a {
+.login-container p a {
   color: #4ab19d;
   text-decoration: none;
   font-weight: bold;
 }
 
-.signupLink a:hover {
+.login-container p a:hover {
   color: #2e75b6;
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./views/home";
 import { Demo } from "./views/demo";
+//import {Login} from "./views/Login/login"
 import injectContext from "./store/appContext";
 
 import Navbar from "./component/Navbar/Navbar";
