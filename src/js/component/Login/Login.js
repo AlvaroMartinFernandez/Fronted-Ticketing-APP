@@ -1,52 +1,103 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
-
-import { Context } from '../../store/appContext';
-import styles from './login.module.css'; // Importa los estilos de los módulos CSS
+import React, { useState, useContext } from "react";
+import { Context } from "../../store/appContext.js";
+import { Link, useNavigate } from "react-router-dom";
+import styles from './login.module.css';
 
 const Login = () => {
   const { actions } = useContext(Context);
-  const [email, setEmail] = useState(''); // Estado para almacenar el correo electrónico
-  const [password, setPassword] = useState(''); // Estado para almacenar la contraseña
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    // Llamamos a la acción de inicio de sesión y esperamos el resultado
-    const loginSuccess = await actions.login(email, password);
-    if (loginSuccess) {
-
-      console.log('Inicio de sesión exitoso');
-    } else {
-      console.log('Inicio de sesión fallido');
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (email && password) {
+      try {
+        const loginSuccess = await actions.login(email, password);
+        if (loginSuccess) {
+          setEmail("");
+          setPassword("");
+          navigate("/dashboard");
+        } else {
+          setPassword("");
+          setErrorMessage("Usuario o contraseña incorrecta");
+          setShowForgotPassword(true);
+        }
+      } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+        setErrorMessage("Error al iniciar sesión. Por favor, inténtalo nuevamente más tarde.");
+      }
     }
-  };
+  }
 
   return (
-    <div className={styles.loginContainer}>
-      <h2 className={styles.loginTitle}>Iniciar sesión</h2>
-      <form className={styles.loginForm}>
-        {/* Campos de inicio de sesión */}
-        <input
-          type="text"
-          placeholder="Correo electrónico"
-          className={styles.loginInput}
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          className={styles.loginInput}
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-        <button onClick={handleLogin} className={styles.loginButton}>
-          Iniciar sesión
-        </button>
-      </form>
-      <p className={styles.signupLink}>
-        ¿No tienes una cuenta? <Link to="/signup">Regístrate</Link>
-      </p>
+    <div className={`container mt-2 ${styles["login-container"]}`}>
+      <div className="row justify-content-center">
+        <div className="col-xl-8 col-md-10 col-sm-12">
+          <div className={`card-group mb-0 shadow p-3 mb-5 bg-body-tertiary rounded ${styles.loginForm}`}>
+            <div className="card p-2 ">
+             
+              <form onSubmit={handleLogin}>
+                <div className="card-body">
+                  <h1 className={`text-center mb-4 ${styles.loginTitle}`}>Iniciar sesión</h1>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text bg-white py-2 border border-radius-0">
+                      <i className="fa fa-user"></i>
+                    </span>
+                    <input
+                      type="email"
+                      className={`form-control ${styles.loginInput}`}
+                      placeholder="Email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                    />
+                  </div>
+                  <div className="input-group mb-4">
+                    <span className="input-group-text bg-white py-2 border border-radius-0">
+                      <i className="fa fa-lock"></i>
+                    </span>
+                    <input
+                      type="password"
+                      className={`form-control ${styles.loginInput}`}
+                      placeholder="Contraseña"
+                      inputMode="numeric"
+                      minLength="8"
+                      maxLength="12"
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                      required
+                    />
+                  </div>
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}
+                  <div className="d-flex justify-content-center">
+                    <button type="submit" className={`btn btn-primary px-3 ${styles.loginButton}`}>
+                      Ingresar
+                    </button>
+                  </div>
+                  {showForgotPassword && (
+                    <div className="d-flex">
+                      <Link to="/recuperar_password">
+                        <span>Olvidé mi contraseña</span>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </form>
+            </div>
+            
+              
+                
+              
+            
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

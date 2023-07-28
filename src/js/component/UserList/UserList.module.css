@@ -1,78 +1,18 @@
 /* Estilos para el contenedor principal */
 .container {
-    padding: 20px;
-    background-color: #f1f1f1;
-  }
-  
-  /* Estilos para el contenedor de búsqueda */
-  .searchContainer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .searchIcon {
-    margin-right: 10px;
-  }
-  
-  .searchInput {
-    flex: 1;
-    height: 36px;
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .searchButton {
-    margin-left: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  /* Estilos para el contenedor del filtro */
-  .tableContainer {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-  }
-  
-  /* Estilos para la lista de usuarios */
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  
-  /* Estilos para el icono de usuario sin resultados */
-  .noUsers {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 50px;
-  }
-  
-  .userSlashIcon {
-    font-size: 36px;
-    color: #ccc;
-    margin-bottom: 10px;
-  }
-  
-  /* Estilos para la barra de búsqueda */
+  padding: 20px;
+  background-color: #f1f1f1;
+}
+
+/* Estilos para el contenedor de búsqueda */
 .searchContainer {
   display: flex;
   align-items: center;
-  background-color: #f2f2f2;
-  padding: 5px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 5px; /* Nuevo ajuste */
 }
 
 .searchIcon {
@@ -83,9 +23,130 @@
 
 .searchInput {
   flex: 1;
+  height: 36px;
+  padding: 6px 10px;
   border: none;
-  outline: none;
   font-size: 16px;
-  padding: 8px;
   background-color: transparent;
+}
+
+.searchButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Estilos para el contenedor del filtro */
+.tableContainer {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la lista de usuarios */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Estilos para cada elemento de usuario */
+.userItem {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.userItem:last-child {
+  border-bottom: none;
+}
+
+.userItem h3 {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.userItem p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Estilos para el icono de usuario sin resultados */
+.noUsers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+  color: #ccc;
+}
+
+.userSlashIcon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+/* Estilos para la barra de navegación */
+.sidebar {
+  width: 250px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebarNav {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebarNav li {
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebarNav li:hover {
+  opacity: 0.8;
+}
+
+.sidebarNav li.active {
+  font-weight: bold;
+}
+
+.sidebarNav li .icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+/* Estilos para el contenedor de filtros */
+.filters {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los selectores (dropdowns) */
+.filters select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-left: 5px; /* Nuevo ajuste */
+}
+
+/* Estilos para las etiquetas de los selectores */
+.filters label {
+  margin-right: 10px;
+  font-size: 16px;
+  margin-left: 15px;
 }
