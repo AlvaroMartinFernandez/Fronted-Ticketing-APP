@@ -1,0 +1,108 @@
+/* ticketlist.module.css */
+
+/* Estilos para la tabla de tickets */
+.ticketTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .ticketTable th,
+  .ticketTable td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .ticketTable th {
+    font-weight: bold;
+  }
+  
+  /* Estilos para el botón "Agregar Ticket" */
+  .addButton {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .addButton svg {
+    margin-right: 5px;
+  }
+  
+  /* Estilos para el modal */
+  .modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal h2 {
+    margin-bottom: 20px;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .formGroup label {
+    margin-bottom: 5px;
+  }
+  
+  .formGroup input,
+  .formGroup select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .modalButtons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .modalButtons button {
+    margin-left: 10px;
+  }
+  
+  /* Estilos para el botón de búsqueda */
+  .searchContainer {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .searchIcon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+  }
+  
+  .searchInput {
+    padding: 8px 30px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  

@@ -1,152 +1,142 @@
-/* Estilos para el contenedor principal */
 .container {
   padding: 20px;
-  background-color: #f1f1f1;
 }
 
-/* Estilos para el contenedor de búsqueda */
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
 .searchContainer {
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  background-color: #fff;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 5px; /* Nuevo ajuste */
+  padding: 5px;
 }
 
 .searchIcon {
-  font-size: 18px;
-  color: #aaa;
   margin-right: 5px;
 }
 
 .searchInput {
-  flex: 1;
-  height: 36px;
-  padding: 6px 10px;
   border: none;
-  font-size: 16px;
-  background-color: transparent;
+  outline: none;
 }
 
-.searchButton {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Estilos para el contenedor del filtro */
-.tableContainer {
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos para la lista de usuarios */
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-/* Estilos para cada elemento de usuario */
-.userItem {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.userItem:last-child {
-  border-bottom: none;
-}
-
-.userItem h3 {
-  margin-bottom: 5px;
-  font-size: 18px;
-}
-
-.userItem p {
-  margin: 5px 0;
-  color: #555;
-}
-
-/* Estilos para el icono de usuario sin resultados */
-.noUsers {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 50px;
-  color: #ccc;
-}
-
-.userSlashIcon {
-  font-size: 36px;
-  margin-bottom: 10px;
-}
-
-/* Estilos para la barra de navegación */
-.sidebar {
-  width: 250px;
-  background-color: #007bff;
-  color: #fff;
-  padding: 20px;
-}
-
-.sidebar h2 {
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
   margin-bottom: 20px;
 }
 
-.sidebarNav {
-  list-style: none;
-  padding: 0;
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
-.sidebarNav li {
-  cursor: pointer;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.sidebarNav li:hover {
-  opacity: 0.8;
-}
-
-.sidebarNav li.active {
+th {
+  background-color: #f0f0f0;
   font-weight: bold;
 }
 
-.sidebarNav li .icon {
-  font-size: 20px;
-  margin-right: 10px;
+.userRow:hover {
+  background-color: #f5f5f5;
 }
 
-/* Estilos para el contenedor de filtros */
-.filters {
+.addButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para el indicador de orden */
+.sortIndicator {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.sortIndicator svg {
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+
+.sortAsc svg {
+  transform: rotate(180deg);
+}
+
+/* Estilos para el modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  justify-content: center;
   align-items: center;
+}
+
+.modalContent {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
   margin-bottom: 20px;
 }
 
-/* Estilos para los selectores (dropdowns) */
-.filters select {
+.formGroup {
+  margin-bottom: 10px;
+}
+
+.formGroup label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
-  margin-left: 5px; /* Nuevo ajuste */
+  outline: none;
 }
 
-/* Estilos para las etiquetas de los selectores */
-.filters label {
-  margin-right: 10px;
-  font-size: 16px;
-  margin-left: 15px;
+.modalButtons {
+  display: flex;
+  justify-content: space-between; /* Separar los botones */
+  margin-top: 20px;
+}
+
+.modalButtons button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modalButtons button.cancelButton {
+  background-color: #e74c3c; /* Color rojo */
+}
+
+.modalButtons button:hover {
+  background-color: #0056b3;
 }

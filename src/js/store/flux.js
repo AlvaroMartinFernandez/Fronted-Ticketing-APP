@@ -208,7 +208,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           // Hacemos una solicitud POST a la API para iniciar sesión y obtener el token
           const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/users/login/',
+            'https://backend-ticketing-app-production.up.railway.app/users/login',
             {
               email: email,
               password: password,

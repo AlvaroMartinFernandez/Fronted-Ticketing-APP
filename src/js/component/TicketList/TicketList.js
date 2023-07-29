@@ -1,55 +1,48 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
-import styles from './UserList.module.css';
+import styles from './TicketList.module.css';
 
-const UserList = ({ users, createUser }) => {
-  const data = useMemo(() => users, [users]);
+const TicketList = ({ tickets, createNewTicket }) => {
+  const data = useMemo(() => tickets, [tickets]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newUserData, setNewUserData] = useState({
-    name: '',
-    email: '',
-    role: 'directivo',
+  const [newTicketData, setNewTicketData] = useState({
+    // Define the initial values for the new ticket form fields here
   });
 
   const columns = useMemo(
     () => [
       {
-        Header: 'Nombre',
-        accessor: 'name',
+        Header: 'Número',
+        accessor: 'ticket_number',
         canFilter: true,
         sortType: 'basic',
       },
       {
-        Header: 'Correo',
-        accessor: 'email',
+        Header: 'Asunto',
+        accessor: 'subject',
         canFilter: true,
         sortType: 'basic',
       },
       {
-        Header: 'Rol',
-        accessor: 'role',
+        Header: 'Estado',
+        accessor: 'status',
         canFilter: true,
         sortType: 'basic',
       },
       {
-        Header: 'Departamentos',
-        accessor: row => row.departments.map(dep => dep.name_department).join(', '),
+        Header: 'Creado Por',
+        accessor: 'created_by',
         canFilter: true,
         sortType: 'basic',
       },
       {
         Header: 'Cliente',
-        accessor: 'client?.name',
+        accessor: 'client.name',
         canFilter: true,
         sortType: 'basic',
       },
-      {
-        Header: 'Tickets',
-        accessor: 'tickets.length',
-        canFilter: true,
-        sortType: 'basic',
-      },
+      // Add more columns as needed
     ],
     []
   );
@@ -67,7 +60,7 @@ const UserList = ({ users, createUser }) => {
       columns,
       data,
       initialState: {
-        hiddenColumns: ['id'],
+        // Define initial state as needed, e.g., hiddenColumns: ['id']
       },
     },
     useFilters,
@@ -77,44 +70,44 @@ const UserList = ({ users, createUser }) => {
 
   const { globalFilter } = state;
 
-  // Función para abrir y cerrar el modal
+  // Function to open and close the modal
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  // Función para manejar los cambios en el formulario del modal
+  // Function to handle changes in the modal form
   const handleChange = e => {
     const { name, value } = e.target;
-    setNewUserData(prevData => ({
+    setNewTicketData(prevData => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  // Función para manejar el envío del formulario del modal
-  const handleCreateUser = async e => {
+  // Function to handle the submission of the modal form
+  const handleCreateTicket = async e => {
     e.preventDefault();
-    const success = await createUser(newUserData);
+    const success = await createNewTicket(newTicketData);
     if (success) {
-      toggleModal(); // Cerrar el modal después de crear el usuario exitosamente
+      toggleModal(); // Close the modal after successfully creating the ticket
     }
   };
 
   return (
     <div className={styles.container}>
-      <h2>Lista de Usuarios</h2>
+      <h2>Lista de Tickets</h2>
       <div className={styles.searchContainer}>
         <i className={`fa fa-search ${styles.searchIcon}`} aria-hidden="true"></i>
         <input
           type="text"
           value={globalFilter || ''}
           onChange={e => setGlobalFilter(e.target.value)}
-          placeholder="Buscar usuarios..."
+          placeholder="Buscar tickets..."
           className={styles.searchInput}
         />
       </div>
 
-      <table {...getTableProps()} className={styles.userTable}>
+      <table {...getTableProps()} className={styles.ticketTable}>
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -139,7 +132,7 @@ const UserList = ({ users, createUser }) => {
           {rows.map(row => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} className={styles.userRow}>
+              <tr {...row.getRowProps()} className={styles.ticketRow}>
                 {row.cells.map(cell => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                 })}
@@ -149,36 +142,20 @@ const UserList = ({ users, createUser }) => {
         </tbody>
       </table>
 
+      {/* Add button or any other UI element to open the modal */}
       <button onClick={toggleModal} className={styles.addButton}>
         <FaPlus />
-        Agregar Usuario
+        Agregar Ticket
       </button>
 
+      {/* Render the modal */}
       {isModalOpen && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>Nuevo Usuario</h2>
-            <form onSubmit={handleCreateUser}>
-              <div className={styles.formGroup}>
-                <label>Nombre:</label>
-                <input type="text" name="name" value={newUserData.name} onChange={handleChange} />
-              </div>
-              <div className={styles.formGroup}>
-                <label>Correo:</label>
-                <input type="email" name="email" value={newUserData.email} onChange={handleChange} />
-              </div>
-              <div className={styles.formGroup}>
-                <label>Rol:</label>
-                <select name="role" value={newUserData.role} onChange={handleChange}>
-                  <option value="directivo">Directivo</option>
-                  <option value="administrador">Administrador</option>
-                  <option value="empleado">Empleado</option>
-                </select>
-              </div>
-              <div className={styles.modalButtons}>
-              <button type="submit">Guardar</button>
-                <button type="button" onClick={toggleModal} className={styles.cancelButton}>Cancelar</button>
-              </div>
+            {/* Add form or any other UI elements for creating a new ticket */}
+            <h2>Nuevo Ticket</h2>
+            <form onSubmit={handleCreateTicket}>
+              {/* Add form fields and form handling functions here */}
             </form>
           </div>
         </div>
@@ -187,4 +164,4 @@ const UserList = ({ users, createUser }) => {
   );
 };
 
-export default UserList;
+export default TicketList;

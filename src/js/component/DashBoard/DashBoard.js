@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import axios from 'axios';
 import UserList from '../UserList/UserList';
+import TicketList from '../TicketList/TicketList'; // Importa el componente TicketList
 import styles from './dashboard.module.css';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
+  const [tickets, setTickets] = useState([]); // Estado para los tickets
   const [activeSection, setActiveSection] = useState('Tickets');
 
   const createNewUser = async (userData) => {
@@ -21,9 +23,24 @@ const Dashboard = () => {
     }
   };
 
+  const createNewTicket = async (ticketData) => {
+    try {
+      // Realizar la solicitud POST a la API para crear un nuevo ticket
+      const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/ticket/', ticketData);
+      // Actualizar el estado de tickets con el nuevo ticket creado
+      setTickets([...tickets, response.data]);
+      // Cerrar el modal después de crear el ticket
+      closeModal();
+    } catch (error) {
+      console.error('Error al crear el ticket:', error);
+    }
+  };
+
   useEffect(() => {
     // Obtener los datos de usuarios al montar el componente
     fetchUsersData();
+    // Obtener los datos de tickets al montar el componente
+    fetchTicketsData();
   }, []);
 
   const fetchUsersData = async () => {
@@ -33,6 +50,16 @@ const Dashboard = () => {
       setUsers(response.data);
     } catch (error) {
       console.error('Error al obtener los usuarios:', error);
+    }
+  };
+
+  const fetchTicketsData = async () => {
+    try {
+      // Realizar la solicitud GET a la API para obtener los tickets
+      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/ticket/');
+      setTickets(response.data.results);
+    } catch (error) {
+      console.error('Error al obtener los tickets:', error);
     }
   };
 
@@ -50,6 +77,9 @@ const Dashboard = () => {
           <UserList users={users} createUser={createNewUser} />
         )}
 
+        {activeSection === 'Tickets' && (
+          <TicketList tickets={tickets} createNewTicket={createNewTicket} />
+        )}
       </div>
     </div>
   );
