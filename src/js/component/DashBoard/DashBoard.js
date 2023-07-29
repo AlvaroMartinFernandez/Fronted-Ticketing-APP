@@ -8,6 +8,19 @@ const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [activeSection, setActiveSection] = useState('Tickets');
 
+  const createNewUser = async (userData) => {
+    try {
+      // Realizar la solicitud POST a la API para crear un nuevo usuario
+      const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/users/', userData);
+      // Actualizar el estado de usuarios con el nuevo usuario creado
+      setUsers([...users, response.data]);
+      // Cerrar el modal después de crear el usuario
+      closeModal();
+    } catch (error) {
+      console.error('Error al crear el usuario:', error);
+    }
+  };
+
   useEffect(() => {
     // Obtener los datos de usuarios al montar el componente
     fetchUsersData();
@@ -34,7 +47,7 @@ const Dashboard = () => {
       <div className={styles.content}>
         {/* Mostramos el contenido según la sección activa */}
         {activeSection === 'Usuarios' && (
-          <UserList users={users} />
+          <UserList users={users} createUser={createNewUser} />
         )}
 
       </div>

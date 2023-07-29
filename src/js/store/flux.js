@@ -16,6 +16,8 @@ const getState = ({ getStore, getActions, setStore }) => {
     },
 
     actions: {
+
+      ////  USERS ////////
       loadAllUsersData: async () => {
         try {
           const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/users/', {
@@ -99,6 +101,33 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+
+      //funcion crear nuevo usuario////
+
+      createUser: async (userData) => {
+        try {
+          const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/users/', userData, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+  
+          if (response.status === 201) {
+            // El usuario se creó exitosamente, puedes realizar alguna acción adicional si lo deseas
+            // Por ejemplo, recargar la lista de usuarios para que se refleje el nuevo usuario creado.
+            getActions().loadAllUsersData();
+            return true;
+          } else {
+            console.error('Error al crear el usuario:', response.statusText);
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al crear el usuario:', error);
+          return false;
+        }
+      },
+
+      //////////TICKETS////////////
 
       loadAllTicketsData: async () => {
         try {
