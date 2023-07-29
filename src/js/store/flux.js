@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       users: [],
       tickets: [],
+      departments: [],
       accessToken: localStorage.getItem('accessToken') || null,
       isLoggedIn: false,
       name: "",
@@ -202,6 +203,100 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
     
+
+      ///DEPARTAMENTOS///
+
+       // Función para obtener todos los departamentos
+       loadAllDepartmentsData: async () => {
+        try {
+          const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/department/', {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            // Actualizamos el estado con los departamentos obtenidos de la API
+            setStore({ departments: response.data.results });
+          } else {
+            console.error('Error al cargar datos de departamentos:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error al cargar datos de departamentos:', error);
+        }
+      },
+
+      // Función para crear un nuevo departamento
+      createNewDepartment: async (departmentData) => {
+        try {
+          const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/department/', departmentData, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 201) {
+            // El departamento se creó exitosamente, puedes realizar alguna acción adicional si lo deseas
+            // Por ejemplo, recargar la lista de departamentos para que se refleje el nuevo departamento creado.
+            getActions().loadAllDepartmentsData();
+            return true;
+          } else {
+            console.error('Error al crear el departamento:', response.statusText);
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al crear el departamento:', error);
+          return false;
+        }
+      },
+
+      // Función para actualizar un departamento por su ID
+      updateDepartment: async (departmentId, departmentData) => {
+        try {
+          const response = await axios.patch(`https://backend-ticketing-app-production.up.railway.app/department/${departmentId}`, departmentData, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            // El departamento se actualizó exitosamente, puedes realizar alguna acción adicional si lo deseas
+            return true;
+          } else {
+            console.error('Error al actualizar el departamento:', response.statusText);
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al actualizar el departamento:', error);
+          return false;
+        }
+      },
+
+      // Función para eliminar un departamento por su ID
+      deleteDepartment: async (departmentId) => {
+        try {
+          const response = await axios.delete(`https://backend-ticketing-app-production.up.railway.app/department/${departmentId}`, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            // El departamento se eliminó exitosamente, puedes realizar alguna acción adicional si lo deseas
+            return true;
+          } else {
+            console.error('Error al eliminar el departamento:', response.statusText);
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al eliminar el departamento:', error);
+          return false;
+        }
+      },
+
+      
+
+      
 
       // Función para iniciar sesión y almacenar el token en el estado y en el localStorage
       login: async (email, password) => {
