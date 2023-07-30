@@ -10,6 +10,45 @@ const Dashboard = () => {
   const [tickets, setTickets] = useState([]); // Estado para los tickets
   const [activeSection, setActiveSection] = useState('Tickets');
 
+  const fakeTickets = [
+  {
+    ticket_number: 'TCK001',
+    subject: 'Problema con el servidor',
+    status: 'Pendiente',
+    created_by: 'John Doe',
+    client: { name: 'Empresa A' },
+  },
+  {
+    ticket_number: 'TCK002',
+    subject: 'Error en la página de inicio',
+    status: 'Resuelto',
+    created_by: 'Jane Smith',
+    client: { name: 'Empresa B' },
+  },
+  {
+    ticket_number: 'TCK003',
+    subject: 'Solicitud de nueva funcionalidad',
+    status: 'En proceso',
+    created_by: 'Michael Johnson',
+    client: { name: 'Empresa C' },
+  },
+  {
+    ticket_number: 'TCK004',
+    subject: 'Problema con la base de datos',
+    status: 'Finalizado',
+    created_by: 'Emily Williams',
+    client: { name: 'Empresa D' },
+  },
+  {
+    ticket_number: 'TCK005',
+    subject: 'Actualización del sistema',
+    status: 'Sin asignar',
+    created_by: 'David Lee',
+    client: { name: 'Empresa E' },
+  },
+];
+
+
   const createNewUser = async (userData) => {
     try {
       // Realizar la solicitud POST a la API para crear un nuevo usuario
@@ -41,6 +80,7 @@ const Dashboard = () => {
     fetchUsersData();
     // Obtener los datos de tickets al montar el componente
     fetchTicketsData();
+    
   }, []);
 
   const fetchUsersData = async () => {
@@ -78,7 +118,7 @@ const Dashboard = () => {
         )}
 
         {activeSection === 'Tickets' && (
-          <TicketList tickets={tickets} createNewTicket={createNewTicket} />
+           <TicketList tickets={fakeTickets} createNewTicket={createNewTicket} />
         )}
       </div>
     </div>

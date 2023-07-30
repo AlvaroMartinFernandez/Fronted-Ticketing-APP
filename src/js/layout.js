@@ -5,7 +5,7 @@ import { Demo } from "./views/demo";
 import injectContext from "./store/appContext";
 
 import Navbar from "./component/Navbar/Navbar";
-import Footer from "./component/Footer/footer";
+
 import DashBoard from "./component/DashBoard/DashBoard";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
@@ -32,7 +32,7 @@ const Layout = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
-        <Footer />
+        
       </BrowserRouter>
     </div>
   );

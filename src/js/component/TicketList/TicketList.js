@@ -1,16 +1,34 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './TicketList.module.css';
 
+const getStatusIconAndColor = (status) => {
+  switch (status) {
+    case 'Pendiente':
+      return { icon: '❗', color: 'red' };
+    case 'Resuelto':
+      return { icon: '✅', color: 'green' };
+    case 'Finalizado':
+      return { icon: '🏁', color: 'blue' };
+    case 'Sin asignar':
+      return { icon: '🔧', color: 'orange' };
+    case 'En proceso':
+      return { icon: '⏳', color: 'blue' };
+    default:
+      return { icon: '', color: 'black' };
+  }
+};
+
 const TicketList = ({ tickets, createNewTicket }) => {
-  const data = useMemo(() => tickets, [tickets]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTicketData, setNewTicketData] = useState({
     // Define the initial values for the new ticket form fields here
   });
 
-  const columns = useMemo(
+  
+
+  const columns = React.useMemo(
     () => [
       {
         Header: 'Número',
@@ -29,6 +47,14 @@ const TicketList = ({ tickets, createNewTicket }) => {
         accessor: 'status',
         canFilter: true,
         sortType: 'basic',
+        Cell: ({ value }) => {
+          const { icon, color } = getStatusIconAndColor(value);
+          return (
+            <span style={{ color }}>
+              {icon} {value}
+            </span>
+          );
+        },
       },
       {
         Header: 'Creado Por',
@@ -58,7 +84,7 @@ const TicketList = ({ tickets, createNewTicket }) => {
   } = useTable(
     {
       columns,
-      data,
+      data: tickets, // Use 'tickets' directly here since useMemo is not needed for data
       initialState: {
         // Define initial state as needed, e.g., hiddenColumns: ['id']
       },
@@ -76,16 +102,16 @@ const TicketList = ({ tickets, createNewTicket }) => {
   };
 
   // Function to handle changes in the modal form
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewTicketData(prevData => ({
+    setNewTicketData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   // Function to handle the submission of the modal form
-  const handleCreateTicket = async e => {
+  const handleCreateTicket = async (e) => {
     e.preventDefault();
     const success = await createNewTicket(newTicketData);
     if (success) {
@@ -101,7 +127,7 @@ const TicketList = ({ tickets, createNewTicket }) => {
         <input
           type="text"
           value={globalFilter || ''}
-          onChange={e => setGlobalFilter(e.target.value)}
+          onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder="Buscar tickets..."
           className={styles.searchInput}
         />
@@ -109,9 +135,9 @@ const TicketList = ({ tickets, createNewTicket }) => {
 
       <table {...getTableProps()} className={styles.ticketTable}>
         <thead>
-          {headerGroups.map(headerGroup => (
+          {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
+              {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
                   {column.isSorted ? (
@@ -129,11 +155,11 @@ const TicketList = ({ tickets, createNewTicket }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
+          {rows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className={styles.ticketRow}>
-                {row.cells.map(cell => {
+                {row.cells.map((cell) => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                 })}
               </tr>
@@ -142,24 +168,6 @@ const TicketList = ({ tickets, createNewTicket }) => {
         </tbody>
       </table>
 
-      {/* Add button or any other UI element to open the modal */}
-      <button onClick={toggleModal} className={styles.addButton}>
-        <FaPlus />
-        Agregar Ticket
-      </button>
-
-      {/* Render the modal */}
-      {isModalOpen && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            {/* Add form or any other UI elements for creating a new ticket */}
-            <h2>Nuevo Ticket</h2>
-            <form onSubmit={handleCreateTicket}>
-              {/* Add form fields and form handling functions here */}
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
