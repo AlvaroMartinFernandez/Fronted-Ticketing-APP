@@ -10,6 +10,7 @@ import DashBoard from "./component/DashBoard/DashBoard";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Faq from "./component/Faqs/faq";
+import PasswordRecoveryForm from "./component/PasswordRecoveryForm/PasswordRecoveryForm";
 
 
 
@@ -22,7 +23,7 @@ const Layout = () => {
 
         <Navbar />
         <Routes>
-
+        PasswordRecoveryForm
 
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<DashBoard />} />
@@ -30,6 +31,8 @@ const Layout = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
+
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
         

@@ -1,62 +1,67 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
-import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
-import styles from './TicketList.module.css';
+import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
+import styles from './DepartmentList.module.css';
 
-const getStatusIconAndColor = (status) => {
-  switch (status) {
-    case 'Pendiente':
-      return { icon: '❗', color: 'red' };
-    case 'Resuelto':
-      return { icon: '✅', color: 'green' };
-    case 'Finalizado':
-      return { icon: '🏁', color: 'blue' };
-    case 'Sin asignar':
-      return { icon: '🔧', color: 'orange' };
-    case 'En proceso':
-      return { icon: '⏳', color: 'blue' };
-    default:
-      return { icon: '', color: 'black' };
-  }
-};
-
-const TicketList = ({ tickets, createNewTicket }) => {
+const DepartmentList = ({ departments, createDepartment }) => {
+  const data = useMemo(() => departments, [departments]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newTicketData, setNewTicketData] = useState({
-    // Define the initial values for the new ticket form fields here
+  const [newDepartmentData, setNewDepartmentData] = useState({
+    name_department: '',
+    email: '',
+    host_email: '',
+    port_email: 0,
+    password_email: '',
+    client_id: 1,
   });
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
         Header: 'ID',
-        accessor: 'id', // Cambiar a 'id' para mostrar el ID del ticket
+        accessor: 'id', // Agregar columna para mostrar el ID del departamento
         canFilter: true,
         sortType: 'basic',
       },
       {
-        Header: 'Asunto',
-        accessor: 'subject',
+        Header: 'Nombre',
+        accessor: 'name_department',
         canFilter: true,
         sortType: 'basic',
       },
       {
-        Header: 'Estado',
-        accessor: 'status',
+        Header: 'Correo',
+        accessor: 'email',
         canFilter: true,
         sortType: 'basic',
-        Cell: ({ value }) => {
-          const { icon, color } = getStatusIconAndColor(value);
-          return (
-            <span style={{ color }}>
-              {icon} {value}
-            </span>
-          );
-        },
+      },
+      {
+        Header: 'Correo del Host',
+        accessor: 'host_email',
+        canFilter: true,
+        sortType: 'basic',
+      },
+      {
+        Header: 'Puerto del Correo',
+        accessor: 'port_email',
+        canFilter: true,
+        sortType: 'basic',
+      },
+      {
+        Header: 'Contraseña del Correo',
+        accessor: 'password_email',
+        canFilter: true,
+        sortType: 'basic',
+      },
+      {
+        Header: 'Cliente ID',
+        accessor: 'client_id',
+        canFilter: true,
+        sortType: 'basic',
       },
       {
         Header: 'Fecha de Creación',
-        accessor: 'createdAt', // Agregar columna para mostrar la fecha de creación del ticket
+        accessor: 'createdAt', // Agregar columna para mostrar la fecha de creación del departamento
         canFilter: true,
         sortType: 'basic',
         Cell: ({ value }) => {
@@ -65,8 +70,6 @@ const TicketList = ({ tickets, createNewTicket }) => {
           return <span>{formattedDate}</span>;
         },
       },
-     
-      // Add more columns as needed
     ],
     []
   );
@@ -82,9 +85,9 @@ const TicketList = ({ tickets, createNewTicket }) => {
   } = useTable(
     {
       columns,
-      data: tickets, // Use 'tickets' directly here since useMemo is not needed for data
+      data,
       initialState: {
-        // Define initial state as needed, e.g., hiddenColumns: ['id']
+        hiddenColumns: ['id'],
       },
     },
     useFilters,
@@ -94,48 +97,48 @@ const TicketList = ({ tickets, createNewTicket }) => {
 
   const { globalFilter } = state;
 
-  // Function to open and close the modal
+  // Función para abrir y cerrar el modal
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  // Function to handle changes in the modal form
-  const handleChange = (e) => {
+  // Función para manejar los cambios en el formulario del modal
+  const handleChange = e => {
     const { name, value } = e.target;
-    setNewTicketData((prevData) => ({
+    setNewDepartmentData(prevData => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  // Function to handle the submission of the modal form
-  const handleCreateTicket = async (e) => {
+  // Función para manejar el envío del formulario del modal
+  const handleCreateDepartment = async e => {
     e.preventDefault();
-    const success = await createNewTicket(newTicketData);
+    const success = await createDepartment(newDepartmentData);
     if (success) {
-      toggleModal(); // Close the modal after successfully creating the ticket
+      toggleModal(); // Cerrar el modal después de crear el departamento exitosamente
     }
   };
 
   return (
     <div className={styles.container}>
-      <h2>Lista de Tickets</h2>
+      <h2>Lista de Departamentos</h2>
       <div className={styles.searchContainer}>
         <i className={`fa fa-search ${styles.searchIcon}`} aria-hidden="true"></i>
         <input
           type="text"
           value={globalFilter || ''}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Buscar tickets..."
+          onChange={e => setGlobalFilter(e.target.value)}
+          placeholder="Buscar departamentos..."
           className={styles.searchInput}
         />
       </div>
 
-      <table {...getTableProps()} className={styles.ticketTable}>
+      <table {...getTableProps()} className={styles.departmentTable}>
         <thead>
-          {headerGroups.map((headerGroup) => (
+          {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
+              {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
                   {column.isSorted ? (
@@ -153,11 +156,11 @@ const TicketList = ({ tickets, createNewTicket }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map(row => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} className={styles.ticketRow}>
-                {row.cells.map((cell) => {
+              <tr {...row.getRowProps()} className={styles.departmentRow}>
+                {row.cells.map(cell => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                 })}
               </tr>
@@ -165,8 +168,10 @@ const TicketList = ({ tickets, createNewTicket }) => {
           })}
         </tbody>
       </table>
+
+     
     </div>
   );
 };
 
-export default TicketList;
+export default DepartmentList;

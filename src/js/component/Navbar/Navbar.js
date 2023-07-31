@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BiRocket,BiUser } from 'react-icons/bi';
-import styles from './navbar.module.css'; 
-import { AiOutlineRobot,AiOutlineCheckCircle } from 'react-icons/ai';
+import { BiRocket, BiUser } from 'react-icons/bi';
+import styles from './navbar.module.css';
+import { AiOutlineRobot, AiOutlineCheckCircle } from 'react-icons/ai';
 
 const Navbar = () => {
+  const handleScrollTo = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
@@ -14,31 +21,45 @@ const Navbar = () => {
       </div>
       <ul className={styles['nav-links']}>
         <li>
-          <Link to="/products" className={styles['nav-link']}>Productos</Link>
+          <span onClick={() => handleScrollTo('Fortalezas')} className={styles['nav-link']}>
+            Quien soy
+          </span>
         </li>
         <li>
-          <Link to="/prices" className={styles['nav-link']}>Precios</Link>
+          <span onClick={() => handleScrollTo('testimonials')} className={styles['nav-link']}>
+            Testimonios
+          </span>
         </li>
         <li>
-          <Link to="/solutions" className={styles['nav-link']}>Soluciones</Link>
+          <span onClick={() => handleScrollTo('pricing')} className={styles['nav-link']}>
+            Precios
+          </span>
         </li>
         <li>
-          <Link to="/demo" className={styles['nav-link']}>Demostración</Link>
+          <span onClick={() => handleScrollTo('demo')} className={styles['nav-link']}>
+            Demostración
+          </span>
         </li>
         <li>
-          <Link to="/services" className={styles['nav-link']}>Servicios</Link>
+          <span onClick={() => handleScrollTo('services')} className={styles['nav-link']}>
+            Servicios
+          </span>
         </li>
         <li>
-          <Link to="/resources" className={styles['nav-link']}>Recursos</Link>
+          <span onClick={() => handleScrollTo('resources')} className={styles['nav-link']}>
+            Recursos
+          </span>
         </li>
       </ul>
       <div className={styles['auth-buttons']}>
-        <Link to="/login" className={styles['login-button']}><BiUser size={20} className={styles.userIcon} />
-          Iniciar sesión</Link>
+        <Link to="/login" className={styles['login-button']}>
+          <BiUser size={20} className={styles.userIcon} />
+          Iniciar sesión
+        </Link>
       </div>
       <div className={styles['auth-buttons']}>
         <Link to="/signup" className={`${styles['signup-button']} ${styles['button']}`}>
-        Registrarse <AiOutlineCheckCircle size={20} className={styles.checkIcon} />
+          Registrarse <AiOutlineCheckCircle size={20} className={styles.checkIcon} />
         </Link>
       </div>
     </nav>

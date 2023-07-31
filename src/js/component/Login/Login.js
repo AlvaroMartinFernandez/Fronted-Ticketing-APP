@@ -82,7 +82,7 @@ const Login = () => {
                   </div>
                   {showForgotPassword && (
                     <div className="d-flex">
-                      <Link to="/recuperar_password">
+                      <Link to="/PasswordRecoveryForm">
                         <span>Olvidé mi contraseña</span>
                       </Link>
                     </div>

@@ -1,5 +1,3 @@
-/* src/styles/modules/navbar.module.css */
-
 /* Estilos para el navbar */
 .navbar {
   background-color: #fff;
@@ -19,7 +17,7 @@
 
 /* Estilos para el icono del logo */
 .icon {
-  color:linear-gradient(to right, #2e75b6, #4ab19d);
+  color: linear-gradient(to right, #2e75b6, #4ab19d);
 }
 
 /* Estilos para los enlaces del navbar */
@@ -28,6 +26,7 @@
   list-style: none;
   padding: 0;
   margin-top: 3%;
+  cursor: pointer;
 }
 
 /* Estilos para cada enlace del navbar */
@@ -51,7 +50,7 @@
 
 /* Estilos para el botón de registrarse */
 .signup-button {
-  background-color: #333;
+  background-color: #4ab19d; /* Cambia el color de fondo a un verde más claro */
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -61,15 +60,13 @@
 }
 
 .signup-button:hover {
-  background-color: #222;
+  background-color: #2e75b6; /* Cambia el color de fondo al azul más oscuro */
 }
 
 .auth-buttons {
-  /* Eliminamos el width: 100% para que el div solo ocupe el ancho necesario */
-  /* Agregamos un margen derecho para separar los botones */
   margin-left: 20px;
-  margin-right: 20px; /* Puedes ajustar este valor según el espaciado deseado */
-  display: flex; /* Asegurarse de que los botones estén en línea */
+  margin-right: 20px;
+  display: flex;
 }
 
 /* Estilos para los botones de inicio de sesión y registro en pantallas pequeñas */
@@ -92,9 +89,7 @@
 
 /* Personalizar el botón de iniciar sesión */
 .login-button {
-  /* Agrega tus estilos personalizados aquí */
-  /* Por ejemplo: */
-  background-color: #007bff;
+  background-color: #2e75b6; /* Cambia el color de fondo al azul más oscuro */
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -109,5 +104,5 @@
 .checkIcon {
   margin-left: 5px;
   vertical-align: middle;
-  color: #4CAF50; /* Puedes cambiar el color según tu preferencia */
+  color: #f7f5f5;
 }

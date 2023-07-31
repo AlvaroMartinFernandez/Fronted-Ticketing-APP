@@ -1,7 +1,66 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './UserList.module.css';
+
+// Filtro personalizado para el campo "Departamentos"
+const SelectColumnFilter = ({
+  column: { filterValue, setFilter, preFilteredRows, id },
+}) => {
+  const options = useMemo(() => {
+    const allDepartments = new Set();
+    preFilteredRows.forEach(row => {
+      row.values[id].split(', ').forEach(dep => allDepartments.add(dep));
+    });
+    return [...allDepartments.values()];
+  }, [id, preFilteredRows]);
+
+  return (
+    <select
+      value={filterValue}
+      onChange={e => {
+        setFilter(e.target.value || undefined);
+      }}
+    >
+      <option value="">Todos</option>
+      {options.map((dep, index) => (
+        <option key={index} value={dep}>
+          {dep}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+// Filtro personalizado para el campo "Roles"
+const SelectRoleFilter = ({
+  column: { filterValue, setFilter, preFilteredRows, id },
+}) => {
+  const options = useMemo(() => {
+    const allRoles = new Set();
+    preFilteredRows.forEach(row => {
+      allRoles.add(row.values[id]);
+    });
+    return [...allRoles.values()];
+  }, [id, preFilteredRows]);
+
+  return (
+    <select
+      value={filterValue}
+      onChange={e => {
+        setFilter(e.target.value || undefined);
+      }}
+    >
+      <option value="">Todos</option>
+      {options.map((role, index) => (
+        <option key={index} value={role}>
+          {role}
+        </option>
+      ))}
+    </select>
+  );
+};
 
 const UserList = ({ users, createUser }) => {
   const data = useMemo(() => users, [users]);
@@ -10,10 +69,18 @@ const UserList = ({ users, createUser }) => {
     name: '',
     email: '',
     role: 'directivo',
+    department: '',
   });
+  const [departments, setDepartments] = useState([]);
 
   const columns = useMemo(
     () => [
+      {
+        Header: 'ID',
+        accessor: 'id',
+        canFilter: true,
+        sortType: 'basic',
+      },
       {
         Header: 'Nombre',
         accessor: 'name',
@@ -29,18 +96,26 @@ const UserList = ({ users, createUser }) => {
       {
         Header: 'Rol',
         accessor: 'role',
+        Filter: SelectRoleFilter, // Utiliza el filtro de columna personalizado para Roles
+        filter: 'includes', // Filtro predeterminado para el campo "Rol"
         canFilter: true,
         sortType: 'basic',
+      },
+      {
+        Header: 'Fecha de Creación',
+        accessor: 'createdAt',
+        canFilter: true,
+        sortType: 'basic',
+        Cell: ({ value }) => {
+          const formattedDate = new Date(value).toLocaleString();
+          return <span>{formattedDate}</span>;
+        },
       },
       {
         Header: 'Departamentos',
         accessor: row => row.departments.map(dep => dep.name_department).join(', '),
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Cliente',
-        accessor: 'client?.name',
+        Filter: SelectColumnFilter, // Utiliza el filtro de columna personalizado para Departamentos
+        filter: 'includes', // Filtro predeterminado para el campo "Departamentos"
         canFilter: true,
         sortType: 'basic',
       },
@@ -51,7 +126,7 @@ const UserList = ({ users, createUser }) => {
         sortType: 'basic',
       },
     ],
-    []
+    [departments] // Agregar "departments" como dependencia para actualizar el filtro de Departamentos
   );
 
   const {
@@ -77,12 +152,23 @@ const UserList = ({ users, createUser }) => {
 
   const { globalFilter } = state;
 
-  // Función para abrir y cerrar el modal
+  const fetchDepartmentsData = async () => {
+    try {
+      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/departments/');
+      setDepartments(response.data);
+    } catch (error) {
+      console.error('Error al obtener los departamentos:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartmentsData();
+  }, []);
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  // Función para manejar los cambios en el formulario del modal
   const handleChange = e => {
     const { name, value } = e.target;
     setNewUserData(prevData => ({
@@ -91,12 +177,11 @@ const UserList = ({ users, createUser }) => {
     }));
   };
 
-  // Función para manejar el envío del formulario del modal
   const handleCreateUser = async e => {
     e.preventDefault();
     const success = await createUser(newUserData);
     if (success) {
-      toggleModal(); // Cerrar el modal después de crear el usuario exitosamente
+      toggleModal();
     }
   };
 
@@ -120,7 +205,6 @@ const UserList = ({ users, createUser }) => {
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
                   {column.isSorted ? (
                     column.isSortedDesc ? (
                       <FaSortDown className={`${styles.sortIndicator} ${styles.sortDesc}`} />
@@ -130,6 +214,13 @@ const UserList = ({ users, createUser }) => {
                   ) : (
                     <FaSort className={styles.sortIndicator} />
                   )}
+                  <strong>{column.render('Header')}</strong>
+                  {/* Mostrar el filtro solo para las columnas con "Filter" definido */}
+                  {column.Filter ? (
+                    <div className={styles.filter}>
+                      <column.Filter column={column} />
+                    </div>
+                  ) : null}
                 </th>
               ))}
             </tr>
@@ -175,9 +266,21 @@ const UserList = ({ users, createUser }) => {
                   <option value="empleado">Empleado</option>
                 </select>
               </div>
+              <div className={styles.formGroup}>
+                <label>Departamento:</label>
+                <select name="department" value={newUserData.department} onChange={handleChange}>
+                  {departments.map(department => (
+                    <option key={department.id} value={department.id}>
+                      {department.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className={styles.modalButtons}>
-              <button type="submit">Guardar</button>
-                <button type="button" onClick={toggleModal} className={styles.cancelButton}>Cancelar</button>
+                <button type="submit">Guardar</button>
+                <button type="button" onClick={toggleModal} className={styles.cancelButton}>
+                  Cancelar
+                </button>
               </div>
             </form>
           </div>
