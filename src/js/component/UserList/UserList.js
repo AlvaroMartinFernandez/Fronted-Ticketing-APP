@@ -1,10 +1,11 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useContext } from 'react';
+import { Context } from "../../store/appContext.js";
 import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './UserList.module.css';
 
-// Filtro personalizado para el campo "Departamentos"
+
 const SelectColumnFilter = ({
   column: { filterValue, setFilter, preFilteredRows, id },
 }) => {
@@ -33,7 +34,7 @@ const SelectColumnFilter = ({
   );
 };
 
-// Filtro personalizado para el campo "Roles"
+
 const SelectRoleFilter = ({
   column: { filterValue, setFilter, preFilteredRows, id },
 }) => {
@@ -63,6 +64,8 @@ const SelectRoleFilter = ({
 };
 
 const UserList = ({ users, createUser }) => {
+  const { store, actions } = useContext(Context);
+  console.log(store.users)
   const data = useMemo(() => users, [users]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUserData, setNewUserData] = useState({
@@ -96,8 +99,8 @@ const UserList = ({ users, createUser }) => {
       {
         Header: 'Rol',
         accessor: 'role',
-        Filter: SelectRoleFilter, // Utiliza el filtro de columna personalizado para Roles
-        filter: 'includes', // Filtro predeterminado para el campo "Rol"
+        Filter: SelectRoleFilter, 
+        filter: 'includes', 
         canFilter: true,
         sortType: 'basic',
       },
@@ -114,8 +117,8 @@ const UserList = ({ users, createUser }) => {
       {
         Header: 'Departamentos',
         accessor: row => row.departments.map(dep => dep.name_department).join(', '),
-        Filter: SelectColumnFilter, // Utiliza el filtro de columna personalizado para Departamentos
-        filter: 'includes', // Filtro predeterminado para el campo "Departamentos"
+        Filter: SelectColumnFilter, 
+        filter: 'includes', 
         canFilter: true,
         sortType: 'basic',
       },
@@ -126,7 +129,7 @@ const UserList = ({ users, createUser }) => {
         sortType: 'basic',
       },
     ],
-    [departments] // Agregar "departments" como dependencia para actualizar el filtro de Departamentos
+    [departments] 
   );
 
   const {
@@ -140,7 +143,7 @@ const UserList = ({ users, createUser }) => {
   } = useTable(
     {
       columns,
-      data,
+      data:store.users,
       initialState: {
         hiddenColumns: ['id'],
       },
@@ -151,6 +154,15 @@ const UserList = ({ users, createUser }) => {
   );
 
   const { globalFilter } = state;
+
+  const fetchUsersData = async () => {
+    try{
+      const response = await axios.get("https://backend-ticketing-app-production.up.railway.app/users/");
+      setUsers(response.data);
+    } catch (error) {
+      console.log ("error")
+    }
+  }
 
   const fetchDepartmentsData = async () => {
     try {
@@ -163,6 +175,7 @@ const UserList = ({ users, createUser }) => {
 
   useEffect(() => {
     fetchDepartmentsData();
+    fetchUsersData();
   }, []);
 
   const toggleModal = () => {

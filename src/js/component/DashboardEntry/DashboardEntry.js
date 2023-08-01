@@ -6,7 +6,7 @@ const DashboardEntry = () => {
   return (
     <div className={styles['dashboard-entry']}>
       <Link to="/dashboard" className={styles['cta-link']}>
-      Dashboard!
+      Ver Dashboard
       </Link>
     </div>
   );

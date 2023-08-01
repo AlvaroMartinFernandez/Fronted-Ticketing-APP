@@ -18,6 +18,7 @@
 /* Estilos para el icono del logo */
 .icon {
   color: linear-gradient(to right, #2e75b6, #4ab19d);
+  font-size: 32px;
 }
 
 /* Estilos para los enlaces del navbar */
@@ -50,7 +51,7 @@
 
 /* Estilos para el botón de registrarse */
 .signup-button {
-  background-color: #4ab19d; /* Cambia el color de fondo a un verde más claro */
+  background-color: #4ab19d;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -60,7 +61,7 @@
 }
 
 .signup-button:hover {
-  background-color: #2e75b6; /* Cambia el color de fondo al azul más oscuro */
+  background-color: #2e75b6;
 }
 
 .auth-buttons {
@@ -71,15 +72,33 @@
 
 /* Estilos para los botones de inicio de sesión y registro en pantallas pequeñas */
 @media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px; /* Reducir el padding para dispositivos móviles */
+  }
+
+  .logo {
+    margin-left: 0; /* Centrar el logo en dispositivos móviles */
+    margin-bottom: 10px; /* Añadir un espacio entre el logo y los enlaces */
+  }
+
+  .nav-links {
+    margin-top: 10px; /* Aumentar el espacio entre el logo y los enlaces */
+  }
+
+  .nav-link {
+    margin: 10px 0; /* Aumentar el espacio entre los enlaces */
+  }
+
   .auth-buttons {
-    margin-left: 0;
-    margin-top: 10px;
+    margin: 10px 0; /* Aumentar el espacio entre los botones de inicio de sesión y registro */
   }
 
   .login-button,
   .signup-button {
     display: block;
     width: 100%;
+    margin-bottom: 10px; /* Añadir un espacio entre los botones */
   }
 }
 
@@ -89,7 +108,7 @@
 
 /* Personalizar el botón de iniciar sesión */
 .login-button {
-  background-color: #2e75b6; /* Cambia el color de fondo al azul más oscuro */
+  background-color: #2e75b6;
   color: #fff;
   border: none;
   padding: 8px 16px;

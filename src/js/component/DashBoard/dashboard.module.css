@@ -1,15 +1,13 @@
-
-
 /* Estilos para el contenedor del dashboard */
 .container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Cambia la dirección de flexión a columna en pantallas pequeñas */
   margin: 0; /* Agrega margen 0 para eliminar el espacio en blanco */
 }
 
 /* Estilos para la columna de navegación (izquierda) */
 .navColumn {
-  width: 20%;
+  width: 100%; /* Haz que ocupe todo el ancho en pantallas pequeñas */
   padding: 0; /* Reduce el padding para eliminar el espacio en blanco */
   background-color: #f1f1f1;
 }
@@ -26,7 +24,7 @@
 
 /* Estilos para el área de contenido (derecha) */
 .contentArea {
-  width: 70%;
+  width: 100%; /* Haz que ocupe todo el ancho en pantallas pequeñas */
   padding: 0; /* Reduce el padding para eliminar el espacio en blanco */
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -36,9 +34,22 @@
   display: flex;
 }
 
-
-
 .content {
   flex: 1;
   padding: 20px; /* Puedes ajustar el espacio según lo necesites */
+}
+
+/* Estilos para hacer responsive en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .navColumn {
+    width: 100%;
+  }
+
+  .contentArea {
+    width: 100%;
+  }
 }

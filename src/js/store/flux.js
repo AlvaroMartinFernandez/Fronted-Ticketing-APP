@@ -29,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           if (response.status === 200) {
             // Actualizamos el estado con los usuarios obtenidos de la API
-            setStore({ users: response.data.results });
+            setStore({ users: response.data });
           } else {
             console.error('Error al cargar datos de usuarios:', response.statusText);
           }
@@ -110,6 +110,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/users/', userData, {
             headers: {
               Authorization: `Bearer ${getStore().accessToken}`,
+              "Content-Type": "application/json",
             },
           });
 

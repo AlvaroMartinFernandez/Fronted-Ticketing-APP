@@ -21,11 +21,6 @@ const Navbar = () => {
       </div>
       <ul className={styles['nav-links']}>
         <li>
-          <span onClick={() => handleScrollTo('Fortalezas')} className={styles['nav-link']}>
-            Quien soy
-          </span>
-        </li>
-        <li>
           <span onClick={() => handleScrollTo('testimonials')} className={styles['nav-link']}>
             Testimonios
           </span>

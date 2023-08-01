@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from "../../store/appContext.js";
 import axios from 'axios';
 import Sidebar from '../Sidebar/Sidebar';
 import UserList from '../UserList/UserList';
@@ -9,7 +10,10 @@ import styles from './dashboard.module.css';
 
 
 
+
 const Dashboard = () => {
+  const { store, actions } = useContext(Context);
+  console.log(store)
   const [users, setUsers] = useState([]);
   const [tickets, setTickets] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -66,8 +70,9 @@ const Dashboard = () => {
 
   const fetchUsersData = async () => {
     try {
-      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/users/');
+      const response = await actions.loadAllUsersData();
       setUsers(response.data);
+      console.log(response)
     } catch (error) {
       console.error('Error al obtener los usuarios:', error);
     }
