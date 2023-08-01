@@ -65,7 +65,6 @@ const SelectRoleFilter = ({
 
 const UserList = ({ users, createUser }) => {
   const { store, actions } = useContext(Context);
-  console.log(store.users)
   const data = useMemo(() => users, [users]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUserData, setNewUserData] = useState({
@@ -75,6 +74,7 @@ const UserList = ({ users, createUser }) => {
     department: '',
   });
   const [departments, setDepartments] = useState([]);
+  
 
   const columns = useMemo(
     () => [

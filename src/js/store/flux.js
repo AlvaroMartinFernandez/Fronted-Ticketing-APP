@@ -141,7 +141,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           if (response.status === 200) {
             // Actualizamos el estado con los tickets obtenidos de la API
-            setStore({ tickets: response.data.results });
+            setStore({ tickets: response.data });
           } else {
             console.error('Error al cargar datos de tickets:', response.statusText);
           }

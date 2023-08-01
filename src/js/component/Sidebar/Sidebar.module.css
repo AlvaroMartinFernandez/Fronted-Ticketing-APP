@@ -1,4 +1,6 @@
 /* Sidebar.module.css */
+
+/* Base styles for the sidebar */
 .sidebar {
   width: 250px;
   height: 100%;
@@ -34,7 +36,22 @@
   color: #fff;
 }
 
-.content {
-  flex: 1;
-  padding: 20px;
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+  /* Adjust the sidebar width and padding for smaller screens */
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  /* Center align the h2 in smaller screens */
+  .sidebar h2 {
+    text-align: center;
+  }
+  
+  /* Adjust padding and margin for smaller screens */
+  .sidebarNav li {
+    padding: 8px;
+    margin-bottom: 3px;
+  }
 }

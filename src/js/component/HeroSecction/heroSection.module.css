@@ -1,47 +1,45 @@
 /* src/styles/modules/heroSection.module.css */
 
+/* Estilos base del héroe */
 .hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 2rem;
-    background: linear-gradient(to right, #2e75b6, #4ab19d);
-    color: #fff;
-  }
-  
-  .hero-content {
-    flex: 1;
-    max-width: 500px;
-  }
-  
-  .hero-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-  }
-  
-  .start-button {
-    background: #fff;
-    color: #2e75b6;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .start-button:hover {
-    background: #e0e0e0;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2rem;
+  background: linear-gradient(to right, #2e75b6, #4ab19d);
+  color: #fff;
+}
 
-  /* src/styles/modules/heroSection.module.css */
+.hero-content {
+  flex: 1;
+  max-width: 500px;
+}
 
-/* Resto de los estilos... */
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
 
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.start-button {
+  background: #fff;
+  color: #2e75b6;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  background: #e0e0e0;
+}
+
+/* Imagen del héroe */
 .hero-image {
   flex: 1;
   max-width: 500px; /* Establece el ancho máximo de la imagen */
@@ -55,5 +53,23 @@
   border-radius: 8px; /* Agregamos bordes redondeados */
 }
 
+/* Estilos responsive */
+@media screen and (max-width: 768px) {
+  .hero {
+    flex-direction: column; /* Cambia la dirección del flex para apilar elementos verticalmente */
+    text-align: center; /* Centra el texto en la columna */
+  }
 
-  
+  .hero-content {
+    max-width: 100%; /* Ajusta el ancho del contenido al 100% del contenedor */
+    margin-bottom: 2rem; /* Agrega espacio entre el contenido y la imagen */
+  }
+
+  .hero-image {
+    max-width: 100%; /* Ajusta el ancho de la imagen al 100% del contenedor */
+  }
+
+  .start-button {
+    margin-top: 1rem; /* Agrega espacio entre el botón y el contenido superior */
+  }
+}

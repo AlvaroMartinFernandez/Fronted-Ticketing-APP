@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
@@ -21,6 +22,8 @@ const getStatusIconAndColor = (status) => {
 };
 
 const TicketList = ({ tickets, createNewTicket }) => {
+  const { store, actions } = useContext(Context);
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTicketData, setNewTicketData] = useState({
     // Define the initial values for the new ticket form fields here
@@ -82,7 +85,8 @@ const TicketList = ({ tickets, createNewTicket }) => {
   } = useTable(
     {
       columns,
-      data: tickets, // Use 'tickets' directly here since useMemo is not needed for data
+      data:tickets,
+       // Use 'tickets' directly here since useMemo is not needed for data
       initialState: {
         // Define initial state as needed, e.g., hiddenColumns: ['id']
       },
