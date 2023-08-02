@@ -7,6 +7,7 @@ import TicketList from '../TicketList/TicketList';
 import DepartmentList from '../DepartmentList/DepartmentList';
 import MiPerfil from '../MiPerfil/MiPerfil';
 import styles from './dashboard.module.css';
+import { Navigate } from "react-router-dom";
 
 
 
@@ -19,6 +20,13 @@ const Dashboard = () => {
   const [departments, setDepartments] = useState([]);
   const [activeSection, setActiveSection] = useState('Tickets');
   const [selectedUser, setSelectedUser] = useState(null);
+
+  // Comprobar si el usuario está autenticado
+  if (!store.isLoggedIn) {
+    // Si el usuario no está autenticado, redirigir al inicio de sesión
+    return <Navigate to="/login" />;
+  }
+ 
 
   // Agregar una función para manejar la selección de un usuario
   const handleSelectUser = (user) => {

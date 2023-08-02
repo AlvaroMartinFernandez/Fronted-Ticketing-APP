@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { BiRocket, BiUser } from 'react-icons/bi';
 import styles from './navbar.module.css';
 import { AiOutlineRobot, AiOutlineCheckCircle } from 'react-icons/ai';
+import { Context } from '../../store/appContext';
+import logo3 from "../../../img/logo3.jpg";
 
 const Navbar = () => {
+  const { store, actions } = useContext(Context); // Obtén el estado isLoggedIn desde el contexto
+
   const handleScrollTo = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -16,7 +20,7 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <div className={styles.logo}>
         <Link to="/">
-          <AiOutlineRobot size={52} className={styles.icon} />
+        <img src={logo3} alt="Logo" className={styles.icon} />
         </Link>
       </div>
       <ul className={styles['nav-links']}>
@@ -46,17 +50,33 @@ const Navbar = () => {
           </span>
         </li>
       </ul>
-      <div className={styles['auth-buttons']}>
-        <Link to="/login" className={styles['login-button']}>
-          <BiUser size={20} className={styles.userIcon} />
-          Iniciar sesión
-        </Link>
-      </div>
-      <div className={styles['auth-buttons']}>
-        <Link to="/signup" className={`${styles['signup-button']} ${styles['button']}`}>
-          Registrarse <AiOutlineCheckCircle size={20} className={styles.checkIcon} />
-        </Link>
-      </div>
+      {store.isLoggedIn ? (
+        // Mostrar elementos para usuarios autenticados
+        <>
+          <div className={styles['auth-buttons']}>
+            <span className={styles['user-name']}>  {store.name}</span>
+            <button onClick={() => actions.logout()} className={`${styles['button']} ${styles['logout-button']}`}>
+  Cerrar sesión
+</button>
+
+          </div>
+        </>
+      ) : (
+        // Mostrar elementos para usuarios no autenticados
+        <>
+          <div className={styles['auth-buttons']}>
+            <Link to="/login" className={styles['login-button']}>
+              <BiUser size={20} className={styles.userIcon} />
+              Iniciar sesión
+            </Link>
+          </div>
+          <div className={styles['auth-buttons']}>
+            <Link to="/signup" className={`${styles['signup-button']} ${styles['button']}`}>
+              Registrarse <AiOutlineCheckCircle size={20} className={styles.checkIcon} />
+            </Link>
+          </div>
+        </>
+      )}
     </nav>
   );
 };

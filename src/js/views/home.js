@@ -8,7 +8,6 @@ import Pricing from "../component/Pricing/Pricing";
 import Footer from "../component/Footer/footer";
 import HeroSection from "../component/HeroSecction/HeroSecction";
 import Fortalezas from "../component/Fortalezas/Fortalezas";
-import VideoBackground from '../component/VideoBackground/VideoBackground';
 import VideoBackground2 from '../component/VideoBackground2/VideoBackground2';
 
 
@@ -18,7 +17,6 @@ export const Home = () => (
     <DashboardEntry />
 
     <HeroSection />
-    <VideoBackground />
     <Fortalezas />
     <VideoBackground2 />
     <Features />

@@ -23,8 +23,6 @@ const Layout = () => {
 
         <Navbar />
         <Routes>
-        PasswordRecoveryForm
-
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/demo" element={<Demo />} />

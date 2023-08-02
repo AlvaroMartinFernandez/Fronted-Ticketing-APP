@@ -1,3 +1,4 @@
+/* Estilos generales */
 .container {
   padding: 20px;
 }
@@ -7,6 +8,7 @@ h2 {
   color: #333;
 }
 
+/* Estilos para la barra de búsqueda */
 .searchContainer {
   margin-bottom: 20px;
   display: flex;
@@ -23,8 +25,10 @@ h2 {
 .searchInput {
   border: none;
   outline: none;
+  flex: 1; /* Ocupar el espacio restante */
 }
 
+/* Estilos para la tabla de usuarios */
 .userTable {
   width: 100%;
   border-collapse: collapse;
@@ -46,20 +50,6 @@ th {
   background-color: #f5f5f5;
 }
 
-.addButton {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.addButton:hover {
-  background-color: #0056b3;
-}
-
 /* Estilos para el indicador de orden */
 .sortIndicator {
   display: inline-block;
@@ -73,72 +63,6 @@ th {
 
 .sortAsc svg {
   transform: rotate(180deg);
-}
-
-/* Estilos para el modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modalContent {
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.modal h2 {
-  margin-bottom: 20px;
-}
-
-.formGroup {
-  margin-bottom: 10px;
-}
-
-.formGroup label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.formGroup input,
-.formGroup select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-}
-
-.modalButtons {
-  display: flex;
-  justify-content: space-between; /* Separar los botones */
-  margin-top: 20px;
-}
-
-.modalButtons button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.modalButtons button.cancelButton {
-  background-color: #e74c3c; /* Color rojo */
-}
-
-.modalButtons button:hover {
-  background-color: #0056b3;
 }
 
 /* Estilos para el botón "Agregar Usuario" */
@@ -230,4 +154,32 @@ th {
 
 .cancelButton:hover {
   background-color: #888;
+}
+
+/* Media Queries para pantallas de tamaño pequeño (móviles) */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .searchContainer {
+    flex-direction: column;
+  }
+
+  .searchInput {
+    margin-top: 10px;
+  }
+
+  .userTable {
+    font-size: 14px;
+  }
+
+  .addButton {
+    font-size: 14px;
+  }
+
+  .modalContent {
+    width: 100%;
+    max-width: 350px;
+  }
 }

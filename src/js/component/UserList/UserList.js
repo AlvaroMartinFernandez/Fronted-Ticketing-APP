@@ -280,6 +280,10 @@ const UserList = ({ users, createUser }) => {
                 </select>
               </div>
               <div className={styles.formGroup}>
+                <label>Contraseña:</label>
+                <input type="password" name="password" value={newUserData.password} onChange={handleChange} />
+              </div>
+              <div className={styles.formGroup}>
                 <label>Departamento:</label>
                 <select name="department" value={newUserData.department} onChange={handleChange}>
                   {departments.map(department => (
