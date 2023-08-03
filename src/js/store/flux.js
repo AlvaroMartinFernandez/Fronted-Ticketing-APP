@@ -3,12 +3,11 @@ import axios from 'axios';
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
-      
       users: [],
       tickets: [],
       departments: [],
       accessToken: localStorage.getItem('accessToken') || null,
-      isLoggedIn: false,   
+      isLoggedIn: false,
       name: "",
       password: "",
       email: "",
@@ -30,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
     actions: {
 
-      
+
       ////  USERS ////////
       loadAllUsersData: async () => {
         try {
@@ -58,10 +57,10 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: `Bearer ${getStore().accessToken}`,
             },
           });
-      
+
           if (response.status === 200) {
             // Actualizamos el estado con los datos del usuario obtenidos de la API
-            setStore({ users: [response.data] }); // Aquí se actualizó para que contenga los datos del usuario en un array
+            setStore({ users: [response.data] });
           } else {
             console.error('Error al cargar datos del usuario:', response.statusText);
           }
@@ -69,7 +68,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error('Error al cargar datos del usuario:', error);
         }
       },
-      
+
 
       // Función para actualizar datos de un usuario por su ID
       updateUserData: async (id, userData) => {
@@ -117,40 +116,38 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-     // Función para crear un nuevo usuario
-createUser: async (userData) => {
-  try {
-    const response = await axios.post(
-      'https://backend-ticketing-app-production.up.railway.app/users/signup',
-      {
-        name: userData.name,
-        email: userData.email,
-        role: userData.role,
-        department: userData.department,
-        password: userData.password, // Agrega el campo de contraseña en la solicitud
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getStore().accessToken}`,
-        },
-      }
-    );
+      // Función para crear un nuevo usuario
+      createUser: async (userData) => {
+        try {
+          const response = await axios.post(
+            'https://backend-ticketing-app-production.up.railway.app/users/signup',
+            {
+              name: userData.name,
+              email: userData.email,
+              role: userData.role,
+              department: userData.department,
+              password: userData.password, 
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${getStore().accessToken}`,
+              },
+            }
+          );
 
-    if (response.status === 200) {
-      // El usuario se creó exitosamente, puedes realizar alguna acción adicional si lo deseas
-      // Por ejemplo, recargar la lista de usuarios para que se refleje el nuevo usuario creado.
-      getActions().loadAllUsersData();
-      return true;
-    } else {
-      console.error('Error al crear el usuario:', response.statusText);
-      return false;
-    }
-  } catch (error) {
-    console.error('Error al crear el usuario:', error);
-    return false;
-  }
-},
+          if (response.status === 200) {
+            getActions().loadAllUsersData();
+            return true;
+          } else {
+            console.error('Error al crear el usuario:', response.statusText);
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al crear el usuario:', error);
+          return false;
+        }
+      },
 
 
       //////////TICKETS////////////

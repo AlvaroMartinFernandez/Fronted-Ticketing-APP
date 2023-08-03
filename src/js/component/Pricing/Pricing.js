@@ -35,20 +35,20 @@ const Pricing = () => {
         <p className={styles['plan-price']}>Precio: $Y/mes</p>
         <button className={styles['plan-button']}>Seleccionar</button>
       </div>
-      <div className={styles['pricing-plan']}>
-        <h3 className={styles['plan-title']}>Plan Empresarial</h3>
-        <p className={styles['plan-description']}>
-          Funcionalidad personalizada y acceso a características avanzadas de IA.
+      <div className={`${styles['pricing-plan']} ${styles['business-plan']}`}>
+        <h3 className={`${styles['plan-title']} ${styles['business-plan-title']}`}>Plan Business Ilimitado</h3>
+        <p className={`${styles['plan-description']} ${styles['business-plan-description']}`}>
+          Todas las características del plan Empresarial con uso ilimitado.
         </p>
-        <p className={styles['plan-benefit']}>
+        <p className={`${styles['plan-benefit']} ${styles['business-plan-benefit']}`}>
           Beneficios clave:
         </p>
         <ul className={styles['plan-benefits-list']}>
-          <li>Integración con sistemas de gestión empresarial.</li>
-          <li>Automatización avanzada para optimizar procesos de atención al cliente.</li>
+          <li>Uso ilimitado de la plataforma para todos tus usuarios y departamentos.</li>
+          <li>Soporte prioritario y atención personalizada.</li>
         </ul>
-        <p className={styles['plan-price']}>Precio: Contáctanos</p>
-        <button className={styles['plan-button']}>Seleccionar</button>
+        <p className={`${styles['plan-price']} ${styles['business-plan-price']}`}>Precio: Contáctanos</p>
+        <button className={`${styles['plan-button']} ${styles['business-plan-button']}`}>Seleccionar</button>
       </div>
     </section>
   );

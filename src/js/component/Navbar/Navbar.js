@@ -45,15 +45,11 @@ const Navbar = () => {
           </li>
         
           <li>
-            <span onClick={() => handleScrollTo('services')} className={styles['nav-link']}>
+            <span onClick={() => handleScrollTo('features')} className={styles['nav-link']}>
               Servicios
             </span>
           </li>
-          <li>
-            <span onClick={() => handleScrollTo('resources')} className={styles['nav-link']}>
-              Recursos
-            </span>
-          </li>
+          
         </ul>
       ) : null}
       {store.isLoggedIn ? (
