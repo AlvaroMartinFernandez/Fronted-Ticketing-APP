@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { BiRocket, BiUser } from 'react-icons/bi';
 import styles from './navbar.module.css';
 import { AiOutlineRobot, AiOutlineCheckCircle } from 'react-icons/ai';
@@ -7,7 +7,8 @@ import { Context } from '../../store/appContext';
 import logo3 from "../../../img/logo3.jpg";
 
 const Navbar = () => {
-  const { store, actions } = useContext(Context); // Obtén el estado isLoggedIn desde el contexto
+  const { store, actions } = useContext(Context);
+  const location = useLocation();
 
   const handleScrollTo = (id) => {
     const element = document.getElementById(id);
@@ -16,49 +17,53 @@ const Navbar = () => {
     }
   };
 
+  const isDashboardPage = location.pathname === '/dashboard';
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
         <Link to="/">
-        <img src={logo3} alt="Logo" className={styles.icon} />
+          <img src={logo3} alt="Logo" className={styles.icon} />
         </Link>
       </div>
-      <ul className={styles['nav-links']}>
-        <li>
-          <span onClick={() => handleScrollTo('testimonials')} className={styles['nav-link']}>
-            Testimonios
-          </span>
-        </li>
-        <li>
-          <span onClick={() => handleScrollTo('pricing')} className={styles['nav-link']}>
-            Precios
-          </span>
-        </li>
-        <li>
-          <span onClick={() => handleScrollTo('demo')} className={styles['nav-link']}>
-            Demostración
-          </span>
-        </li>
-        <li>
-          <span onClick={() => handleScrollTo('services')} className={styles['nav-link']}>
-            Servicios
-          </span>
-        </li>
-        <li>
-          <span onClick={() => handleScrollTo('resources')} className={styles['nav-link']}>
-            Recursos
-          </span>
-        </li>
-      </ul>
+      {!store.isLoggedIn || !isDashboardPage ? ( // Mostrar elementos para usuarios no autenticados o si no está en la página de Dashboard
+        <ul className={styles['nav-links']}>
+            <li>
+            <span onClick={() => handleScrollTo('fortalezas')} className={styles['nav-link']}>
+              Quien soy
+            </span>
+          </li>
+          <li>
+            <span onClick={() => handleScrollTo('testimonials')} className={styles['nav-link']}>
+              Testimonios
+            </span>
+          </li>
+          <li>
+            <span onClick={() => handleScrollTo('pricing')} className={styles['nav-link']}>
+              Precios
+            </span>
+          </li>
+        
+          <li>
+            <span onClick={() => handleScrollTo('services')} className={styles['nav-link']}>
+              Servicios
+            </span>
+          </li>
+          <li>
+            <span onClick={() => handleScrollTo('resources')} className={styles['nav-link']}>
+              Recursos
+            </span>
+          </li>
+        </ul>
+      ) : null}
       {store.isLoggedIn ? (
         // Mostrar elementos para usuarios autenticados
         <>
           <div className={styles['auth-buttons']}>
             <span className={styles['user-name']}>  {store.name}</span>
             <button onClick={() => actions.logout()} className={`${styles['button']} ${styles['logout-button']}`}>
-  Cerrar sesión
-</button>
-
+              Cerrar sesión
+            </button>
           </div>
         </>
       ) : (
