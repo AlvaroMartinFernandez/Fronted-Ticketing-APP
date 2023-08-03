@@ -10,14 +10,14 @@ const Navbar = () => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
 
-  const handleScrollTo = (id) => {
+ const handleScrollTo = (id) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const isDashboardPage = location.pathname === '/dashboard';
+const isDashboardPage = location.pathname === '/dashboard';
 
   return (
     <nav className={styles.navbar}>
@@ -26,7 +26,7 @@ const Navbar = () => {
           <img src={logo3} alt="Logo" className={styles.icon} />
         </Link>
       </div>
-      {!store.isLoggedIn || !isDashboardPage ? ( // Mostrar elementos para usuarios no autenticados o si no está en la página de Dashboard
+      {!store.isLoggedIn || !isDashboardPage ? ( 
         <ul className={styles['nav-links']}>
             <li>
             <span onClick={() => handleScrollTo('fortalezas')} className={styles['nav-link']}>
