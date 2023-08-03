@@ -5,7 +5,6 @@ import { Demo } from "./views/demo";
 import injectContext from "./store/appContext";
 
 import Navbar from "./component/Navbar/Navbar";
-
 import DashBoard from "./component/DashBoard/DashBoard";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
