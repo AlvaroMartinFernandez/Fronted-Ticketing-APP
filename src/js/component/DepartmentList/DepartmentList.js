@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useContext } from 'react';
+import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './DepartmentList.module.css';
 
 const DepartmentList = ({ departments, createDepartment }) => {
-  console.log(departments)
   const data = useMemo(() => departments, [departments]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [newDepartmentData, setNewDepartmentData] = useState({
     name_department: '',
     email: '',
@@ -15,6 +15,8 @@ const DepartmentList = ({ departments, createDepartment }) => {
     password_email: '',
     client_id: 1,
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const columns = useMemo(
     () => [
@@ -98,28 +100,28 @@ const DepartmentList = ({ departments, createDepartment }) => {
 
   const { globalFilter } = state;
 
-  // Función para abrir y cerrar el modal
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  // Función para manejar los cambios en el formulario del modal
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setNewDepartmentData(prevData => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
-  // Función para manejar el envío del formulario del modal
-  const handleCreateDepartment = async e => {
+  const handleCreateDepartment = async (e) => {
     e.preventDefault();
-    const success = await createDepartment(newDepartmentData);
-    if (success) {
-      toggleModal(); // Cerrar el modal después de crear el departamento exitosamente
+
+    try {
+      const success = await createDepartment(newDepartmentData);
+      if (success) {
+        closeModal();
+      }
+    } catch (error) {
+      console.error('Error al crear el departamento:', error);
     }
   };
+
+  
 
   return (
     <div className={styles.container}>
@@ -170,7 +172,38 @@ const DepartmentList = ({ departments, createDepartment }) => {
         </tbody>
       </table>
 
-     
+      <div className={styles.createButtonContainer}>
+        <button className={styles.createButton} onClick={openModal}>
+          <FaPlus /> Crear Nuevo Departamento
+        </button>
+      </div>
+
+      {isModalOpen && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h3>Crear Nuevo Departamento</h3>
+            <form onSubmit={handleCreateDepartment}>
+              <label htmlFor="name_department">Nombre:</label>
+              <input
+                type="text"
+                id="name_department"
+                value={newDepartmentData.name_department}
+                onChange={(e) =>
+                  setNewDepartmentData({
+                    ...newDepartmentData,
+                    name_department: e.target.value,
+                  })
+                }
+              />
+              {/* ... (otros campos del formulario) */}
+              <button type="submit">Crear Departamento</button>
+              <button type="button" onClick={closeModal}>
+                Cancelar
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

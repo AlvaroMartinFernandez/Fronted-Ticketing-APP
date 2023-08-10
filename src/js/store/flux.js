@@ -13,7 +13,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       email: "",
       user_name: "",
       role: "",
-      department: "",
       role: [
         {
           nombre: "Director",

@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useContext } from 'react';
-import { Context } from "../../store/appContext.js";
+//import { useUserContext } from '../../store/UsersContext'; // Importar el contexto de usuarios
 import axios from 'axios';
+import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './UserList.module.css';
@@ -64,6 +65,7 @@ const SelectRoleFilter = ({
 };
 
 const UserList = ({ users, createUser }) => {
+  //const { users, loadAllUsersData } = useUserContext();
   const { store, actions } = useContext(Context);
   const data = useMemo(() => users, [users]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -155,28 +157,6 @@ const UserList = ({ users, createUser }) => {
 
   const { globalFilter } = state;
 
-  const fetchUsersData = async () => {
-    try{
-      const response = await axios.get("https://backend-ticketing-app-production.up.railway.app/users/");
-      setUsers(response.data);
-    } catch (error) {
-      console.log ("error")
-    }
-  }
-
-  const fetchDepartmentsData = async () => {
-    try {
-      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/departments/');
-      setDepartments(response.data);
-    } catch (error) {
-      console.error('Error al obtener los departamentos:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchDepartmentsData();
-    fetchUsersData();
-  }, []);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);

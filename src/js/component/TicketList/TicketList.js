@@ -13,7 +13,7 @@ const getStatusIconAndColor = (status) => {
     case 'Finalizado':
       return { icon: '🏁', color: 'blue' };
     case 'Sin asignar':
-      return { icon: '🔧', color: 'orange' };
+     return { icon: '🔧', color: 'orange' };
     case 'En proceso':
       return { icon: '⏳', color: 'blue' };
     default:
@@ -21,13 +21,9 @@ const getStatusIconAndColor = (status) => {
   }
 };
 
-const TicketList = ({ tickets, createNewTicket }) => {
+const TicketList = ({ tickets }) => {
   const { store, actions } = useContext(Context);
-  
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newTicketData, setNewTicketData] = useState({
-    // Define the initial values for the new ticket form fields here
-  });
+
 
   const columns = React.useMemo(
     () => [
@@ -68,7 +64,7 @@ const TicketList = ({ tickets, createNewTicket }) => {
           return <span>{formattedDate}</span>;
         },
       },
-     
+
       // Add more columns as needed
     ],
     []
@@ -85,10 +81,10 @@ const TicketList = ({ tickets, createNewTicket }) => {
   } = useTable(
     {
       columns,
-      data:tickets,
-       // Use 'tickets' directly here since useMemo is not needed for data
+      data: Array.isArray(tickets) ? tickets : [],
+
       initialState: {
-        // Define initial state as needed, e.g., hiddenColumns: ['id']
+
       },
     },
     useFilters,
@@ -98,28 +94,8 @@ const TicketList = ({ tickets, createNewTicket }) => {
 
   const { globalFilter } = state;
 
-  // Function to open and close the modal
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
 
-  // Function to handle changes in the modal form
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewTicketData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
-  // Function to handle the submission of the modal form
-  const handleCreateTicket = async (e) => {
-    e.preventDefault();
-    const success = await createNewTicket(newTicketData);
-    if (success) {
-      toggleModal(); // Close the modal after successfully creating the ticket
-    }
-  };
 
   return (
     <div className={styles.container}>

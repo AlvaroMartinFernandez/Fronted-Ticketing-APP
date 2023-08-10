@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from "../../store/appContext.js";
 import axios from 'axios';
-import Sidebar from '../Sidebar/Sidebar';
-import UserList from '../UserList/UserList';
-import TicketList from '../TicketList/TicketList';
-import DepartmentList from '../DepartmentList/DepartmentList';
-import MiPerfil from '../MiPerfil/MiPerfil';
+import Sidebar from '../../component/Sidebar/Sidebar.js';
+import UserList from '../../component/UserList/UserList.js';
+import TicketList from '../../component/TicketList/TicketList.js';
+import DepartmentList from '../../component/DepartmentList/DepartmentList.js';
+import MiPerfil from '../../component/MiPerfil/MiPerfil.js';
 import styles from './dashboard.module.css';
 import { Navigate } from "react-router-dom";
 
@@ -14,7 +14,6 @@ import { Navigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { store, actions } = useContext(Context);
-  console.log(store)
   const [users, setUsers] = useState([]);
   const [tickets, setTickets] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -26,7 +25,7 @@ const Dashboard = () => {
     // Si el usuario no está autenticado, redirigir al inicio de sesión
     return <Navigate to="/login" />;
   }
- 
+
 
   // Agregar una función para manejar la selección de un usuario
   const handleSelectUser = (user) => {
@@ -44,56 +43,36 @@ const Dashboard = () => {
     }
   };
 
-  const createNewTicket = async (ticketData) => {
-    try {
-      const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/tickets/', ticketData);
-      setTickets([...tickets, response.data]);
-      closeModal();
-    } catch (error) {
-      console.error('Error al crear el ticket:', error);
-    }
-  };
-
-  
 
   const createNewDepartment = async (departmentData) => {
     try {
       const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/departments/', departmentData, {
         headers: {
-          Authorization: `Bearer ${getStore().accessToken}`,
+          Authorization: `Bearer ${store.accessToken}`, // Accede al token de acceso desde el estado global
         },
       });
-      setDepartments([...departments, response.data]);
-      closeModal();
+
+      if (response.status === 201) {
+        // El departamento se creó exitosamente, puedes realizar alguna acción adicional si lo deseas
+        store.actions().createNewDepartment();
+        return true;
+      } else {
+        console.error('Error al crear el departamento:', response.statusText);
+        return false;
+      }
     } catch (error) {
       console.error('Error al crear el departamento:', error);
+      return false;
     }
   };
 
+
   useEffect(() => {
-    fetchUsersData();
-    fetchTicketsData();
+
     fetchDepartmentsData();
   }, []);
 
-  const fetchUsersData = async () => {
-    try {
-      const response = await actions.loadAllUsersData();
-      setUsers(response.data);
-      console.log(response)
-    } catch (error) {
-      console.error('Error al obtener los usuarios:', error);
-    }
-  };
 
-  const fetchTicketsData = async () => {
-    try {
-      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/tickets/');
-      setTickets(response.data);
-    } catch (error) {
-      console.error('Error al obtener los tickets:', error);
-    }
-  };
 
   const fetchDepartmentsData = async () => {
     try {
@@ -104,8 +83,8 @@ const Dashboard = () => {
     }
   }
 
- 
-  
+
+
 
   const handleSectionChange = section => {
     setActiveSection(section);
@@ -120,14 +99,14 @@ const Dashboard = () => {
         )}
 
         {activeSection === 'Tickets' && (
-          <TicketList tickets={tickets} createNewTicket={createNewTicket} />
+          <TicketList tickets={tickets} />
         )}
 
         {activeSection === 'Departamentos' && (
           <DepartmentList departments={departments} createDepartment={createNewDepartment} />
         )}
         {activeSection === 'MiPerfil' && (
-          
+
           <MiPerfil user={selectedUser} />
         )}
       </div>
