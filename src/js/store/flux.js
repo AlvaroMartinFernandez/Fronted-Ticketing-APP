@@ -125,7 +125,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               email: userData.email,
               role: userData.role,
               department: userData.department,
-              password: userData.password, 
+              password: userData.password,
             },
             {
               headers: {

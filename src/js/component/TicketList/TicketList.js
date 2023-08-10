@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
+import TicketDetailsCard from '../TicketDetails/TicketDetailsCard.js';
 
 const getStatusIconAndColor = (status) => {
   switch (status) {
@@ -13,7 +14,7 @@ const getStatusIconAndColor = (status) => {
     case 'Finalizado':
       return { icon: '🏁', color: 'blue' };
     case 'Sin asignar':
-     return { icon: '🔧', color: 'orange' };
+      return { icon: '🔧', color: 'orange' };
     case 'En proceso':
       return { icon: '⏳', color: 'blue' };
     default:
@@ -23,15 +24,24 @@ const getStatusIconAndColor = (status) => {
 
 const TicketList = ({ tickets }) => {
   const { store, actions } = useContext(Context);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
 
   const columns = React.useMemo(
     () => [
       {
         Header: 'ID',
-        accessor: 'id', // Cambiar a 'id' para mostrar el ID del ticket
+        accessor: 'id',
         canFilter: true,
         sortType: 'basic',
+        Cell: ({ row }) => (
+          <span
+            className={styles.ticketIdLink}
+            onClick={() => setSelectedTicket(row.original)}
+          >
+            {row.original.id}
+          </span>
+        ),
       },
       {
         Header: 'Asunto',
@@ -52,6 +62,19 @@ const TicketList = ({ tickets }) => {
             </span>
           );
         },
+      },
+
+      {
+        Header: 'Cliente',
+        accessor: 'client.name', // Acceder al nombre del cliente
+        canFilter: true,
+        sortType: 'basic',
+      },
+      {
+        Header: 'Departamento',
+        accessor: 'department[0].name_department', // Acceder al nombre del primer departamento
+        canFilter: true,
+        sortType: 'basic',
       },
       {
         Header: 'Fecha de Creación',
@@ -81,10 +104,10 @@ const TicketList = ({ tickets }) => {
   } = useTable(
     {
       columns,
-      data: Array.isArray(tickets) ? tickets : [],
-
+      data: store.tickets,
+      // Use 'tickets' directly here since useMemo is not needed for data
       initialState: {
-
+        // Define initial state as needed, e.g., hiddenColumns: ['id']
       },
     },
     useFilters,
@@ -93,6 +116,8 @@ const TicketList = ({ tickets }) => {
   );
 
   const { globalFilter } = state;
+
+
 
 
 
@@ -138,15 +163,35 @@ const TicketList = ({ tickets }) => {
             return (
               <tr {...row.getRowProps()} className={styles.ticketRow}>
                 {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {/* Renderizar la nueva columna de ID del ticket */}
+                      {cell.column.id === 'id' ? (
+                        <span
+                          className={styles.ticketIdLink}
+                          onClick={() => setSelectedTicket(row.original)}
+                        >
+                          {cell.render('Cell')}
+                        </span>
+                      ) : (
+                        cell.render('Cell')
+                      )}
+                    </td>
+                  );
                 })}
               </tr>
             );
           })}
         </tbody>
       </table>
+      {/* Mostrar la tarjeta de detalles del ticket cuando se selecciona un ticket */}
+      <TicketDetailsCard
+        ticket={selectedTicket}
+        onClose={() => setSelectedTicket(null)}
+      />
     </div>
   );
+
 };
 
 export default TicketList;

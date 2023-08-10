@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect, useContext } from 'react';
-//import { useUserContext } from '../../store/UsersContext'; // Importar el contexto de usuarios
-import axios from 'axios';
 import { Context } from "../../store/appContext.js";
+import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './UserList.module.css';
@@ -65,7 +64,6 @@ const SelectRoleFilter = ({
 };
 
 const UserList = ({ users, createUser }) => {
-  //const { users, loadAllUsersData } = useUserContext();
   const { store, actions } = useContext(Context);
   const data = useMemo(() => users, [users]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,7 +74,7 @@ const UserList = ({ users, createUser }) => {
     department: '',
   });
   const [departments, setDepartments] = useState([]);
-  
+
 
   const columns = useMemo(
     () => [
@@ -101,8 +99,8 @@ const UserList = ({ users, createUser }) => {
       {
         Header: 'Rol',
         accessor: 'role',
-        Filter: SelectRoleFilter, 
-        filter: 'includes', 
+        Filter: SelectRoleFilter,
+        filter: 'includes',
         canFilter: true,
         sortType: 'basic',
       },
@@ -116,22 +114,16 @@ const UserList = ({ users, createUser }) => {
           return <span>{formattedDate}</span>;
         },
       },
-      {
-        Header: 'Departamentos',
-        accessor: row => row.departments.map(dep => dep.name_department).join(', '),
-        Filter: SelectColumnFilter, 
-        filter: 'includes', 
-        canFilter: true,
-        sortType: 'basic',
-      },
+      
       {
         Header: 'Tickets',
         accessor: 'tickets.length',
         canFilter: true,
         sortType: 'basic',
       },
+      
     ],
-    [departments] 
+    [departments]
   );
 
   const {
@@ -145,7 +137,7 @@ const UserList = ({ users, createUser }) => {
   } = useTable(
     {
       columns,
-      data:store.users,
+      data: store.users,
       initialState: {
         hiddenColumns: ['id'],
       },
