@@ -44,46 +44,6 @@ const Dashboard = () => {
   };
 
 
-  const createNewDepartment = async (departmentData) => {
-    try {
-      const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/departments/', departmentData, {
-        headers: {
-          Authorization: `Bearer ${store.accessToken}`, // Accede al token de acceso desde el estado global
-        },
-      });
-
-      if (response.status === 201) {
-        // El departamento se creó exitosamente, puedes realizar alguna acción adicional si lo deseas
-        store.actions().createNewDepartment();
-        return true;
-      } else {
-        console.error('Error al crear el departamento:', response.statusText);
-        return false;
-      }
-    } catch (error) {
-      console.error('Error al crear el departamento:', error);
-      return false;
-    }
-  };
-
-
-  useEffect(() => {
-
-    fetchDepartmentsData();
-  }, []);
-
-
-
-  const fetchDepartmentsData = async () => {
-    try {
-      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/departments/');
-      setDepartments(response.data);
-    } catch (error) {
-      console.error('Error al obtener los departamentos:', error)
-    }
-  }
-
-
 
 
   const handleSectionChange = section => {
@@ -103,7 +63,7 @@ const Dashboard = () => {
         )}
 
         {activeSection === 'Departamentos' && (
-          <DepartmentList departments={departments} createDepartment={createNewDepartment} />
+          <DepartmentList departments={departments} />
         )}
         {activeSection === 'MiPerfil' && (
 

@@ -105,4 +105,14 @@
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
+  .ticketIdLink {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+    color: blue; /* Puedes ajustar el color según tu diseño */
+  }
+  
   

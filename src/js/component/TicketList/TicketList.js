@@ -43,12 +43,7 @@ const TicketList = ({ tickets }) => {
           </span>
         ),
       },
-      {
-        Header: 'Asunto',
-        accessor: 'subject',
-        canFilter: true,
-        sortType: 'basic',
-      },
+      
       {
         Header: 'Estado',
         accessor: 'status',
@@ -104,7 +99,7 @@ const TicketList = ({ tickets }) => {
   } = useTable(
     {
       columns,
-      data: store.tickets,
+      data:store.tickets,
       // Use 'tickets' directly here since useMemo is not needed for data
       initialState: {
         // Define initial state as needed, e.g., hiddenColumns: ['id']

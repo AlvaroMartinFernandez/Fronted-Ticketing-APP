@@ -4,7 +4,7 @@ import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './DepartmentList.module.css';
 
 const DepartmentList = ({ departments, createDepartment }) => {
-
+  console.log(departments)
   const data = useMemo(() => departments, [departments]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDepartmentData, setNewDepartmentData] = useState({
