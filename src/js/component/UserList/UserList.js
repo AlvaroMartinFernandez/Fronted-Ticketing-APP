@@ -100,10 +100,10 @@ const UserList = ({ users, createUser }) => {
         Header: 'Rol',
         accessor: 'role',
         Filter: SelectRoleFilter,
-        filter: 'includes',
         canFilter: true,
         sortType: 'basic',
       },
+      
       {
         Header: 'Fecha de Creación',
         accessor: 'createdAt',
@@ -114,14 +114,14 @@ const UserList = ({ users, createUser }) => {
           return <span>{formattedDate}</span>;
         },
       },
-      
+
       {
         Header: 'Tickets',
         accessor: 'tickets.length',
         canFilter: true,
         sortType: 'basic',
       },
-      
+
     ],
     [departments]
   );

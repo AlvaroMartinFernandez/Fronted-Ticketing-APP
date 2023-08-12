@@ -60,8 +60,8 @@ const TicketList = ({ tickets }) => {
       },
 
       {
-        Header: 'Cliente',
-        accessor: 'client.name', // Acceder al nombre del cliente
+        Header: 'Asunto',
+        accessor: 'message', 
         canFilter: true,
         sortType: 'basic',
       },
