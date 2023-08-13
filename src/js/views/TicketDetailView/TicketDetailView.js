@@ -1,28 +1,34 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { Link, useParams } from 'react-router-dom';
 import { Context } from "../../store/appContext.js";
-import TicketDetailsCard from '../TicketDetails/TicketDetailsCard.js';
 
-const TicketDetailView = () => {
+const TicketDetailView = () => { // Cambio de nombre aquí
   const { id } = useParams(); 
   const { store, actions } = useContext(Context);
-  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [selectedMessage, setSelectedMessage] = useState(null);
 
   useEffect(() => {
-    // Realiza una solicitud para obtener los detalles del ticket por su ID
-    const ticket = store.tickets.find(ticket => ticket.id === Number(id));
-    setSelectedTicket(ticket);
-  }, [id, store.tickets]);
+    // Buscamos el mensaje correspondiente por su ID en la lista de mensajes
+    const message = store.messages.find(message => message.id === Number(id));
+    setSelectedMessage(message);
+  }, [id, store.messages]);
 
   return (
     <div>
-      {/* Renderiza la tarjeta de detalles del ticket */}
-      <TicketDetailsCard
-        ticket={selectedTicket}
-        onClose={() => setSelectedTicket(null)}
-      />
+      {selectedMessage ? (
+        // Renderizamos los detalles del mensaje si se ha seleccionado uno
+        <div>
+          <h2>Detalles del Mensaje</h2>
+          <p>Subject: {selectedMessage.subject}</p>
+          {/* Otros detalles del mensaje */}
+          <Link to={`/messages/${Number(id) + 1}`}>Siguiente Mensaje</Link>
+        </div>
+      ) : (
+        // Si no se ha seleccionado un mensaje, mostrar un mensaje de carga o algo similar
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
 
-export default TicketDetailView;
+export default TicketDetailView; // Cambio de nombre aquí

@@ -9,7 +9,8 @@ import Login from "./views/Login/Login";
 import Signup from "./views/Signup/Signup";
 import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./views/PasswordRecoveryForm/PasswordRecoveryForm";
-//import TicketDetailView from "./views/TicketDetailView/TicketDetailView";
+
+
 
 const Layout = () => {
   const basename = process.env.BASENAME || "";
@@ -26,7 +27,6 @@ const Layout = () => {
           <Route path="/faq" element={<Faq />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
-          
 
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>

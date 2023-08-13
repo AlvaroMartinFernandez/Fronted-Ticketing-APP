@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
 import TicketDetailsCard from '../TicketDetails/TicketDetailsCard.js';
+
 
 const getStatusIconAndColor = (status) => {
   switch (status) {
@@ -25,6 +26,19 @@ const getStatusIconAndColor = (status) => {
 const TicketList = ({ tickets }) => {
   const { store, actions } = useContext(Context);
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState('');
+
+  const handleStatusChange = async (ticketId, newStatus) => {
+    try {
+      // Lógica para actualizar el estado del ticket en el contexto o en la API
+      await actions.updateTicketStatus(ticketId, newStatus);
+
+      // Actualizar la lista de tickets después de cambiar el estado
+      actions.fetchTickets(); // Por ejemplo, una función para cargar los tickets actualizados
+    } catch (error) {
+      console.error('Error al cambiar el estado del ticket:', error);
+    }
+  };
 
 
   const columns = React.useMemo(
@@ -49,15 +63,29 @@ const TicketList = ({ tickets }) => {
         accessor: 'status',
         canFilter: true,
         sortType: 'basic',
-        Cell: ({ value }) => {
-          const { icon, color } = getStatusIconAndColor(value);
+        Cell: ({ row }) => {
+          const currentStatus = row.original.status;
+          const { icon, color } = getStatusIconAndColor(currentStatus);
+
           return (
-            <span style={{ color }}>
-              {icon} {value}
-            </span>
+            <div>
+              <span style={{ color }}>{icon} {currentStatus}</span>
+              <select
+                value={currentStatus}
+                onChange={(e) => handleStatusChange(row.original.id, e.target.value)}
+              >
+                <option value="Pendiente">Pendiente</option>
+                <option value="Resuelto">Resuelto</option>
+                <option value="Finalizado">Finalizado</option>
+                <option value="Sin asignar">Sin asignar</option>
+                <option value="En proceso">En proceso</option>
+              </select>
+            </div>
           );
         },
       },
+      
+      
 
       {
         Header: 'Asunto',

@@ -4,7 +4,9 @@ import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './UserList.module.css';
-
+import { FaEdit } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
+import EditUserModal from '../EditUserModal/EditUserModal.js';
 
 const SelectColumnFilter = ({
   column: { filterValue, setFilter, preFilteredRows, id },
@@ -33,7 +35,6 @@ const SelectColumnFilter = ({
     </select>
   );
 };
-
 
 const SelectRoleFilter = ({
   column: { filterValue, setFilter, preFilteredRows, id },
@@ -66,14 +67,101 @@ const SelectRoleFilter = ({
 const UserList = ({ users, createUser }) => {
   const { store, actions } = useContext(Context);
   const data = useMemo(() => users, [users]);
+  const [editedUser, setEditedUser] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userToEdit, setUserToEdit] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUserData, setNewUserData] = useState({
     name: '',
     email: '',
-    role: 'directivo',
+    role: '',
     department: '',
+    password: '',
   });
-  const [departments, setDepartments] = useState([]);
+  const [departments, setDepartments] = useState([])
+
+  const updateUserData = async (userId, userData) => {
+    try {
+      const response = await axios.put(
+        `https://backend-ticketing-app-production.up.railway.app/users/${userId}`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        actions.loadAllUsersData(); // Actualiza la lista de usuarios
+        return true;
+      } else {
+        console.error('Error al actualizar datos del usuario:', response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al actualizar datos del usuario:', error);
+      return false;
+    }
+  };
+
+  const deleteUserData = async (userId) => {
+    try {
+      const response = await axios.delete(`https://backend-ticketing-app-production.up.railway.app/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${store.accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        // Actualizamos el estado eliminando el usuario del array de usuarios
+        actions.loadAllUsersData(); // Actualiza la lista de usuarios
+        return true;
+      } else {
+        console.error('Error al eliminar usuario:', response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error);
+      return false;
+    }
+  };
+
+  const handleEditUser = (userId) => {
+    const userToEdit = store.users.find(user => user.id === userId);
+    setShowEditModal(true);
+    setUserToEdit(userToEdit); // Asegúrate de estar configurando correctamente el usuario a editar
+  };
+
+
+
+  const handleSaveEdit = async (userId) => {
+    const success = await updateUserData(userId);
+    if (success) {
+      setShowEditModal(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setShowEditModal(false);
+  };
+
+  const handleDeleteUser = async (userId) => {
+    // Mostrar una alerta de confirmación antes de eliminar al usuario
+    const confirmDelete = window.confirm('¿Seguro que quieres eliminar a este usuario?');
+
+    if (confirmDelete) {
+      const success = await deleteUserData(userId);
+      if (success) {
+        console.log('Usuario eliminado exitosamente:', userId);
+      } else {
+        console.log('Error al eliminar usuario:', userId);
+      }
+    }
+  };
+
+
+
 
 
   const columns = useMemo(
@@ -103,17 +191,7 @@ const UserList = ({ users, createUser }) => {
         canFilter: true,
         sortType: 'basic',
       },
-      
-      {
-        Header: 'Fecha de Creación',
-        accessor: 'createdAt',
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ value }) => {
-          const formattedDate = new Date(value).toLocaleString();
-          return <span>{formattedDate}</span>;
-        },
-      },
+
 
       {
         Header: 'Tickets',
@@ -121,6 +199,21 @@ const UserList = ({ users, createUser }) => {
         canFilter: true,
         sortType: 'basic',
       },
+      {
+        Header: 'Acciones',
+        accessor: 'actions', // Utilizamos 'id' aquí como accessor
+        Cell: ({ row }) => (
+          <div>
+            <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+              <FaEdit className={styles.actionsIcon} /> Editar
+            </button>
+            <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+              <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+            </button>
+          </div>
+        ),
+      },
+
 
     ],
     [departments]
@@ -217,13 +310,35 @@ const UserList = ({ users, createUser }) => {
             return (
               <tr {...row.getRowProps()} className={styles.userRow}>
                 {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {cell.column.id === 'actions' ? (
+                        <div>
+                          {/* Botón de editar */}
+                          <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+                            <FaEdit className={styles.actionsIcon} /> Editar
+                          </button>
+                          {/* Botón de eliminar */}
+                          <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+                            <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+                          </button>
+                        </div>
+                      ) : (
+                        cell.render('Cell')
+                      )}
+                    </td>
+
+                  );
                 })}
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      {showEditModal && (
+        <EditUserModal user={userToEdit} onSave={handleSaveEdit} onCancel={handleCancelEdit} />
+      )}
 
       <button onClick={toggleModal} className={styles.addButton}>
         <FaPlus />
@@ -258,11 +373,10 @@ const UserList = ({ users, createUser }) => {
               <div className={styles.formGroup}>
                 <label>Departamento:</label>
                 <select name="department" value={newUserData.department} onChange={handleChange}>
-                  {departments.map(department => (
-                    <option key={department.id} value={department.id}>
-                      {department.name}
-                    </option>
-                  ))}
+                  <option value="">Seleccionar departamento</option>
+                  <option value="atencion al cliente">Atención al cliente</option>
+                  <option value="postventa">Postventa</option>
+                  <option value="facturacion">Facturación</option>
                 </select>
               </div>
               <div className={styles.modalButtons}>
