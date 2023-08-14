@@ -75,7 +75,7 @@ const UserList = ({ users, createUser }) => {
     name: '',
     email: '',
     role: '',
-    department: '',
+   // department: '',
     password: '',
   });
   const [departments, setDepartments] = useState([])
@@ -136,7 +136,7 @@ const UserList = ({ users, createUser }) => {
 
 
   const handleSaveEdit = async (userId) => {
-    const success = await updateUserData(userId);
+    const success = await loadAllUsersData(userId);
     if (success) {
       setShowEditModal(false);
     }
@@ -160,8 +160,26 @@ const UserList = ({ users, createUser }) => {
     }
   };
 
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setNewUserData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
+  const handleCreateUser = async e => {
+    e.preventDefault();
+    console.log(newUserData)
+    const success = await actions.createUser(newUserData);
+    if (success) {
+      toggleModal();
+    }
+  };
 
 
   const columns = useMemo(
@@ -243,25 +261,7 @@ const UserList = ({ users, createUser }) => {
   const { globalFilter } = state;
 
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setNewUserData(prevData => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleCreateUser = async e => {
-    e.preventDefault();
-    const success = await createUser(newUserData);
-    if (success) {
-      toggleModal();
-    }
-  };
+ 
 
   return (
     <div className={styles.container}>
@@ -361,24 +361,24 @@ const UserList = ({ users, createUser }) => {
               <div className={styles.formGroup}>
                 <label>Rol:</label>
                 <select name="role" value={newUserData.role} onChange={handleChange}>
-                  <option value="directivo">Directivo</option>
-                  <option value="administrador">Administrador</option>
-                  <option value="empleado">Empleado</option>
+                  <option value="Director">Directivo</option>
+                  <option value="Admin">Administrador</option>
+                  <option value="Employee">Empleado</option>
                 </select>
               </div>
               <div className={styles.formGroup}>
                 <label>Contraseña:</label>
                 <input type="password" name="password" value={newUserData.password} onChange={handleChange} />
               </div>
-              <div className={styles.formGroup}>
+              {/* <div className={styles.formGroup}>
                 <label>Departamento:</label>
                 <select name="department" value={newUserData.department} onChange={handleChange}>
                   <option value="">Seleccionar departamento</option>
-                  <option value="atencion al cliente">Atención al cliente</option>
-                  <option value="postventa">Postventa</option>
-                  <option value="facturacion">Facturación</option>
+                  <option value="At cliente">Atención al cliente</option>
+                  <option value="Postventa">Postventa</option>
+                  <option value="Facturacion">Facturación</option>
                 </select>
-              </div>
+              </div> */}
               <div className={styles.modalButtons}>
                 <button type="submit">Guardar</button>
                 <button type="button" onClick={toggleModal} className={styles.cancelButton}>

@@ -111,7 +111,6 @@ const TicketList = ({ tickets }) => {
         },
       },
 
-      // Add more columns as needed
     ],
     []
   );
@@ -207,11 +206,7 @@ const TicketList = ({ tickets }) => {
           })}
         </tbody>
       </table>
-      {/* Mostrar la tarjeta de detalles del ticket cuando se selecciona un ticket */}
-      <TicketDetailsCard
-        ticket={selectedTicket}
-        onClose={() => setSelectedTicket(null)}
-      />
+      
     </div>
   );
 

@@ -1,9 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useContext } from 'react';
+import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './DepartmentList.module.css';
 
 const DepartmentList = ({ departments, createDepartment }) => {
+  const { store, actions } = useContext(Context);
   console.log(departments)
   const data = useMemo(() => departments, [departments]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,7 +88,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
   } = useTable(
     {
       columns,
-      data,
+      data: store.departments,
       initialState: {
         hiddenColumns: ['id'],
       },
