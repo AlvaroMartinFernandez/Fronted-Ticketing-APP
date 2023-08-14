@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Context } from "../../store/appContext.js";
+import { Link } from 'react-router-dom';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
-import TicketDetailsCard from '../TicketDetails/TicketDetailsCard.js';
+
 
 
 const getStatusIconAndColor = (status) => {
@@ -49,15 +50,15 @@ const TicketList = ({ tickets }) => {
         canFilter: true,
         sortType: 'basic',
         Cell: ({ row }) => (
-          <span
+          <Link
+            to={`/TicketDetailView/${row.original.id}`} // Establece la ruta correcta a la vista de detalles del ticket
             className={styles.ticketIdLink}
-            onClick={() => setSelectedTicket(row.original)}
           >
             {row.original.id}
-          </span>
+          </Link>
         ),
       },
-      
+
       {
         Header: 'Estado',
         accessor: 'status',
@@ -84,18 +85,24 @@ const TicketList = ({ tickets }) => {
           );
         },
       },
-      
-      
+
+
 
       {
         Header: 'Asunto',
-        accessor: 'message', 
+        accessor: 'message',
         canFilter: true,
         sortType: 'basic',
       },
       {
         Header: 'Departamento',
         accessor: 'department[0].name_department', // Acceder al nombre del primer departamento
+        canFilter: true,
+        sortType: 'basic',
+      },
+      {
+        Header: 'Usuario',
+        accessor: 'client.name', // Acceder al nombre del cliente
         canFilter: true,
         sortType: 'basic',
       },
@@ -126,7 +133,7 @@ const TicketList = ({ tickets }) => {
   } = useTable(
     {
       columns,
-      data:store.tickets,
+      data: store.tickets,
       // Use 'tickets' directly here since useMemo is not needed for data
       initialState: {
         // Define initial state as needed, e.g., hiddenColumns: ['id']
@@ -206,7 +213,7 @@ const TicketList = ({ tickets }) => {
           })}
         </tbody>
       </table>
-      
+
     </div>
   );
 

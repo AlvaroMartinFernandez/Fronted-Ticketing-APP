@@ -2,6 +2,7 @@ import React, { useMemo, useState, useContext } from 'react';
 import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import styles from './DepartmentList.module.css';
 
 const DepartmentList = ({ departments, createDepartment }) => {
@@ -61,6 +62,23 @@ const DepartmentList = ({ departments, createDepartment }) => {
         accessor: 'client_id',
         canFilter: true,
         sortType: 'basic',
+      },
+      {
+        Header: 'Tickets',
+        accessor: 'tickets', // Utiliza la propiedad tickets para mostrar los tickets
+        canFilter: false,
+        sortType: 'none', // No permite ordenar esta columna
+        Cell: ({ cell }) => (
+          <div>
+            {cell.value.map(ticket => (
+              <div key={ticket.id}>
+                <Link to={`/TicketDetailView/${ticket.id}`} className={styles.ticketLink}>
+                  Ticket {ticket.id}
+                </Link>
+              </div>
+            ))}
+          </div>
+        ),
       },
       {
         Header: 'Fecha de Creación',
