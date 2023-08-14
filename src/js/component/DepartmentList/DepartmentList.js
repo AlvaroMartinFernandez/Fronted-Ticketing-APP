@@ -39,24 +39,8 @@ const DepartmentList = ({ departments, createDepartment }) => {
         canFilter: true,
         sortType: 'basic',
       },
-      {
-        Header: 'Correo del Host',
-        accessor: 'host_email',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Puerto del Correo',
-        accessor: 'port_email',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Contraseña del Correo',
-        accessor: 'password_email',
-        canFilter: true,
-        sortType: 'basic',
-      },
+    
+     
       {
         Header: 'Cliente ID',
         accessor: 'client_id',
@@ -69,27 +53,17 @@ const DepartmentList = ({ departments, createDepartment }) => {
         canFilter: false,
         sortType: 'none', // No permite ordenar esta columna
         Cell: ({ cell }) => (
-          <div>
+          <div className={styles.ticketContainer}>
             {cell.value.map(ticket => (
-              <div key={ticket.id}>
-                <Link to={`/TicketDetailView/${ticket.id}`} className={styles.ticketLink}>
-                  Ticket {ticket.id}
-                </Link>
-              </div>
+              <Link key={ticket.id} to={`/TicketDetailView/${ticket.id}`} className={styles.ticketLink}>
+                <div className={styles.ticketCard}>
+                  <span className={styles.ticketTitle}>Ticket {ticket.id}</span>
+                  {/* Opcional: Mostrar más información del ticket aquí */}
+                </div>
+              </Link>
             ))}
           </div>
         ),
-      },
-      {
-        Header: 'Fecha de Creación',
-        accessor: 'createdAt', // Agregar columna para mostrar la fecha de creación del departamento
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ value }) => {
-          // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
-          const formattedDate = new Date(value).toLocaleString();
-          return <span>{formattedDate}</span>;
-        },
       },
     ],
     []

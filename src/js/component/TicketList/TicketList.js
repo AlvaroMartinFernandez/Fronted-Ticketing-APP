@@ -101,7 +101,7 @@ const TicketList = ({ tickets }) => {
         sortType: 'basic',
       },
       {
-        Header: 'Usuario',
+        Header: 'Cliente',
         accessor: 'client.name', // Acceder al nombre del cliente
         canFilter: true,
         sortType: 'basic',

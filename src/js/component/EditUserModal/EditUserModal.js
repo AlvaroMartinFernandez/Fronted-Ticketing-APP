@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './EditUserModal.module.css'; 
+import styles from './EditUserModal.module.css';
 
 const EditUserModal = ({ user, onSave, onCancel }) => {
   const [editedUser, setEditedUser] = useState(user);
@@ -22,22 +22,50 @@ const EditUserModal = ({ user, onSave, onCancel }) => {
 
   return (
     <div className={styles.modalOverlay}>
-      <div className={styles.modal}>
+      <div className={styles.modalContent}>
         <h2>Editar Usuario</h2>
         <form onSubmit={handleSave}>
           <div className={styles.formGroup}>
             <label>Nombre:</label>
-            <input type="text" name="name" value={editedUser.name} onChange={handleChange} />
+            <input
+              type="text"
+              name="name"
+              value={editedUser.name}
+              onChange={handleChange}
+            />
           </div>
           <div className={styles.formGroup}>
             <label>Correo:</label>
-            <input type="email" name="email" value={editedUser.email} onChange={handleChange} />
+            <input
+              type="email"
+              name="email"
+              value={editedUser.email}
+              onChange={handleChange}
+            />
           </div>
-          {/* Agrega más campos de edición aquí */}
+          <div className={styles.formGroup}>
+            <label>Rol:</label>
+            <select
+              name="role"
+              value={editedUser.role}
+              onChange={handleChange}
+            >
+              <option value="Director">Directivo</option>
+              <option value="Admin">Administrador</option>
+              <option value="Employee">Empleado</option>
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label>Contraseña:</label>
+            <input
+              type="password"
+              name="password"
+              value={editedUser.password}
+              onChange={handleChange}
+            />
+          </div>
           <div className={styles.modalButtons}>
-            <button type="submit" className={styles.saveButton}>
-              Guardar
-            </button>
+            <button type="submit">Guardar</button>
             <button type="button" onClick={onCancel} className={styles.cancelButton}>
               Cancelar
             </button>

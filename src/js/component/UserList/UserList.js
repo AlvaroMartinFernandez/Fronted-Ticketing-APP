@@ -7,6 +7,7 @@ import styles from './UserList.module.css';
 import { FaEdit } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
 import EditUserModal from '../EditUserModal/EditUserModal.js';
+import { Link } from 'react-router-dom';
 
 const SelectColumnFilter = ({
   column: { filterValue, setFilter, preFilteredRows, id },
@@ -78,6 +79,7 @@ const UserList = ({ users, createUser }) => {
    // department: '',
     password: '',
   });
+  
   const [departments, setDepartments] = useState([])
 
   const updateUserData = async (userId, userData) => {
@@ -127,16 +129,21 @@ const UserList = ({ users, createUser }) => {
     }
   };
 
+  
+
   const handleEditUser = (userId) => {
     const userToEdit = store.users.find(user => user.id === userId);
     setShowEditModal(true);
     setUserToEdit(userToEdit); // Asegúrate de estar configurando correctamente el usuario a editar
   };
-
-
-
-  const handleSaveEdit = async (userId) => {
-    const success = await loadAllUsersData(userId);
+  
+  const handleSaveEdit = async (updatedUserData) => {
+    if (!userToEdit) {
+      console.error('No se encontró el usuario a editar.');
+      return;
+    }
+  
+    const success = await updateUserData(userToEdit.id, updatedUserData);
     if (success) {
       setShowEditModal(false);
     }
@@ -216,6 +223,16 @@ const UserList = ({ users, createUser }) => {
         accessor: 'tickets.length',
         canFilter: true,
         sortType: 'basic',
+        Cell: ({ row }) => {
+          const userId = row.original.id;
+          const ticketsCount = row.values['tickets.length'];
+          
+          return (
+            <Link to={`/TicketDetailView/${userId}`}>
+              Ver Tickets ({ticketsCount})
+            </Link>
+          );
+        },
       },
       {
         Header: 'Acciones',
