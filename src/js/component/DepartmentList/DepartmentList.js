@@ -8,6 +8,7 @@ import styles from './DepartmentList.module.css';
 const DepartmentList = ({ departments, createDepartment }) => {
   const { store, actions } = useContext(Context);
   console.log(departments)
+  
   const data = useMemo(() => departments, [departments]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDepartmentData, setNewDepartmentData] = useState({
@@ -47,6 +48,13 @@ const DepartmentList = ({ departments, createDepartment }) => {
         canFilter: true,
         sortType: 'basic',
       },
+      {
+        Header: 'Número de Usuarios',
+        accessor: 'users_name', // Reemplaza 'numUsers' con el nombre real de la propiedad
+        canFilter: true,
+        sortType: 'basic',
+      },
+      
       {
         Header: 'Tickets',
         accessor: 'tickets', // Utiliza la propiedad tickets para mostrar los tickets

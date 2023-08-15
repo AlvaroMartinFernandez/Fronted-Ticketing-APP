@@ -76,7 +76,7 @@ const UserList = ({ users, createUser }) => {
     name: '',
     email: '',
     role: '',
-   // department: '',
+    department: '',
     password: '',
   });
   
@@ -216,6 +216,13 @@ const UserList = ({ users, createUser }) => {
         canFilter: true,
         sortType: 'basic',
       },
+      {
+        Header: 'Departamento',
+        accessor: 'department.name_department', // Asegúrate de usar el nombre correcto de la propiedad
+       // Filter: SelectColumnFilter, // Utiliza el mismo componente de filtro para departamentos
+       // canFilter: false,
+        sortType: 'basic',
+      },
 
 
       {
@@ -234,10 +241,14 @@ const UserList = ({ users, createUser }) => {
           );
         },
       },
+
+      
       {
         Header: 'Acciones',
         accessor: 'actions', // Utilizamos 'id' aquí como accessor
         Cell: ({ row }) => (
+          
+      
           <div>
             <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
               <FaEdit className={styles.actionsIcon} /> Editar
@@ -245,6 +256,7 @@ const UserList = ({ users, createUser }) => {
             <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
               <FaTrashAlt className={styles.actionsIcon} /> Eliminar
             </button>
+          
           </div>
         ),
       },
@@ -378,6 +390,7 @@ const UserList = ({ users, createUser }) => {
               <div className={styles.formGroup}>
                 <label>Rol:</label>
                 <select name="role" value={newUserData.role} onChange={handleChange}>
+                <option value="">Seleccionar rol</option>
                   <option value="Director">Directivo</option>
                   <option value="Admin">Administrador</option>
                   <option value="Employee">Empleado</option>
@@ -387,15 +400,28 @@ const UserList = ({ users, createUser }) => {
                 <label>Contraseña:</label>
                 <input type="password" name="password" value={newUserData.password} onChange={handleChange} />
               </div>
-              {/* <div className={styles.formGroup}>
+              { <div className={styles.formGroup}>
                 <label>Departamento:</label>
                 <select name="department" value={newUserData.department} onChange={handleChange}>
                   <option value="">Seleccionar departamento</option>
-                  <option value="At cliente">Atención al cliente</option>
+                  {/* {
+                    store.departments.map(department => {
+                     (
+                      <option key={department.id} value = {department.id} >
+                        {department.name_department}
+                      </option>
+
+                     ) 
+                     
+                    })
+                  } */}
+
+
+                  /* <option value="At cliente">Atención al cliente</option>
                   <option value="Postventa">Postventa</option>
-                  <option value="Facturacion">Facturación</option>
+                  <option value="Facturacion">Facturación</option> */
                 </select>
-              </div> */}
+              </div> }
               <div className={styles.modalButtons}>
                 <button type="submit">Guardar</button>
                 <button type="button" onClick={toggleModal} className={styles.cancelButton}>

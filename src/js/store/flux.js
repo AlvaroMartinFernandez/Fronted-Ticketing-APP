@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       users: [],
       tickets: [],
       departments: [],
+      messages: [],
       accessToken: localStorage.getItem('accessToken') || null,
       isLoggedIn: false,
       name: "",
@@ -138,6 +139,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
       //////////TICKETS////////////
+
+      loadTicketMessages: async (ticketId) => {
+        try {
+          const response = await axios.get(`https://backend-ticketing-app-production.up.railway.app/messages/ticket/${ticketId}`, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            const updatedTickets = getStore().tickets.map(ticket => {
+              if (ticket.id === ticketId) {
+                return {
+                  ...ticket,
+                  messages: response.data,
+                };
+              }
+              return ticket;
+            });
+           // setStore({ ...getStore(), tickets: updatedTickets });
+          } else {
+            console.error('Error al cargar los mensajes del ticket:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error al cargar los mensajes del ticket:', error);
+        }
+      },
+      
+
 
       loadAllTicketsData: async () => {
         try {
@@ -353,7 +383,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           // Hacer una solicitud POST al backend para registrar al nuevo usuario
           const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/users/signup',
+            'https://backend-ticketing-app-production.up.railway.app/clients/',
             {
               name,
               email,

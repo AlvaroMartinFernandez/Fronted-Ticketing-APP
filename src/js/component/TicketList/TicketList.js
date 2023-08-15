@@ -90,7 +90,7 @@ const TicketList = ({ tickets }) => {
 
       {
         Header: 'Asunto',
-        accessor: 'message',
+        accessor: 'messages[0].subject',
         canFilter: true,
         sortType: 'basic',
       },
@@ -101,10 +101,21 @@ const TicketList = ({ tickets }) => {
         sortType: 'basic',
       },
       {
-        Header: 'Cliente',
-        accessor: 'client.name', // Acceder al nombre del cliente
-        canFilter: true,
-        sortType: 'basic',
+        Header: 'Usuario',
+        accessor: 'users', // Acceder al nombre del cliente
+        canFilter: false,
+        sortType: 'none',
+        // Cell: ({ cell }) => (
+        //   <div >
+        //     {
+        //     cell.value.map(user => (
+        //       <div >
+        //         <span>Ticket {user.name}</span>
+        //       </div>
+
+        //     ))}
+        //   </div>
+        // ),
       },
       {
         Header: 'Fecha de Creación',
@@ -117,10 +128,23 @@ const TicketList = ({ tickets }) => {
           return <span>{formattedDate}</span>;
         },
       },
+      {
+        Header: 'Fecha de Actualizacion',
+        accessor: 'updatedAt', // Agregar columna para mostrar la fecha de creación del ticket
+        canFilter: true,
+        sortType: 'basic',
+        Cell: ({ value }) => {
+          // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
+          const formattedDate = new Date(value).toLocaleString();
+          return <span>{formattedDate}</span>;
+        },
+      },
+
 
     ],
     []
   );
+
 
   const {
     getTableProps,

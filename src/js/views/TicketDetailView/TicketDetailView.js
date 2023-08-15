@@ -1,111 +1,102 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useTable, useSortBy } from 'react-table'; // Solo importamos useTable y useSortBy
-import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
-import { Context } from "../../store/appContext.js";
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { Context } from '../../store/appContext.js';
 import styles from './TicketDetailView.module.css';
 
-const TicketDetailView = () => { 
-  const { id } = useParams(); 
+const TicketDetailView = () => {
+  const { id } = useParams();
   const { store, actions } = useContext(Context);
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [messageInput, setMessageInput] = useState('');
 
   useEffect(() => {
-    // Cargamos los datos de los tickets
-    actions.loadAllTicketsData();
+    const loadTicketAndMessages = async () => {
+      try {
+        // Cargar los datos del ticket y los mensajes
+        await actions.loadAllTicketsData();
+        const ticket = store.tickets.find(ticket => ticket.id === Number(id));
+        setSelectedTicket(ticket);
 
-    // Buscamos el ticket correspondiente por su ID en la lista de tickets
-    const ticket = store.tickets.find(ticket => ticket.id === Number(id));
-    setSelectedTicket(ticket);
+        if (ticket) {
+          await actions.loadTicketMessages(ticket.id);
+        }
+      } catch (error) {
+        console.error('Error al cargar los datos del ticket y los mensajes:', error);
+      }
+    };
+
+    loadTicketAndMessages();
   }, [id, actions, store.tickets]);
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Mensajes', 
-        accessor: 'subject', 
-      },
-      {
-        Header: 'Adjuntos',
-        accessor: 'adjunts', // Cambia esto por la propiedad correcta de los adjuntos
-        Cell: ({ cell }) => cell.value ? 'Sí' : 'No', // Muestra 'Sí' si hay adjuntos, 'No' si no
-      },
-      // Puedes agregar más columnas aquí según los detalles del mensaje que quieras mostrar
-    ],
-    []
-  );
+  const handleReply = async () => {
+    try {
+      if (messageInput.trim() === '') {
+        // No permitir enviar respuestas vacías
+        return;
+      }
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
-    {
-      columns,
-      data: selectedTicket ? selectedTicket.messages : [], // Usamos los mensajes del ticket seleccionado
-    },
-    useSortBy
-  );
+      const response = await actions.sendTicketReply(selectedTicket.id, messageInput);
+
+      if (response.status === 200) {
+        // Respuesta enviada exitosamente, actualiza el historial de mensajes
+        await actions.loadTicketMessages(selectedTicket.id);
+        setMessageInput('');
+      } else {
+        console.error('Error al enviar la respuesta:', response.statusText);
+        // Manejar el error según tus necesidades
+      }
+    } catch (error) {
+      console.error('Error al enviar la respuesta:', error);
+      // Manejar el error según tus necesidades
+    }
+  };
+
 
   return (
     <div className={styles.ticketDetailContainer}>
       {selectedTicket ? (
         <div className={styles.ticketDetailContent}>
-         <h2 className={styles.ticketHeader}>Detalles del Ticket</h2>
-        <p className={styles.ticketInfo}><strong>ID:</strong> {selectedTicket.id}</p>
-        <p className={styles.ticketInfo}><strong>Estado:</strong> {selectedTicket.status}</p>
-        <p className={styles.ticketInfo}><strong>Departamento:</strong> {selectedTicket.department[0].name_department}</p>
-        
-        {/* Muestra la información del usuario */}
-        <p className={styles.ticketInfo}><strong>Usuario:</strong> {selectedTicket.client.name}</p>
+          <h2 className={styles.ticketHeader}>Detalles del Ticket</h2>
+          <p className={styles.ticketInfo}><strong>ID:</strong> {selectedTicket.id}</p>
+          {/* ... Otros detalles del ticket ... */}
+
+          {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
+            <>
+              <h3 className={styles.messageHistory}>Historial de Mensajes:</h3>
+              <div className={styles.messageCardContainer}>
+                {selectedTicket.messages
+                  .sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
+                  .map(message => (
+                    <div key={message.id} className={styles.messageCard}>
+                      {/* Usar la propiedad "message" en lugar de "subject" */}
+                      <h4>{message.subject}</h4>
+                      <p>{message.message}</p>
+                      {/* ... Otros detalles del mensaje ... */}
+                    </div>
+                  ))}
+              </div>
+            </>
+          ) : (
+            <p>No hay mensajes disponibles.</p>
+          )}
 
           {/* Agrega el botón de retroceso */}
           <Link to="/dashboard" className={`${styles.backButton} ${styles.customBackButton}`}>
-          Volver al Dashboard
-        </Link>
+            Volver al Dashboard
+          </Link>
 
-
-          <h3 className={styles.messageHistory}>Historial de Mensajes:</h3>
-          <div className={styles.tableContainer}>
-            <table {...getTableProps()} className={styles.ticketTable}>
-              <thead>
-                {headerGroups.map((headerGroup) => (
-                  <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map((column) => (
-                      <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                        {column.render('Header')}
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <FaSortDown className={`${styles.sortIndicator} ${styles.sortDesc}`} />
-                          ) : (
-                            <FaSortUp className={`${styles.sortIndicator} ${styles.sortAsc}`} />
-                          )
-                        ) : (
-                          <FaSort className={styles.sortIndicator} />
-                        )}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody {...getTableBodyProps()}>
-                {rows.map((row) => {
-                  prepareRow(row);
-                  return (
-                    <tr {...row.getRowProps()} className={styles.ticketRow}>
-                      {row.cells.map((cell) => {
-                        return (
-                          <td {...cell.getCellProps()} className={styles.messageCell}>{cell.render('Cell')}</td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          {/* Sección de respuesta */}
+          <div className={styles.messageReplyContainer}>
+            <h3>Responder al Ticket</h3>
+            <textarea
+              className={styles.messageInput}
+              value={messageInput}
+              onChange={e => setMessageInput(e.target.value)}
+              placeholder="Escribe tu respuesta aquí..."
+            />
+            <button className={styles.sendButton} onClick={handleReply}>
+              Enviar
+            </button>
           </div>
         </div>
       ) : (
