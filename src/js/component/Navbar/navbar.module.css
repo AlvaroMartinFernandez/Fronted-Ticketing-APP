@@ -1,4 +1,3 @@
-/* Estilos para el navbar */
 .navbar {
   background-color: #fff;
   color: #333;
@@ -7,19 +6,21 @@
   align-items: center;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 70px; 
 }
 
-
+/* Estilos para la imagen del logo */
 .logo {
-  font-size: 30px;
-  margin-left: 50px;
+  width: 170px; 
+  height: 125px; 
+  overflow: hidden; 
 }
 
 .logo img {
-  width: 150px; 
-  height: auto; 
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ajusta el tamaño del logo manteniendo su relación de aspecto */
 }
-
 
 .icon {
   color: linear-gradient(to right, #2e75b6, #4ab19d);
@@ -31,7 +32,7 @@
   display: flex;
   list-style: none;
   padding: 0;
-  margin-top: 3%;
+  margin: 0;
   cursor: pointer;
 }
 
@@ -148,4 +149,3 @@
 .logout-button:hover {
   background-color: #c0392b;
 }
-

@@ -14,8 +14,9 @@ import VideoBackground2 from '../component/VideoBackground2/VideoBackground2';
 
 export const Home = () => (
   <div className="text-center mt-5">
-    <DashboardEntry />
 
+    <DashboardEntry />
+  
     <HeroSection />
     <Fortalezas />
     <VideoBackground2 />
