@@ -9,13 +9,14 @@ import { FaTrashAlt } from 'react-icons/fa';
 import EditUserModal from '../EditUserModal/EditUserModal.js';
 import { Link } from 'react-router-dom';
 
-const SelectColumnFilter = ({
+
+const SelectDepartmentFilter = ({
   column: { filterValue, setFilter, preFilteredRows, id },
 }) => {
   const options = useMemo(() => {
     const allDepartments = new Set();
     preFilteredRows.forEach(row => {
-      row.values[id].split(', ').forEach(dep => allDepartments.add(dep));
+      allDepartments.add(row.values[id]);
     });
     return [...allDepartments.values()];
   }, [id, preFilteredRows]);
@@ -28,14 +29,15 @@ const SelectColumnFilter = ({
       }}
     >
       <option value="">Todos</option>
-      {options.map((dep, index) => (
-        <option key={index} value={dep}>
-          {dep}
+      {options.map((department, index) => (
+        <option key={index} value={department}>
+          {department}
         </option>
       ))}
     </select>
   );
 };
+
 
 const SelectRoleFilter = ({
   column: { filterValue, setFilter, preFilteredRows, id },
@@ -79,7 +81,7 @@ const UserList = ({ users, createUser }) => {
     department: '',
     password: '',
   });
-  
+
   const [departments, setDepartments] = useState([])
 
   const updateUserData = async (userId, userData) => {
@@ -129,20 +131,20 @@ const UserList = ({ users, createUser }) => {
     }
   };
 
-  
+
 
   const handleEditUser = (userId) => {
     const userToEdit = store.users.find(user => user.id === userId);
     setShowEditModal(true);
     setUserToEdit(userToEdit); // Asegúrate de estar configurando correctamente el usuario a editar
   };
-  
+
   const handleSaveEdit = async (updatedUserData) => {
     if (!userToEdit) {
       console.error('No se encontró el usuario a editar.');
       return;
     }
-  
+
     const success = await updateUserData(userToEdit.id, updatedUserData);
     if (success) {
       setShowEditModal(false);
@@ -219,8 +221,8 @@ const UserList = ({ users, createUser }) => {
       {
         Header: 'Departamento',
         accessor: 'department.name_department', // Asegúrate de usar el nombre correcto de la propiedad
-       // Filter: SelectColumnFilter, // Utiliza el mismo componente de filtro para departamentos
-       // canFilter: false,
+        Filter: SelectDepartmentFilter, // Utiliza el mismo componente de filtro para departamentos
+        canFilter: true,
         sortType: 'basic',
       },
 
@@ -233,7 +235,7 @@ const UserList = ({ users, createUser }) => {
         Cell: ({ row }) => {
           const userId = row.original.id;
           const ticketsCount = row.values['tickets.length'];
-          
+
           return (
             <Link to={`/TicketDetailView/${userId}`}>
               Ver Tickets ({ticketsCount})
@@ -242,13 +244,13 @@ const UserList = ({ users, createUser }) => {
         },
       },
 
-      
+
       {
         Header: 'Acciones',
         accessor: 'actions', // Utilizamos 'id' aquí como accessor
         Cell: ({ row }) => (
-          
-      
+
+
           <div>
             <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
               <FaEdit className={styles.actionsIcon} /> Editar
@@ -256,7 +258,7 @@ const UserList = ({ users, createUser }) => {
             <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
               <FaTrashAlt className={styles.actionsIcon} /> Eliminar
             </button>
-          
+
           </div>
         ),
       },
@@ -290,7 +292,7 @@ const UserList = ({ users, createUser }) => {
   const { globalFilter } = state;
 
 
- 
+
 
   return (
     <div className={styles.container}>
@@ -390,7 +392,7 @@ const UserList = ({ users, createUser }) => {
               <div className={styles.formGroup}>
                 <label>Rol:</label>
                 <select name="role" value={newUserData.role} onChange={handleChange}>
-                <option value="">Seleccionar rol</option>
+                  <option value="">Seleccionar rol</option>
                   <option value="Director">Directivo</option>
                   <option value="Admin">Administrador</option>
                   <option value="Employee">Empleado</option>
@@ -400,28 +402,18 @@ const UserList = ({ users, createUser }) => {
                 <label>Contraseña:</label>
                 <input type="password" name="password" value={newUserData.password} onChange={handleChange} />
               </div>
-              { <div className={styles.formGroup}>
+              {<div className={styles.formGroup}>
                 <label>Departamento:</label>
                 <select name="department" value={newUserData.department} onChange={handleChange}>
                   <option value="">Seleccionar departamento</option>
-                  {/* {
-                    store.departments.map(department => {
-                     (
-                      <option key={department.id} value = {department.id} >
-                        {department.name_department}
-                      </option>
-
-                     ) 
-                     
-                    })
-                  } */}
-
-
-                  /* <option value="At cliente">Atención al cliente</option>
-                  <option value="Postventa">Postventa</option>
-                  <option value="Facturacion">Facturación</option> */
+                  {store.departments.map(department => (
+                    <option key={department.id} value={department.id}>
+                      {department.name_department}
+                    </option>
+                  ))}
                 </select>
-              </div> }
+
+              </div>}
               <div className={styles.modalButtons}>
                 <button type="submit">Guardar</button>
                 <button type="button" onClick={toggleModal} className={styles.cancelButton}>

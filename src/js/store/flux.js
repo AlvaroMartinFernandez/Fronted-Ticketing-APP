@@ -1,10 +1,12 @@
 import axios from 'axios';
+import { actions } from 'react-table';
 
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       users: [],
       tickets: [],
+      ticketDetails:null,
       departments: [],
       messages: [],
       accessToken: localStorage.getItem('accessToken') || null,
@@ -149,15 +151,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
 
           if (response.status === 200) {
-            const updatedTickets = getStore().tickets.map(ticket => {
-              if (ticket.id === ticketId) {
-                return {
-                  ...ticket,
-                  messages: response.data,
-                };
-              }
-              return ticket;
-            });
+            
+            setStore({ticketDetails:response.data})
+           
+         
            // setStore({ ...getStore(), tickets: updatedTickets });
           } else {
             console.error('Error al cargar los mensajes del ticket:', response.statusText);
@@ -233,12 +230,30 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
 
           if (response.status === 200) {
+            setStore({ tickets: getStore().tickets.filter((ticket) => ticket.id !== id) });
+            return true;
             // El ticket se eliminó exitosamente, puedes realizar alguna acción adicional si lo deseas
           } else {
             console.error('Error al eliminar el ticket:', response.statusText);
           }
         } catch (error) {
           console.error('Error al eliminar el ticket:', error);
+        }
+      },
+
+      sendTicketReply : async (ticketId, message) => {
+        try {
+          const response = await fetch(`https://backend-ticketing-app-production.up.railway.app/messages/${ticketId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message }), // Enviamos el mensaje en el cuerpo del JSON
+          });
+      
+          return response;
+        } catch (error) {
+          throw error;
         }
       },
 

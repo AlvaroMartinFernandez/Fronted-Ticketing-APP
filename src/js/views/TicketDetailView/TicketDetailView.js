@@ -26,7 +26,10 @@ const TicketDetailView = () => {
     };
 
     loadTicketAndMessages();
-  }, [id, actions, store.tickets]);
+  }, []);
+
+  
+  
 
   const handleReply = async () => {
     try {
@@ -64,14 +67,13 @@ const TicketDetailView = () => {
             <>
               <h3 className={styles.messageHistory}>Historial de Mensajes:</h3>
               <div className={styles.messageCardContainer}>
-                {selectedTicket.messages
-                  .sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
+                {store.ticketDetails?.sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
                   .map(message => (
                     <div key={message.id} className={styles.messageCard}>
-                      {/* Usar la propiedad "message" en lugar de "subject" */}
                       <h4>{message.subject}</h4>
                       <p>{message.message}</p>
                       {/* ... Otros detalles del mensaje ... */}
+                      
                     </div>
                   ))}
               </div>

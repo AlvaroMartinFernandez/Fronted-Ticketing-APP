@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 import { Context } from "../../store/appContext.js";
 import { Link } from 'react-router-dom';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
+import { FaTrashAlt } from 'react-icons/fa';
+
 
 
 
@@ -27,19 +30,44 @@ const getStatusIconAndColor = (status) => {
 const TicketList = ({ tickets }) => {
   const { store, actions } = useContext(Context);
   const [selectedTicket, setSelectedTicket] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState('');
+  
 
-  const handleStatusChange = async (ticketId, newStatus) => {
+
+  const deleteTicket = async (ticketId) => {
     try {
-      // Lógica para actualizar el estado del ticket en el contexto o en la API
-      await actions.updateTicketStatus(ticketId, newStatus);
+      const response = await axios.delete(
+        `https://backend-ticketing-app-production.up.railway.app/tickets/${ticketId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        }
+      );
 
-      // Actualizar la lista de tickets después de cambiar el estado
-      actions.fetchTickets(); // Por ejemplo, una función para cargar los tickets actualizados
+      if (response.status === 200) {
+        actions.loadAllTicketsData();
+        console.log('Ticket eliminado exitosamente:', ticketId);
+      } else {
+        console.error('Error al eliminar el ticket:', response.statusText);
+      }
     } catch (error) {
-      console.error('Error al cambiar el estado del ticket:', error);
+      console.error('Error al eliminar el ticket:', error);
     }
   };
+
+  const handleDeleteTicket = async (ticketId) => {
+    const confirmDelete = window.confirm('¿Seguro que quieres eliminar este ticket?');
+    if (confirmDelete) {
+      const success = await deleteTicket(ticketId)
+      if (success){
+        console.log('Ticket eliminado exitosamente:', ticketId);
+      } else {
+        console.log('Error al eliminar usuario:', ticketId);
+      }
+    }
+  };
+      
+  
 
 
   const columns = React.useMemo(
@@ -64,26 +92,7 @@ const TicketList = ({ tickets }) => {
         accessor: 'status',
         canFilter: true,
         sortType: 'basic',
-        Cell: ({ row }) => {
-          const currentStatus = row.original.status;
-          const { icon, color } = getStatusIconAndColor(currentStatus);
-
-          return (
-            <div>
-              <span style={{ color }}>{icon} {currentStatus}</span>
-              <select
-                value={currentStatus}
-                onChange={(e) => handleStatusChange(row.original.id, e.target.value)}
-              >
-                <option value="Pendiente">Pendiente</option>
-                <option value="Resuelto">Resuelto</option>
-                <option value="Finalizado">Finalizado</option>
-                <option value="Sin asignar">Sin asignar</option>
-                <option value="En proceso">En proceso</option>
-              </select>
-            </div>
-          );
-        },
+        
       },
 
 
@@ -138,6 +147,20 @@ const TicketList = ({ tickets }) => {
           const formattedDate = new Date(value).toLocaleString();
           return <span>{formattedDate}</span>;
         },
+      },
+      {
+        Header: 'Acciones',
+        accessor: 'actions',
+        Cell: ({ row }) => (
+          <div>
+            <button
+              className={styles.deleteButton}
+              onClick={() => handleDeleteTicket(row.original.id)}
+            >
+              <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+            </button>
+          </div>
+        ),
       },
 
 
