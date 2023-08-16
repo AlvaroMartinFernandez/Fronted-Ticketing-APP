@@ -124,8 +124,8 @@ const TicketList = ({ tickets }) => {
       {
         Header: 'Usuario',
         accessor: 'users', // Acceder al nombre del cliente
-        canFilter: false,
-        sortType: 'none',
+        canFilter: true,
+        sortType: 'basic',
         // Cell: ({ cell }) => (
         //   <div >
         //     {

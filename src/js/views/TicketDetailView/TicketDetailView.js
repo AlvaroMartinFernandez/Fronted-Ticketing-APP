@@ -74,6 +74,9 @@ const shortenSubject = (subject) => {
         <div className={styles.ticketDetailContent}>
           <h2 className={styles.ticketHeader}>Detalles del Ticket</h2>
           <p className={styles.ticketInfo}><strong>ID:</strong> {selectedTicket.id}</p>
+
+          
+          
           {/* ... Otros detalles del ticket ... */}
 
           {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
@@ -101,7 +104,8 @@ const shortenSubject = (subject) => {
                       >
                         <div className="accordion-body">
                           <p>{message.message}</p>
-                          {/* ... Otros detalles del mensaje ... */}
+                          
+                         
                         </div>
                       </div>
                     </div>

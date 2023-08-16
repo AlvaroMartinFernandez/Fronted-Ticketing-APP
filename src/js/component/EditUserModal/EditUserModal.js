@@ -64,6 +64,18 @@ const EditUserModal = ({ user, onSave, onCancel }) => {
               onChange={handleChange}
             />
           </div>
+          <div className={styles.formGroup}>
+            <label>Departamento:</label>
+            <select
+              name="department"
+              value={editedUser.department}
+              onChange={handleChange}
+            >
+               <option value="Atencion al cliente">Atencion al cliente</option>
+              <option value="Facturacion">Facturacion</option>
+              <option value="Postventa">Postventa</option>
+            </select>
+          </div>
           <div className={styles.modalButtons}>
             <button type="submit">Guardar</button>
             <button type="button" onClick={onCancel} className={styles.cancelButton}>

@@ -11,69 +11,19 @@ import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 
-const SelectDepartmentFilter = ({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) => {
-  const options = useMemo(() => {
-    const allDepartments = new Set();
-    preFilteredRows.forEach(row => {
-      allDepartments.add(row.values[id]);
-    });
-    return [...allDepartments.values()];
-  }, [id, preFilteredRows]);
 
-  return (
-    <select
-      value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined);
-      }}
-    >
-      <option value="">Todos</option>
-      {options.map((department, index) => (
-        <option key={index} value={department}>
-          {department}
-        </option>
-      ))}
-    </select>
-  );
-};
-
-
-const SelectRoleFilter = ({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) => {
-  const options = useMemo(() => {
-    const allRoles = new Set();
-    preFilteredRows.forEach(row => {
-      allRoles.add(row.values[id]);
-    });
-    return [...allRoles.values()];
-  }, [id, preFilteredRows]);
-
-  return (
-    <select
-      value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined);
-      }}
-    >
-      <option value="">Todos</option>
-      {options.map((role, index) => (
-        <option key={index} value={role}>
-          {role}
-        </option>
-      ))}
-    </select>
-  );
-};
 
 const UserList = ({ users, createUser }) => {
   const { store, actions } = useContext(Context);
   const data = useMemo(() => users, [users]);
-  const [editedUser, setEditedUser] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [userToEdit, setUserToEdit] = useState(null);
+  const [userToEdit, setUserToEdit] = useState({
+    name: '',
+    email: '',
+    role: '',
+    department: '',
+    password: '',
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUserData, setNewUserData] = useState({
     name: '',
@@ -88,6 +38,8 @@ const UserList = ({ users, createUser }) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const itemsPerPage = 10; // Definir la cantidad de elementos por página
+
+  
 
   const updateUserData = async (userId, userData) => {
     try {
@@ -193,6 +145,63 @@ const UserList = ({ users, createUser }) => {
     if (success) {
       toggleModal();
     }
+  };
+
+  const SelectDepartmentFilter = ({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) => {
+    const options = useMemo(() => {
+      const allDepartments = new Set();
+      preFilteredRows.forEach(row => {
+        allDepartments.add(row.values[id]);
+      });
+      return [...allDepartments.values()];
+    }, [id, preFilteredRows]);
+  
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined);
+        }}
+      >
+        <option value="">Todos</option>
+        {options.map((department, index) => (
+          <option key={index} value={department}>
+            {department}
+          </option>
+        ))}
+      </select>
+    );
+  };
+  
+  
+  const SelectRoleFilter = ({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) => {
+    const options = useMemo(() => {
+      const allRoles = new Set();
+      preFilteredRows.forEach(row => {
+        allRoles.add(row.values[id]);
+      });
+      return [...allRoles.values()];
+    }, [id, preFilteredRows]);
+  
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined);
+        }}
+      >
+        <option value="">Todos</option>
+        {options.map((role, index) => (
+          <option key={index} value={role}>
+            {role}
+          </option>
+        ))}
+      </select>
+    );
   };
 
 
