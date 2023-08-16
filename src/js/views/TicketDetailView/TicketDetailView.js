@@ -2,12 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Context } from '../../store/appContext.js';
 import styles from './TicketDetailView.module.css';
+import { DotLoader } from 'react-spinners';
+
+
 
 const TicketDetailView = () => {
   const { id } = useParams();
   const { store, actions } = useContext(Context);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [messageInput, setMessageInput] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadTicketAndMessages = async () => {
@@ -20,6 +24,8 @@ const TicketDetailView = () => {
         if (ticket) {
           await actions.loadTicketMessages(ticket.id);
         }
+
+        setIsLoading(false); // Actualizar isLoading a false
       } catch (error) {
         console.error('Error al cargar los datos del ticket y los mensajes:', error);
       }
@@ -28,8 +34,11 @@ const TicketDetailView = () => {
     loadTicketAndMessages();
   }, []);
 
-  
-  
+// Función para acortar los asuntos largos
+const shortenSubject = (subject) => {
+  return subject.replace(/(Re:)+/g, 'Re:'); // Reemplazar múltiples "Re:" con uno solo
+};
+
 
   const handleReply = async () => {
     try {
@@ -57,7 +66,11 @@ const TicketDetailView = () => {
 
   return (
     <div className={styles.ticketDetailContainer}>
-      {selectedTicket ? (
+      {isLoading ? ( // Mostrar spinner mientras se carga
+        <div className={styles.spinnerContainer}>
+          <DotLoader color="#36d7b7" />
+        </div>
+      ) : selectedTicket ? (
         <div className={styles.ticketDetailContent}>
           <h2 className={styles.ticketHeader}>Detalles del Ticket</h2>
           <p className={styles.ticketInfo}><strong>ID:</strong> {selectedTicket.id}</p>
@@ -70,10 +83,27 @@ const TicketDetailView = () => {
                 {store.ticketDetails?.sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
                   .map(message => (
                     <div key={message.id} className={styles.messageCard}>
-                      <h4>{message.subject}</h4>
-                      <p>{message.message}</p>
-                      {/* ... Otros detalles del mensaje ... */}
-                      
+                      <h4>
+                        <button
+                          className={`accordion-button ${styles.customAccordionButton}`}
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={`#messageCollapse${message.id}`}
+                          aria-expanded="false"
+                        >
+                          {shortenSubject(message.subject)}
+                        </button>
+                      </h4>
+                      <div
+                        id={`messageCollapse${message.id}`}
+                        className="collapse"
+                        data-bs-parent={`#messageCollapse${message.id}`}
+                      >
+                        <div className="accordion-body">
+                          <p>{message.message}</p>
+                          {/* ... Otros detalles del mensaje ... */}
+                        </div>
+                      </div>
                     </div>
                   ))}
               </div>

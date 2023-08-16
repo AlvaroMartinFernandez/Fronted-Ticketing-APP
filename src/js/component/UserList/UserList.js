@@ -8,6 +8,7 @@ import { FaEdit } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
 import EditUserModal from '../EditUserModal/EditUserModal.js';
 import { Link } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 
 
 const SelectDepartmentFilter = ({
@@ -83,6 +84,10 @@ const UserList = ({ users, createUser }) => {
   });
 
   const [departments, setDepartments] = useState([])
+ 
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const itemsPerPage = 10; // Definir la cantidad de elementos por página
 
   const updateUserData = async (userId, userData) => {
     try {
@@ -291,6 +296,15 @@ const UserList = ({ users, createUser }) => {
 
   const { globalFilter } = state;
 
+  const pageCount = Math.ceil(rows.length / itemsPerPage);
+
+  const offset = currentPage * itemsPerPage;
+  const paginatedRows = rows.slice(offset, offset + itemsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
 
 
 
@@ -336,7 +350,7 @@ const UserList = ({ users, createUser }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
+          {paginatedRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className={styles.userRow}>
@@ -424,6 +438,19 @@ const UserList = ({ users, createUser }) => {
           </div>
         </div>
       )}
+       <ReactPaginate
+        previousLabel={'←'}
+        nextLabel={'→'}
+        breakLabel={'...'}
+        breakClassName={'break-me'}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={'pagination'}
+        subContainerClassName={'pages pagination'}
+        activeClassName={'active'}
+      />
     </div>
   );
 };

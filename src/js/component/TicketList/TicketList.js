@@ -6,6 +6,7 @@ import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
 import { FaTrashAlt } from 'react-icons/fa';
+import ReactPaginate from 'react-paginate';
 
 
 
@@ -30,8 +31,15 @@ const getStatusIconAndColor = (status) => {
 const TicketList = ({ tickets }) => {
   const { store, actions } = useContext(Context);
   const [selectedTicket, setSelectedTicket] = useState(null);
-  
+  const [currentPage, setCurrentPage] = useState(0);
 
+  // Función para acortar los asuntos largos
+  const shortenSubject = (subject) => {
+    return subject.replace(/(Re:)+/g, 'Re:'); // Reemplazar múltiples "Re:" con uno solo
+  };
+
+  const itemsPerPage = 10; // Definir la cantidad de elementos por página
+  
 
   const deleteTicket = async (ticketId) => {
     try {
@@ -59,15 +67,15 @@ const TicketList = ({ tickets }) => {
     const confirmDelete = window.confirm('¿Seguro que quieres eliminar este ticket?');
     if (confirmDelete) {
       const success = await deleteTicket(ticketId)
-      if (success){
+      if (success) {
         console.log('Ticket eliminado exitosamente:', ticketId);
       } else {
         console.log('Error al eliminar usuario:', ticketId);
       }
     }
   };
-      
-  
+
+
 
 
   const columns = React.useMemo(
@@ -92,7 +100,7 @@ const TicketList = ({ tickets }) => {
         accessor: 'status',
         canFilter: true,
         sortType: 'basic',
-        
+
       },
 
 
@@ -102,6 +110,10 @@ const TicketList = ({ tickets }) => {
         accessor: 'messages[0].subject',
         canFilter: true,
         sortType: 'basic',
+        //  Cell: ({ value }) => {
+        //    const shortenedSubject = shortenSubject( value ); // Acortar el asunto
+        //    return <span>{shortenedSubject}</span>;
+        //  },
       },
       {
         Header: 'Departamento',
@@ -193,6 +205,15 @@ const TicketList = ({ tickets }) => {
 
   const { globalFilter } = state;
 
+  const pageCount = Math.ceil(rows.length / itemsPerPage);
+
+  const offset = currentPage * itemsPerPage;
+  const paginatedRows = rows.slice(offset, offset + itemsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
 
 
 
@@ -234,7 +255,7 @@ const TicketList = ({ tickets }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+        {paginatedRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className={styles.ticketRow}>
@@ -260,7 +281,23 @@ const TicketList = ({ tickets }) => {
           })}
         </tbody>
       </table>
+      <div className={styles.paginationContainer}>
+      <ReactPaginate
+        previousLabel={'←'}
+        nextLabel={'→'}
+        breakLabel={'...'}
+        breakClassName={'break-me'}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={'pagination'}
+        subContainerClassName={'pages pagination'}
+        activeClassName={'active'}
+      />
+      
 
+    </div>
     </div>
   );
 
