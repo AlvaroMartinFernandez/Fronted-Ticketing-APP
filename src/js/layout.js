@@ -8,7 +8,7 @@ import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./component/PasswordRecoveryForm/PasswordRecoveryForm";
-import FloatingMenu from "./component/FloatingMenu/FloatingMenu";
+import FloatingMenu from "./component/FloatingMenu/floatingMenu";
 
 // Importa los componentes Home y Demo aquí
 import { Home } from "./views/home";

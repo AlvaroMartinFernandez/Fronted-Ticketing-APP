@@ -15,6 +15,15 @@
     display: block;
   }
   
+  /* Icono de menú */
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+  }
+  
   /* Estilos para la barra de navegación del menú flotante */
   .navbar {
     display: flex;
@@ -84,3 +93,4 @@
   .checkIcon {
     margin-right: 5px;
   }
+  
