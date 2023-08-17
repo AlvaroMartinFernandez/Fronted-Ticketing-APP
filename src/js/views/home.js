@@ -9,6 +9,7 @@ import Footer from "../component/Footer/footer";
 import HeroSection from "../component/HeroSecction/HeroSecction";
 import Fortalezas from "../component/Fortalezas/Fortalezas";
 import VideoBackground2 from '../component/VideoBackground2/VideoBackground2';
+import FortalezasVideo from '../component/FortalezasVideo/FortalezasVideo';
 
 
 

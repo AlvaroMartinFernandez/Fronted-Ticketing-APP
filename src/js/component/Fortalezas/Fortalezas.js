@@ -34,7 +34,11 @@ const Fortalezas = () => {
   const currentFortaleza = fortalezasData[currentIndex];
 
   return (
+   
+
     <div id='fortalezas' className={styles.container}>
+
+
       <div className={styles['fortaleza-container']} onClick={handleNext}>
         <motion.div
           className={styles['fortaleza-text-container']}
