@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styles from './EditUserModal.module.css';
+import { Context } from "../../store/appContext.js";
+
 
 const EditUserModal = ({ user, onSave, onCancel }) => {
+  const { store, actions } = useContext(Context);
   const [editedUser, setEditedUser] = useState(user);
 
   useEffect(() => {
@@ -50,6 +53,7 @@ const EditUserModal = ({ user, onSave, onCancel }) => {
               value={editedUser.role}
               onChange={handleChange}
             >
+              <option value=" ">Selecciona un campo</option>
               <option value="Director">Directivo</option>
               <option value="Admin">Administrador</option>
               <option value="Employee">Empleado</option>
@@ -71,9 +75,12 @@ const EditUserModal = ({ user, onSave, onCancel }) => {
               value={editedUser.department}
               onChange={handleChange}
             >
-               <option value="Atencion al cliente">Atencion al cliente</option>
-              <option value="Facturacion">Facturacion</option>
-              <option value="Postventa">Postventa</option>
+              <option value="">Seleccionar departamento</option>
+              {store.departments.map(department => (
+                <option key={department.id} value={department.id}>
+                  {department.name_department}
+                </option>
+              ))}
             </select>
           </div>
           <div className={styles.modalButtons}>

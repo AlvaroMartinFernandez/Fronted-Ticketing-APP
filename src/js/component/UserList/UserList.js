@@ -33,13 +33,18 @@ const UserList = ({ users, createUser }) => {
     password: '',
   });
 
+
+
+
+
+
   const [departments, setDepartments] = useState([])
- 
+
   const [currentPage, setCurrentPage] = useState(0);
 
   const itemsPerPage = 10; // Definir la cantidad de elementos por página
 
-  
+
 
   const updateUserData = async (userId, userData) => {
     try {
@@ -142,7 +147,9 @@ const UserList = ({ users, createUser }) => {
     e.preventDefault();
     console.log(newUserData)
     const success = await actions.createUser(newUserData);
+    console.log(newUserData)
     if (success) {
+      actions.loadAllUsersData();
       toggleModal();
     }
   };
@@ -157,7 +164,7 @@ const UserList = ({ users, createUser }) => {
       });
       return [...allDepartments.values()];
     }, [id, preFilteredRows]);
-  
+
     return (
       <select
         value={filterValue}
@@ -174,8 +181,8 @@ const UserList = ({ users, createUser }) => {
       </select>
     );
   };
-  
-  
+
+
   const SelectRoleFilter = ({
     column: { filterValue, setFilter, preFilteredRows, id },
   }) => {
@@ -186,7 +193,7 @@ const UserList = ({ users, createUser }) => {
       });
       return [...allRoles.values()];
     }, [id, preFilteredRows]);
-  
+
     return (
       <select
         value={filterValue}
@@ -261,7 +268,8 @@ const UserList = ({ users, createUser }) => {
 
       {
         Header: 'Acciones',
-        accessor: 'actions', // Utilizamos 'id' aquí como accessor
+        accessor: 'actions', 
+        show: store.role === 'Admin',
         Cell: ({ row }) => (
 
 
@@ -447,23 +455,24 @@ const UserList = ({ users, createUser }) => {
           </div>
         </div>
       )}
-       <div className={styles['pagination-container']}>
-       <ReactPaginate
-        previousLabel={'←'}
-        nextLabel={'→'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName={'pagination'}
-        subContainerClassName={'pages pagination'}
-        activeClassName={'active'}
-      />
+      <div className={styles['pagination-container']}>
+        <ReactPaginate
+          previousLabel={'←'}
+          nextLabel={'→'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
       </div>
     </div>
   );
 };
+
 
 export default UserList;

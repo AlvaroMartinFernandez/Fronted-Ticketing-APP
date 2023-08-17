@@ -79,6 +79,7 @@ const TicketList = ({ tickets }) => {
 
 
   const columns = React.useMemo(
+    
     () => [
       {
         Header: 'ID',
@@ -163,6 +164,7 @@ const TicketList = ({ tickets }) => {
       {
         Header: 'Acciones',
         accessor: 'actions',
+        show: store.userRole === 'Director',
         Cell: ({ row }) => (
           <div>
             <button
@@ -177,7 +179,7 @@ const TicketList = ({ tickets }) => {
 
 
     ],
-    []
+    [store.tickets]
   );
 
 
