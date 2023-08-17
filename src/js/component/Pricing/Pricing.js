@@ -1,81 +1,168 @@
 
  import React from 'react';
  import './pricing.module.css';
-
-
- const Pricing = () => {
-  return (
-    <div>
+  import {
+    MDBContainer,
+    MDBRow,
+    MDBCol,
+    MDBCard,
+    MDBCardBody,
+    MDBCardImage,
+    MDBCardTitle,
+    MDBIcon,
+    MDBBtn,
+  } from "mdb-react-ui-kit";
   
-
-
-  <div className="pricing-wrapper clearfix">
-   
-    <h1 className="pricing-table-title">Tabla de Precios <a href="http://creaticode.com">Creaticode.com</a></h1>
-
-    <div className="pricing-table">
-      <h3 className="pricing-title">Basico</h3>
-      <div className="price">$60<sup>/ mes</sup></div>
-    
-      <ul className="table-list">
-        <li>10 GB <span>De almacenamiento</span></li>
-        <li>1 Dominio <span>incluido</span></li>
-        <li>25 GB <span>De transferencia mensual</span></li>
-        <li>Base de datos <span className="unlimited">ilimitadas</span></li>
-        <li>Cuentas de correo <span className="unlimited">ilimitadas</span></li>
-        <li>CPanel <span>incluido</span></li>
-      </ul>
-    
-      <div className="table-buy">
-        <p>$60<sup>/ mes</sup></p>
-        <a href="#" className="pricing-action">Comprar</a>
-      </div>
-    </div>
-    
-    <div className="pricing-table recommended">
-      <h3 className="pricing-title">Premium</h3>
-      <div className="price">$100<sup>/ mes</sup></div>
-    
-      <ul className="table-list">
-        <li>35 GB <span>De almacenamiento</span></li>
-        <li>5 Dominios <span>incluidos</span></li>
-        <li>100 GB <span>De transferencia mensual</span></li>
-        <li>Base de datos <span className="unlimited">ilimitadas</span></li>
-        <li>Cuentas de correo <span className="unlimited">ilimitadas</span></li>
-        <li>CPanel <span>incluido</span></li>
-      </ul>
-     
-      <div className="table-buy">
-        <p>$100<sup>/ mes</sup></p>
-        <a href="#" className="pricing-action">Comprar</a>
-      </div>
-    </div>
-
-    <div className="pricing-table">
-      <h3 className="pricing-title">Ultimate</h3>
-      <div className="price">$200<sup>/ mes</sup></div>
-    
-      <ul className="table-list">
-        <li>100 GB <span>De almacenamiento</span></li>
-        <li>8 Dominios <span>incluidos</span></li>
-        <li>200 GB <span>De transferencia mensual</span></li>
-        <li>Base de datos <span className="unlimited">ilimitadas</span></li>
-        <li>Cuentas de correo <span className="unlimited">ilimitadas</span></li>
-        <li>CPanel <span>incluido</span></li>
-      </ul>
-    
-      <div className="table-buy">
-        <p>$200<sup>/ mes</sup></p>
-        <a href="#" className="pricing-action">Comprar</a>
-      </div>
-    </div>
-  </div>
-
-
-    </div>
-  );
-};
-
+  const Pricing = ()=> {
+    return (
+      <MDBContainer fluid className="my-5">
+        <MDBRow>
+          <MDBCol md="4" className="mb-4 mb-lg-0">
+            <MDBCard className="text-black">
+              <MDBCardImage
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-product-cards/img1.webp"
+                position="top"
+                alt="iPhone"
+              />
+              <MDBCardBody>
+                <div className="text-center mt-1">
+                  <MDBCardTitle className="h4">Plan Básico</MDBCardTitle>
+                  <h6 className="text-primary mb-1 pb-3">Solución Individual</h6>
+                </div>
+                <div className="text-center">
+                  <div
+                    className="p-3 mx-n3 mb-4"
+                    style={{ backgroundColor: "#eff1f2" }}
+                  >
+                    <h5 className="mb-0">Precio: 15€ al mes</h5>
+                  </div>
+  
+                  <div className="d-flex flex-column mb-4">
+                   
+                    <ul className="list-unstyled mb-0">
+                      <li aria-hidden="true">—</li>
+                      <li>1 cuenta de usuario</li>
+                      <li>1 cuenta de correo asociada</li>
+                      <li>Acceso completo a la plataforma</li>
+                      <li>Respuestas inteligentes en tiempo real</li>
+                      <li>Atención al cliente las 24 horas</li>
+                      <li aria-hidden="true">—</li>
+                    </ul>
+                  </div>
+                </div>
+  
+                <div className="d-flex flex-row">
+                  <MDBBtn
+                    color="primary"
+                    rippleColor="dark"
+                    className="flex-fill ms-1"
+                  >
+                    Learn more
+                  </MDBBtn>
+                  
+                </div>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+          
+          <MDBCol md="4" className="mb-4 mb-lg-0">
+          <MDBCard className="text-black">
+              <MDBCardImage
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-product-cards/img1.webp"
+                position="top"
+                alt="iPhone"
+              />
+              <MDBCardBody>
+                <div className="text-center mt-1">
+                  <MDBCardTitle className="h4">Plan Básico</MDBCardTitle>
+                  <h6 className="text-primary mb-1 pb-3">Solución Individual</h6>
+                </div>
+                <div className="text-center">
+                  <div
+                    className="p-3 mx-n3 mb-4"
+                    style={{ backgroundColor: "#eff1f2" }}
+                  >
+                    <h5 className="mb-0">Precio: 15€ al mes</h5>
+                  </div>
+  
+                  <div className="d-flex flex-column mb-4">
+                   
+                    <ul className="list-unstyled mb-0">
+                      <li aria-hidden="true">—</li>
+                      <li>1 cuenta de usuario</li>
+                      <li>1 cuenta de correo asociada</li>
+                      <li>Acceso completo a la plataforma</li>
+                      <li>Respuestas inteligentes en tiempo real</li>
+                      <li>Atención al cliente las 24 horas</li>
+                      <li aria-hidden="true">—</li>
+                    </ul>
+                  </div>
+                </div>
+  
+                <div className="d-flex flex-row">
+                  <MDBBtn
+                    color="primary"
+                    rippleColor="dark"
+                    className="flex-fill ms-1"
+                  >
+                    Learn more
+                  </MDBBtn>
+                  
+                </div>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+          <MDBCol md="4" className="mb-4 mb-lg-0">
+          <MDBCard className="text-black">
+              <MDBCardImage
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-product-cards/img1.webp"
+                position="top"
+                alt="iPhone"
+              />
+              <MDBCardBody>
+                <div className="text-center mt-1">
+                  <MDBCardTitle className="h4">Plan Básico</MDBCardTitle>
+                  <h6 className="text-primary mb-1 pb-3">Solución Individual</h6>
+                </div>
+                <div className="text-center">
+                  <div
+                    className="p-3 mx-n3 mb-4"
+                    style={{ backgroundColor: "#eff1f2" }}
+                  >
+                    <h5 className="mb-0">Precio: 15€ al mes</h5>
+                  </div>
+  
+                  <div className="d-flex flex-column mb-4">
+                   
+                    <ul className="list-unstyled mb-0">
+                      <li aria-hidden="true">—</li>
+                      <li>1 cuenta de usuario</li>
+                      <li>1 cuenta de correo asociada</li>
+                      <li>Acceso completo a la plataforma</li>
+                      <li>Respuestas inteligentes en tiempo real</li>
+                      <li>Atención al cliente las 24 horas</li>
+                      <li aria-hidden="true">—</li>
+                    </ul>
+                  </div>
+                </div>
+  
+                <div className="d-flex flex-row">
+                  <MDBBtn
+                    color="primary"
+                    rippleColor="dark"
+                    className="flex-fill ms-1"
+                  >
+                    Learn more
+                  </MDBBtn>
+                  
+                </div>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    );
+  }; 
 
 
 
