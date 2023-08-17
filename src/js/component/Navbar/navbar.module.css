@@ -34,6 +34,8 @@
   padding: 0;
   margin: 0;
   cursor: pointer;
+  flex: 1;
+  justify-content: center;
 }
 
 /* Estilos para cada enlace del navbar */
@@ -55,50 +57,36 @@
   background-color: #333;
 }
 
-/* Estilos para el botón de registrarse */
-.signup-button {
-  background-color: #4ab19d;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.signup-button:hover {
-  background-color: #2e75b6;
-}
-
-/* Estilos para el botón de iniciar sesión */
-.login-button {
-  background-color: #2e75b6;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.login-button:hover {
-  background-color: #4ab19d;
-}
-
+/* Estilos para los botones de autenticación */
 .auth-buttons {
-  margin-left: 05px;
-  margin-right: 05px;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  margin-left: 5px;
 }
+
+.login-button,
+  .signup-button {
+    background-color: #2e75b6;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 5px 0;
+  }
+  
+  .signup-button {
+    background-color: #4ab19d;
+  }
+  
+  .signup-button:hover,
+  .login-button:hover {
+    background-color: #28669f;
+  }
 
 .userIcon {
   margin-right: 8px;
@@ -151,6 +139,6 @@
     display: block;
     width: 100%;
     margin-bottom: 10px;
+    margin-left: 0;
   }
 }
-
