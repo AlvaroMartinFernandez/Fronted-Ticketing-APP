@@ -241,12 +241,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      //Funcion de contestacion
+
       sendTicketReply : async (ticketId, message) => {
         try {
           const response = await fetch(`https://backend-ticketing-app-production.up.railway.app/messages/${ticketId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getStore().accessToken}`,
             },
             body: JSON.stringify({ message }), // Enviamos el mensaje en el cuerpo del JSON
           });

@@ -447,6 +447,7 @@ const UserList = ({ users, createUser }) => {
           </div>
         </div>
       )}
+       <div className={styles['pagination-container']}>
        <ReactPaginate
         previousLabel={'←'}
         nextLabel={'→'}
@@ -460,6 +461,7 @@ const UserList = ({ users, createUser }) => {
         subContainerClassName={'pages pagination'}
         activeClassName={'active'}
       />
+      </div>
     </div>
   );
 };

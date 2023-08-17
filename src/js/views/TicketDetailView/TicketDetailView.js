@@ -12,6 +12,7 @@ const TicketDetailView = () => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [messageInput, setMessageInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isReplying, setIsReplying] = useState(false);
 
   useEffect(() => {
     const loadTicketAndMessages = async () => {
@@ -35,34 +36,39 @@ const TicketDetailView = () => {
   }, []);
 
 // Función para acortar los asuntos largos
+
 const shortenSubject = (subject) => {
   return subject.replace(/(Re:)+/g, 'Re:'); // Reemplazar múltiples "Re:" con uno solo
 };
 
+// Funcion para contestar
 
-  const handleReply = async () => {
-    try {
-      if (messageInput.trim() === '') {
-        // No permitir enviar respuestas vacías
-        return;
-      }
-
-      const response = await actions.sendTicketReply(selectedTicket.id, messageInput);
-
-      if (response.status === 200) {
-        // Respuesta enviada exitosamente, actualiza el historial de mensajes
-        await actions.loadTicketMessages(selectedTicket.id);
-        setMessageInput('');
-      } else {
-        console.error('Error al enviar la respuesta:', response.statusText);
-        // Manejar el error según tus necesidades
-      }
-    } catch (error) {
-      console.error('Error al enviar la respuesta:', error);
-      // Manejar el error según tus necesidades
+const handleReply = async () => {
+  try {
+    if (messageInput.trim() === '') {
+      // Mostrar mensaje de advertencia si la respuesta está vacía
+      alert('Por favor, escribe una respuesta.');
+      return;
     }
-  };
 
+    setIsReplying(true); // Iniciar indicador de carga al enviar
+
+    const response = await actions.sendTicketReply(selectedTicket.id, messageInput);
+
+    if (response.status === 200) {
+      // Respuesta enviada exitosamente, actualizar automáticamente el historial de mensajes
+      await actions.loadTicketMessages(selectedTicket.id);
+      setMessageInput('');
+    } else {
+      alert('Error al enviar la respuesta. Por favor, intenta nuevamente.'); // Mostrar mensaje de error al usuario
+    }
+
+    setIsReplying(false); // Finalizar indicador de carga al enviar
+  } catch (error) {
+    console.error('Error al enviar la respuesta:', error);
+    setIsReplying(false); // Finalizar indicador de carga al enviar en caso de error
+  }
+};
 
   return (
     <div className={styles.ticketDetailContainer}>
@@ -74,7 +80,6 @@ const shortenSubject = (subject) => {
         <div className={styles.ticketDetailContent}>
           <h2 className={styles.ticketHeader}>Detalles del Ticket</h2>
           <p className={styles.ticketInfo}><strong>ID:</strong> {selectedTicket.id}</p>
-
           
           
           {/* ... Otros detalles del ticket ... */}

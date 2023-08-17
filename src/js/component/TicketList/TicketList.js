@@ -281,7 +281,7 @@ const TicketList = ({ tickets }) => {
           })}
         </tbody>
       </table>
-      <div className={styles.paginationContainer}>
+      <div className={styles['pagination-container']}>
       <ReactPaginate
         previousLabel={'←'}
         nextLabel={'→'}

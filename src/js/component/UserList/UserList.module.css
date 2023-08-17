@@ -224,3 +224,40 @@ th {
   margin-top: 10px;
   border-radius: 4px;
 }
+
+/* TicketList.module.css */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pagination {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination > li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 1.25rem; /* Aumenta el tamaño de la fuente para las flechas */
+}
+
+.pagination > li.active > a,
+.pagination > li.active > span {
+  background-color: #36d7b7;
+  color: white;
+  border-radius: 5px;
+}

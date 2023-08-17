@@ -117,7 +117,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
   // Función para manejar el envío del formulario del modal
   const handleCreateDepartment = async e => {
     e.preventDefault();
-    const success = await createDepartment(newDepartmentData);
+    const success = await actions.createNewDepartment(newDepartmentData);
     if (success) {
       toggleModal(); // Cerrar el modal después de crear el departamento exitosamente
     }
@@ -171,6 +171,89 @@ const DepartmentList = ({ departments, createDepartment }) => {
           })}
         </tbody>
       </table>
+
+      {/* Botón para abrir el modal */}
+      <button className={styles.addButton} onClick={toggleModal}>
+        <FaPlus className={styles.addIcon} /> Crear Departamento
+      </button>
+
+      {isModalOpen && (
+  <div className={styles.modal}>
+    <div className={styles.modalContent}>
+      <h2>Nuevo Departamento</h2>
+      <form onSubmit={handleCreateDepartment}>
+        <div className={styles.formGroup}>
+          <label>Correo:</label>
+          <input
+            type="email"
+            name="email"
+            value={newDepartmentData.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Host del Correo:</label>
+          <input
+            type="text"
+            name="host_email"
+            value={newDepartmentData.host_email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Puerto del Correo:</label>
+          <input
+            type="number"
+            name="port_email"
+            value={newDepartmentData.port_email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Contraseña del Correo:</label>
+          <input
+            type="password"
+            name="password_email"
+            value={newDepartmentData.password_email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Cliente ID:</label>
+          <input
+            type="number"
+            name="client_id"
+            value={newDepartmentData.client_id}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Departamento:</label>
+          <select
+            name="department"
+            value={newDepartmentData.department}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar departamento</option>
+            {store.departments.map(department => (
+              <option key={department.id} value={department.id}>
+                {department.name_department}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button type="submit" className={styles.submitButton}>
+          Crear
+        </button>
+      </form>
+      <button className={styles.closeButton} onClick={toggleModal}>
+        Cerrar
+      </button>
+    </div>
+  </div>
+)}
+
+
 
      
     </div>
