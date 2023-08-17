@@ -5,7 +5,7 @@ import { BiUser } from 'react-icons/bi';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import styles from './floatingMenu.module.css';
 
-const FloatingMenu = ({ store, isDashboardPage, handleScrollTo, actions }) => {
+const FloatingMenu = ({ store, isDashboardPage, handleScrollTo, actions, location }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -95,3 +95,6 @@ const FloatingMenu = ({ store, isDashboardPage, handleScrollTo, actions }) => {
 };
 
 export default FloatingMenu;
+
+
+

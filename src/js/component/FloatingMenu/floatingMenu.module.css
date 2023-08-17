@@ -1,15 +1,15 @@
 /* Estilos generales del menú flotante */
 .floatingMenu {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 4px;
-    display: none;
-    transition: opacity 0.3s, visibility 0.3s;
-    z-index: 1000;
-  }
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 10px;
+  border-radius: 4px;
+  display: none;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 1000;
+}
   
   .floatingMenu.show {
     display: block;
