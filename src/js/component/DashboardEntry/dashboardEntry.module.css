@@ -1,7 +1,7 @@
 /* src/styles/modules/dashboardEntry.module.css */
 
 .dashboard-entry {
-  margin: 0px 0px 20px 0px;
+  margin: 25px 0px 25px 0px;
   display: flex;
   justify-content: center; /* Centrar horizontalmente el contenido */
 }

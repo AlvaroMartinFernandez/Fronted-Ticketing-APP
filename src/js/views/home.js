@@ -14,7 +14,7 @@ import NevVideoComponent from '../component/NevVideoComponent/NevVideoComponent'
 
 
 export const Home = () => (
-  <div className="text-center mt-5">
+  <div >
 
 <DashboardEntry />
   
