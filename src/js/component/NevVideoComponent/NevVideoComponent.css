@@ -1,0 +1,61 @@
+/* Estilos para la sección de características */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 50vh; /* Ajusta la altura según tus necesidades */
+    overflow: hidden;
+  }
+  
+  .background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  .content-container {
+    padding: 40px 0;
+    background-color: transparent; /* Cambio del color de fondo a transparente */
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos fluyan en varias filas */
+    justify-content: space-between; /* Distribución uniforme en el eje principal */
+    gap: 40px; /* Espacio entre las características */
+    z-index: 1;
+  }
+  
+  
+  .feature {
+    flex: 0 1 calc(50% - 20px); /* Ocupar la mitad del ancho, con espacio entre las características */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo transparente con opacidad */
+    padding: 20px; /* Agrega un poco de espacio alrededor del contenido */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  }
+  
+  /* Estilos para el icono */
+  .icon {
+    font-size: 36px;
+    color: #007bff; /* Color del ícono, puedes cambiarlo según tus preferencias */
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para el título de la característica */
+  .feature-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para la descripción de la característica */
+  .feature-description {
+    font-size: 16px;
+  }
+  
