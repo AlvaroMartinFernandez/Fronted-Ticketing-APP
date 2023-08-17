@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       users: [],
       tickets: [],
-      ticketDetails:null,
+      ticketDetails: null,
       departments: [],
       messages: [],
       accessToken: localStorage.getItem('accessToken') || null,
@@ -14,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       name: "",
       password: "",
       email: "",
-      user_name: "",
+      department: "",
       role: "",
     },
 
@@ -110,7 +110,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // Función para crear un nuevo usuario
       createUser: async (userData) => {
-        
+
         try {
           console.log("<<<<<<<<<<<", userData)
           const response = await axios.post(
@@ -124,7 +124,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
 
-          if (response.status === 200) {
+          if (response.status === 201) {
             // Actualizamos el estado con los usuarios obtenidos de la API
             setStore({ users: [...getStore().users, response.data] });
             return true;
@@ -151,11 +151,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
 
           if (response.status === 200) {
-            
-            setStore({ticketDetails:response.data})
-           
-         
-           // setStore({ ...getStore(), tickets: updatedTickets });
+
+            setStore({ ticketDetails: response.data })
+
+
+            // setStore({ ...getStore(), tickets: updatedTickets });
           } else {
             console.error('Error al cargar los mensajes del ticket:', response.statusText);
           }
@@ -163,7 +163,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error('Error al cargar los mensajes del ticket:', error);
         }
       },
-      
+
 
 
       loadAllTicketsData: async () => {
@@ -243,7 +243,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //Funcion de contestacion
 
-      sendTicketReply : async (ticketId, message) => {
+      sendTicketReply: async (ticketId, message) => {
         try {
           const response = await fetch(`https://backend-ticketing-app-production.up.railway.app/messages/${ticketId}`, {
             method: 'POST',
@@ -253,7 +253,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             body: JSON.stringify({ message }), // Enviamos el mensaje en el cuerpo del JSON
           });
-      
+
           return response;
         } catch (error) {
           throw error;
@@ -288,6 +288,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/departments/', departmentData, {
             headers: {
+              method: 'POST',
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${getStore().accessToken}`,
             },
           });
@@ -379,11 +381,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             localStorage.setItem('accessToken', response.data.access_token);
             // Actualizamos los datos del usuario en el estado
             setStore({
-              name: response.data.name,
-              email: response.data.email,
-              //user_name: response.data.user_name,
-              //role: response.data.role,
-              password: response.data.password,
+              name: response.data.user.name,
+              email: response.data.user.email,
+              department: response.data.department,
+              role: response.data.user.role,
+              
 
             });
 
@@ -412,7 +414,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               cp,
               plan,
               phone
-          },
+            },
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -437,13 +439,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Función para recuperar la contraseña del usuario
       recoverPassword: async (email) => {
         try {
-          const response = await axios.post(
+          const response = await axios.patch(
             'https://backend-ticketing-app-production.up.railway.app/users/recoverpassword',
             {
               email: email,
             },
             {
               headers: {
+                method: 'PATCH',
+
                 'Content-Type': 'application/json',
               },
             }
@@ -465,9 +469,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // Función para cerrar sesión y eliminar el token del estado y del localStorage
       logout: async () => {
-        try 
-        {localStorage.removeItem('accesToken');
-        window.location.href = '/';
+        try {
+          localStorage.removeItem('accesToken');
+          window.location.href = '/';
 
         } catch (error) {
           console.error('Error al cerrar sesión:', error);
