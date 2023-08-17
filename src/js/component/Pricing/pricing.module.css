@@ -57,17 +57,17 @@
   border-left:20px solid transparent;
   border-right:20px solid transparent;
 }
-  figure.image img {
+  .figure.image img {
     width:100%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-figure.image {
+.figure.image {
     position: relative;
   margin: 0;
     padding: 0;
 }
-figure.image figcaption {
+.figure.image figcaption {
     position: absolute;
     top: 0;
     width: 100%;
@@ -78,7 +78,7 @@ figure.image figcaption {
     border-top-right-radius: 10px;
 
 }
-figcaption .caption{
+.figcaption .caption{
   position:relative;
   top:50%;
   -moz-transform:translateY(-50%);
@@ -86,13 +86,13 @@ figcaption .caption{
   transform:translateY(-50%);
 
 }
-figcaption h1{
+.figcaption h1{
     color:white;
   font-weight:bold;
     font-size:16px;
   text-transform: uppercase;
 }
-figcaption p{
+.figcaption p{
   color:white;
   font-size:12px;
 }
