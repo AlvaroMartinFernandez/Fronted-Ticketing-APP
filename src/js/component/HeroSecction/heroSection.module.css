@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 2rem;
+  padding: 0.5rem;
   background: linear-gradient(to right, #2e75b6, #4ab19d);
   color: #fff;
 }
@@ -16,8 +16,14 @@
 }
 
 .hero-content h1 {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content h2 {
   font-size: 2.9rem;
   margin-bottom: 1rem;
+  color: #fff;
 }
 
 .hero-content p {
@@ -29,7 +35,7 @@
 /* Imagen del héroe */
 .hero-image {
   flex: 1;
-  max-width: 600px; /* Establece el ancho máximo de la imagen */
+  max-width: 725px; /* Establece el ancho máximo de la imagen */
   overflow: hidden; /* Oculta cualquier parte de la imagen que sobrepase el contenedor */
 }
 
