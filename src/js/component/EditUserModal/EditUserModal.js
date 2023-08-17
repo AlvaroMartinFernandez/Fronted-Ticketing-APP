@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import styles from './EditUserModal.module.css';
 import { Context } from "../../store/appContext.js";
 
-
 const EditUserModal = ({ user, onSave, onCancel }) => {
   const { store, actions } = useContext(Context);
   const [editedUser, setEditedUser] = useState(user);
