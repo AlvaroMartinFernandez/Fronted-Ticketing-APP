@@ -73,7 +73,7 @@ const isDashboardPage = location.pathname === '/dashboard';
           </div>
           <div className={styles['auth-buttons']}>
             <Link to="/signup" className={`${styles['signup-button']} ${styles['button']}`}>
-              Registrarse <AiOutlineCheckCircle size={20} className={styles.checkIcon} />
+              Registrarse   <AiOutlineCheckCircle size={20} className={styles.checkIcon} />
             </Link>
           </div>
         </>

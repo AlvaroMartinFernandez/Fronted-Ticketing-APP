@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BiMenu } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { BiUser } from 'react-icons/bi';
@@ -8,6 +8,7 @@ import styles from './floatingMenu.module.css';
 const FloatingMenu = ({ store, isDashboardPage, handleScrollTo, actions, location }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null); // Referencia al menú desplegable
 
   const handleScroll = () => {
     if (window.scrollY > 100) {
@@ -24,6 +25,12 @@ const FloatingMenu = ({ store, isDashboardPage, handleScrollTo, actions, locatio
     };
   }, []);
 
+  // Función para cerrar el menú desplegable
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -37,7 +44,7 @@ const FloatingMenu = ({ store, isDashboardPage, handleScrollTo, actions, locatio
 
       {/* Menú desplegable */}
       {isMenuOpen && (
-        <nav className={styles.navbar}>
+        <nav className={styles.navbar} >
           {!store.isLoggedIn || !isDashboardPage ? (
             <ul className={styles['nav-links']}>
               <li>
