@@ -4,77 +4,206 @@ import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './UserList.module.css';
+import { FaEdit } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
+import EditUserModal from '../EditUserModal/EditUserModal.js';
+import { Link } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 
 
-const SelectColumnFilter = ({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) => {
-  const options = useMemo(() => {
-    const allDepartments = new Set();
-    preFilteredRows.forEach(row => {
-      row.values[id].split(', ').forEach(dep => allDepartments.add(dep));
-    });
-    return [...allDepartments.values()];
-  }, [id, preFilteredRows]);
 
-  return (
-    <select
-      value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined);
-      }}
-    >
-      <option value="">Todos</option>
-      {options.map((dep, index) => (
-        <option key={index} value={dep}>
-          {dep}
-        </option>
-      ))}
-    </select>
-  );
-};
-
-
-const SelectRoleFilter = ({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) => {
-  const options = useMemo(() => {
-    const allRoles = new Set();
-    preFilteredRows.forEach(row => {
-      allRoles.add(row.values[id]);
-    });
-    return [...allRoles.values()];
-  }, [id, preFilteredRows]);
-
-  return (
-    <select
-      value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined);
-      }}
-    >
-      <option value="">Todos</option>
-      {options.map((role, index) => (
-        <option key={index} value={role}>
-          {role}
-        </option>
-      ))}
-    </select>
-  );
-};
 
 const UserList = ({ users, createUser }) => {
   const { store, actions } = useContext(Context);
   const data = useMemo(() => users, [users]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userToEdit, setUserToEdit] = useState({
+    name: '',
+    email: '',
+    role: '',
+    department: '',
+    password: '',
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUserData, setNewUserData] = useState({
     name: '',
     email: '',
-    role: 'directivo',
+    role: '',
     department: '',
+    password: '',
   });
-  const [departments, setDepartments] = useState([]);
+
+  const [departments, setDepartments] = useState([])
+ 
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const itemsPerPage = 10; // Definir la cantidad de elementos por página
+
   
+
+  const updateUserData = async (userId, userData) => {
+    try {
+      const response = await axios.put(
+        `https://backend-ticketing-app-production.up.railway.app/users/${userId}`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        actions.loadAllUsersData(); // Actualiza la lista de usuarios
+        return true;
+      } else {
+        console.error('Error al actualizar datos del usuario:', response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al actualizar datos del usuario:', error);
+      return false;
+    }
+  };
+
+  const deleteUserData = async (userId) => {
+    try {
+      const response = await axios.delete(`https://backend-ticketing-app-production.up.railway.app/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${store.accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        // Actualizamos el estado eliminando el usuario del array de usuarios
+        actions.loadAllUsersData(); // Actualiza la lista de usuarios
+        return true;
+      } else {
+        console.error('Error al eliminar usuario:', response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error);
+      return false;
+    }
+  };
+
+
+
+  const handleEditUser = (userId) => {
+    const userToEdit = store.users.find(user => user.id === userId);
+    setShowEditModal(true);
+    setUserToEdit(userToEdit); // Asegúrate de estar configurando correctamente el usuario a editar
+  };
+
+  const handleSaveEdit = async (updatedUserData) => {
+    if (!userToEdit) {
+      console.error('No se encontró el usuario a editar.');
+      return;
+    }
+
+    const success = await updateUserData(userToEdit.id, updatedUserData);
+    if (success) {
+      setShowEditModal(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setShowEditModal(false);
+  };
+
+  const handleDeleteUser = async (userId) => {
+    // Mostrar una alerta de confirmación antes de eliminar al usuario
+    const confirmDelete = window.confirm('¿Seguro que quieres eliminar a este usuario?');
+
+    if (confirmDelete) {
+      const success = await deleteUserData(userId);
+      if (success) {
+        console.log('Usuario eliminado exitosamente:', userId);
+      } else {
+        console.log('Error al eliminar usuario:', userId);
+      }
+    }
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setNewUserData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleCreateUser = async e => {
+    e.preventDefault();
+    console.log(newUserData)
+    const success = await actions.createUser(newUserData);
+    if (success) {
+      toggleModal();
+    }
+  };
+
+  const SelectDepartmentFilter = ({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) => {
+    const options = useMemo(() => {
+      const allDepartments = new Set();
+      preFilteredRows.forEach(row => {
+        allDepartments.add(row.values[id]);
+      });
+      return [...allDepartments.values()];
+    }, [id, preFilteredRows]);
+  
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined);
+        }}
+      >
+        <option value="">Todos</option>
+        {options.map((department, index) => (
+          <option key={index} value={department}>
+            {department}
+          </option>
+        ))}
+      </select>
+    );
+  };
+  
+  
+  const SelectRoleFilter = ({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) => {
+    const options = useMemo(() => {
+      const allRoles = new Set();
+      preFilteredRows.forEach(row => {
+        allRoles.add(row.values[id]);
+      });
+      return [...allRoles.values()];
+    }, [id, preFilteredRows]);
+  
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined);
+        }}
+      >
+        <option value="">Todos</option>
+        {options.map((role, index) => (
+          <option key={index} value={role}>
+            {role}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
 
   const columns = useMemo(
     () => [
@@ -99,37 +228,58 @@ const UserList = ({ users, createUser }) => {
       {
         Header: 'Rol',
         accessor: 'role',
-        Filter: SelectRoleFilter, 
-        filter: 'includes', 
+        Filter: SelectRoleFilter,
         canFilter: true,
         sortType: 'basic',
       },
       {
-        Header: 'Fecha de Creación',
-        accessor: 'createdAt',
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ value }) => {
-          const formattedDate = new Date(value).toLocaleString();
-          return <span>{formattedDate}</span>;
-        },
-      },
-      {
-        Header: 'Departamentos',
-        accessor: row => row.departments.map(dep => dep.name_department).join(', '),
-        Filter: SelectColumnFilter, 
-        filter: 'includes', 
+        Header: 'Departamento',
+        accessor: 'department.name_department', // Asegúrate de usar el nombre correcto de la propiedad
+        Filter: SelectDepartmentFilter, // Utiliza el mismo componente de filtro para departamentos
         canFilter: true,
         sortType: 'basic',
       },
+
+
       {
         Header: 'Tickets',
         accessor: 'tickets.length',
         canFilter: true,
         sortType: 'basic',
+        Cell: ({ row }) => {
+          const userId = row.original.id;
+          const ticketsCount = row.values['tickets.length'];
+
+          return (
+            <Link to={`/TicketDetailView/${userId}`}>
+              Ver Tickets ({ticketsCount})
+            </Link>
+          );
+        },
       },
+
+
+      {
+        Header: 'Acciones',
+        accessor: 'actions', // Utilizamos 'id' aquí como accessor
+        Cell: ({ row }) => (
+
+
+          <div>
+            <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+              <FaEdit className={styles.actionsIcon} /> Editar
+            </button>
+            <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+              <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+            </button>
+
+          </div>
+        ),
+      },
+
+
     ],
-    [departments] 
+    [departments]
   );
 
   const {
@@ -143,7 +293,7 @@ const UserList = ({ users, createUser }) => {
   } = useTable(
     {
       columns,
-      data:store.users,
+      data: store.users,
       initialState: {
         hiddenColumns: ['id'],
       },
@@ -155,48 +305,17 @@ const UserList = ({ users, createUser }) => {
 
   const { globalFilter } = state;
 
-  const fetchUsersData = async () => {
-    try{
-      const response = await axios.get("https://backend-ticketing-app-production.up.railway.app/users/");
-      setUsers(response.data);
-    } catch (error) {
-      console.log ("error")
-    }
-  }
+  const pageCount = Math.ceil(rows.length / itemsPerPage);
 
-  const fetchDepartmentsData = async () => {
-    try {
-      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/departments/');
-      setDepartments(response.data);
-    } catch (error) {
-      console.error('Error al obtener los departamentos:', error);
-    }
+  const offset = currentPage * itemsPerPage;
+  const paginatedRows = rows.slice(offset, offset + itemsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
   };
 
-  useEffect(() => {
-    fetchDepartmentsData();
-    fetchUsersData();
-  }, []);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setNewUserData(prevData => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleCreateUser = async e => {
-    e.preventDefault();
-    const success = await createUser(newUserData);
-    if (success) {
-      toggleModal();
-    }
-  };
 
   return (
     <div className={styles.container}>
@@ -240,18 +359,40 @@ const UserList = ({ users, createUser }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
+          {paginatedRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className={styles.userRow}>
                 {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {cell.column.id === 'actions' ? (
+                        <div>
+                          {/* Botón de editar */}
+                          <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+                            <FaEdit className={styles.actionsIcon} /> Editar
+                          </button>
+                          {/* Botón de eliminar */}
+                          <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+                            <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+                          </button>
+                        </div>
+                      ) : (
+                        cell.render('Cell')
+                      )}
+                    </td>
+
+                  );
                 })}
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      {showEditModal && (
+        <EditUserModal user={userToEdit} onSave={handleSaveEdit} onCancel={handleCancelEdit} />
+      )}
 
       <button onClick={toggleModal} className={styles.addButton}>
         <FaPlus />
@@ -274,25 +415,28 @@ const UserList = ({ users, createUser }) => {
               <div className={styles.formGroup}>
                 <label>Rol:</label>
                 <select name="role" value={newUserData.role} onChange={handleChange}>
-                  <option value="directivo">Directivo</option>
-                  <option value="administrador">Administrador</option>
-                  <option value="empleado">Empleado</option>
+                  <option value="">Seleccionar rol</option>
+                  <option value="Director">Directivo</option>
+                  <option value="Admin">Administrador</option>
+                  <option value="Employee">Empleado</option>
                 </select>
               </div>
               <div className={styles.formGroup}>
                 <label>Contraseña:</label>
                 <input type="password" name="password" value={newUserData.password} onChange={handleChange} />
               </div>
-              <div className={styles.formGroup}>
+              {<div className={styles.formGroup}>
                 <label>Departamento:</label>
                 <select name="department" value={newUserData.department} onChange={handleChange}>
-                  {departments.map(department => (
+                  <option value="">Seleccionar departamento</option>
+                  {store.departments.map(department => (
                     <option key={department.id} value={department.id}>
-                      {department.name}
+                      {department.name_department}
                     </option>
                   ))}
                 </select>
-              </div>
+
+              </div>}
               <div className={styles.modalButtons}>
                 <button type="submit">Guardar</button>
                 <button type="button" onClick={toggleModal} className={styles.cancelButton}>
@@ -303,6 +447,21 @@ const UserList = ({ users, createUser }) => {
           </div>
         </div>
       )}
+       <div className={styles['pagination-container']}>
+       <ReactPaginate
+        previousLabel={'←'}
+        nextLabel={'→'}
+        breakLabel={'...'}
+        breakClassName={'break-me'}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={'pagination'}
+        subContainerClassName={'pages pagination'}
+        activeClassName={'active'}
+      />
+      </div>
     </div>
   );
 };

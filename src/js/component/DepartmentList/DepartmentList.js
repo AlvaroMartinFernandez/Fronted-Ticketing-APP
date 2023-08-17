@@ -1,10 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useContext } from 'react';
+import { Context } from "../../store/appContext.js";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import styles from './DepartmentList.module.css';
 
 const DepartmentList = ({ departments, createDepartment }) => {
+  const { store, actions } = useContext(Context);
   console.log(departments)
+  
   const data = useMemo(() => departments, [departments]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDepartmentData, setNewDepartmentData] = useState({
@@ -36,24 +40,8 @@ const DepartmentList = ({ departments, createDepartment }) => {
         canFilter: true,
         sortType: 'basic',
       },
-      {
-        Header: 'Correo del Host',
-        accessor: 'host_email',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Puerto del Correo',
-        accessor: 'port_email',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Contraseña del Correo',
-        accessor: 'password_email',
-        canFilter: true,
-        sortType: 'basic',
-      },
+    
+     
       {
         Header: 'Cliente ID',
         accessor: 'client_id',
@@ -61,15 +49,29 @@ const DepartmentList = ({ departments, createDepartment }) => {
         sortType: 'basic',
       },
       {
-        Header: 'Fecha de Creación',
-        accessor: 'createdAt', // Agregar columna para mostrar la fecha de creación del departamento
+        Header: 'Número de Usuarios',
+        accessor: 'users_name', // Reemplaza 'numUsers' con el nombre real de la propiedad
         canFilter: true,
         sortType: 'basic',
-        Cell: ({ value }) => {
-          // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
-          const formattedDate = new Date(value).toLocaleString();
-          return <span>{formattedDate}</span>;
-        },
+      },
+      
+      {
+        Header: 'Tickets',
+        accessor: 'tickets', // Utiliza la propiedad tickets para mostrar los tickets
+        canFilter: false,
+        sortType: 'none', // No permite ordenar esta columna
+        Cell: ({ cell }) => (
+          <div className={styles.ticketContainer}>
+            {cell.value.map(ticket => (
+              <Link key={ticket.id} to={`/TicketDetailView/${ticket.id}`} className={styles.ticketLink}>
+                <div className={styles.ticketCard}>
+                  <span className={styles.ticketTitle}>Ticket {ticket.id}</span>
+                  {/* Opcional: Mostrar más información del ticket aquí */}
+                </div>
+              </Link>
+            ))}
+          </div>
+        ),
       },
     ],
     []
@@ -86,7 +88,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
   } = useTable(
     {
       columns,
-      data,
+      data: store.departments,
       initialState: {
         hiddenColumns: ['id'],
       },
@@ -115,7 +117,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
   // Función para manejar el envío del formulario del modal
   const handleCreateDepartment = async e => {
     e.preventDefault();
-    const success = await createDepartment(newDepartmentData);
+    const success = await actions.createNewDepartment(newDepartmentData);
     if (success) {
       toggleModal(); // Cerrar el modal después de crear el departamento exitosamente
     }
@@ -169,6 +171,89 @@ const DepartmentList = ({ departments, createDepartment }) => {
           })}
         </tbody>
       </table>
+
+      {/* Botón para abrir el modal */}
+      <button className={styles.addButton} onClick={toggleModal}>
+        <FaPlus className={styles.addIcon} /> Crear Departamento
+      </button>
+
+      {isModalOpen && (
+  <div className={styles.modal}>
+    <div className={styles.modalContent}>
+      <h2>Nuevo Departamento</h2>
+      <form onSubmit={handleCreateDepartment}>
+        <div className={styles.formGroup}>
+          <label>Correo:</label>
+          <input
+            type="email"
+            name="email"
+            value={newDepartmentData.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Host del Correo:</label>
+          <input
+            type="text"
+            name="host_email"
+            value={newDepartmentData.host_email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Puerto del Correo:</label>
+          <input
+            type="number"
+            name="port_email"
+            value={newDepartmentData.port_email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Contraseña del Correo:</label>
+          <input
+            type="password"
+            name="password_email"
+            value={newDepartmentData.password_email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Cliente ID:</label>
+          <input
+            type="number"
+            name="client_id"
+            value={newDepartmentData.client_id}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label>Departamento:</label>
+          <select
+            name="department"
+            value={newDepartmentData.department}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar departamento</option>
+            {store.departments.map(department => (
+              <option key={department.id} value={department.id}>
+                {department.name_department}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button type="submit" className={styles.submitButton}>
+          Crear
+        </button>
+      </form>
+      <button className={styles.closeButton} onClick={toggleModal}>
+        Cerrar
+      </button>
+    </div>
+  </div>
+)}
+
+
 
      
     </div>

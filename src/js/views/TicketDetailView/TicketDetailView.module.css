@@ -1,0 +1,115 @@
+/* TicketDetailView.module.css */
+
+.ticketDetailContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f8f8;
+  }
+  
+  .ticketDetailContent {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ticketHeader {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .ticketInfo {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .messageHistory {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .tableContainer {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .ticketTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .sortIndicator {
+    margin-left: 5px;
+  }
+  
+  .sortDesc {
+    transform: scaleY(-1);
+  }
+  
+  .sortAsc {
+    transform: scaleY(1);
+  }
+  
+  .ticketRow {
+    background-color: #f5f5f5;
+  }
+  
+  .messageCell {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+ /* Estilos para el botón de retroceso */
+.backButton {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  
+    /* Añade estilos adicionales según necesites */
+  }
+  
+  .backButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilos para la sección de respuesta */
+.messageReplyContainer {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+}
+
+.messageInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.sendButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sendButton:hover {
+  background-color: #0056b3;
+}

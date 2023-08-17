@@ -3,13 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./views/home";
 import { Demo } from "./views/demo";
 import injectContext from "./store/appContext";
-
 import Navbar from "./component/Navbar/Navbar";
-import DashBoard from "./component/DashBoard/DashBoard";
-import Login from "./component/Login/Login";
-import Signup from "./component/Signup/Signup";
+import DashBoard from "./views/DashBoard/DashBoard";
+import Login from "./views/Login/Login";
+import Signup from "./views/Signup/Signup";
 import Faq from "./component/Faqs/faq";
-import PasswordRecoveryForm from "./component/PasswordRecoveryForm/PasswordRecoveryForm";
+import PasswordRecoveryForm from "./views/PasswordRecoveryForm/PasswordRecoveryForm";
+import TicketDetailView from "./views/TicketDetailView/TicketDetailView";
 
 
 
@@ -19,7 +19,6 @@ const Layout = () => {
   return (
     <div>
       <BrowserRouter basename={basename}>
-
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -29,9 +28,10 @@ const Layout = () => {
           <Route path="/faq" element={<Faq />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
+          <Route path="/TicketDetailView/:id" element={<TicketDetailView />} />
+
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
-        
       </BrowserRouter>
     </div>
   );

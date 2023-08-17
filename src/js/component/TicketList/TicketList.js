@@ -1,8 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 import { Context } from "../../store/appContext.js";
+import { Link } from 'react-router-dom';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
+import { FaTrashAlt } from 'react-icons/fa';
+import ReactPaginate from 'react-paginate';
+
+
+
 
 const getStatusIconAndColor = (status) => {
   switch (status) {
@@ -21,41 +28,115 @@ const getStatusIconAndColor = (status) => {
   }
 };
 
-const TicketList = ({ tickets, createNewTicket }) => {
+const TicketList = ({ tickets }) => {
   const { store, actions } = useContext(Context);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Función para acortar los asuntos largos
+  const shortenSubject = (subject) => {
+    return subject.replace(/(Re:)+/g, 'Re:'); // Reemplazar múltiples "Re:" con uno solo
+  };
+
+  const itemsPerPage = 10; // Definir la cantidad de elementos por página
   
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newTicketData, setNewTicketData] = useState({
-    // Define the initial values for the new ticket form fields here
-  });
+
+  const deleteTicket = async (ticketId) => {
+    try {
+      const response = await axios.delete(
+        `https://backend-ticketing-app-production.up.railway.app/tickets/${ticketId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        actions.loadAllTicketsData();
+        console.log('Ticket eliminado exitosamente:', ticketId);
+      } else {
+        console.error('Error al eliminar el ticket:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error al eliminar el ticket:', error);
+    }
+  };
+
+  const handleDeleteTicket = async (ticketId) => {
+    const confirmDelete = window.confirm('¿Seguro que quieres eliminar este ticket?');
+    if (confirmDelete) {
+      const success = await deleteTicket(ticketId)
+      if (success) {
+        console.log('Ticket eliminado exitosamente:', ticketId);
+      } else {
+        console.log('Error al eliminar usuario:', ticketId);
+      }
+    }
+  };
+
+
+
 
   const columns = React.useMemo(
     () => [
       {
         Header: 'ID',
-        accessor: 'id', // Cambiar a 'id' para mostrar el ID del ticket
+        accessor: 'id',
         canFilter: true,
         sortType: 'basic',
+        Cell: ({ row }) => (
+          <Link
+            to={`/TicketDetailView/${row.original.id}`} // Establece la ruta correcta a la vista de detalles del ticket
+            className={styles.ticketIdLink}
+          >
+            {row.original.id}
+          </Link>
+        ),
       },
-      {
-        Header: 'Asunto',
-        accessor: 'subject',
-        canFilter: true,
-        sortType: 'basic',
-      },
+
       {
         Header: 'Estado',
         accessor: 'status',
         canFilter: true,
         sortType: 'basic',
-        Cell: ({ value }) => {
-          const { icon, color } = getStatusIconAndColor(value);
-          return (
-            <span style={{ color }}>
-              {icon} {value}
-            </span>
-          );
-        },
+
+      },
+
+
+
+      {
+        Header: 'Asunto',
+        accessor: 'messages[0].subject',
+        canFilter: true,
+        sortType: 'basic',
+        //  Cell: ({ value }) => {
+        //    const shortenedSubject = shortenSubject( value ); // Acortar el asunto
+        //    return <span>{shortenedSubject}</span>;
+        //  },
+      },
+      {
+        Header: 'Departamento',
+        accessor: 'department[0].name_department', // Acceder al nombre del primer departamento
+        canFilter: true,
+        sortType: 'basic',
+      },
+      {
+        Header: 'Usuario',
+        accessor: 'users', // Acceder al nombre del cliente
+        canFilter: true,
+        sortType: 'basic',
+        // Cell: ({ cell }) => (
+        //   <div >
+        //     {
+        //     cell.value.map(user => (
+        //       <div >
+        //         <span>Ticket {user.name}</span>
+        //       </div>
+
+        //     ))}
+        //   </div>
+        // ),
       },
       {
         Header: 'Fecha de Creación',
@@ -68,11 +149,37 @@ const TicketList = ({ tickets, createNewTicket }) => {
           return <span>{formattedDate}</span>;
         },
       },
-     
-      // Add more columns as needed
+      {
+        Header: 'Fecha de Actualizacion',
+        accessor: 'updatedAt', // Agregar columna para mostrar la fecha de creación del ticket
+        canFilter: true,
+        sortType: 'basic',
+        Cell: ({ value }) => {
+          // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
+          const formattedDate = new Date(value).toLocaleString();
+          return <span>{formattedDate}</span>;
+        },
+      },
+      {
+        Header: 'Acciones',
+        accessor: 'actions',
+        Cell: ({ row }) => (
+          <div>
+            <button
+              className={styles.deleteButton}
+              onClick={() => handleDeleteTicket(row.original.id)}
+            >
+              <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+            </button>
+          </div>
+        ),
+      },
+
+
     ],
     []
   );
+
 
   const {
     getTableProps,
@@ -85,8 +192,8 @@ const TicketList = ({ tickets, createNewTicket }) => {
   } = useTable(
     {
       columns,
-      data:tickets,
-       // Use 'tickets' directly here since useMemo is not needed for data
+      data: store.tickets,
+      // Use 'tickets' directly here since useMemo is not needed for data
       initialState: {
         // Define initial state as needed, e.g., hiddenColumns: ['id']
       },
@@ -98,28 +205,19 @@ const TicketList = ({ tickets, createNewTicket }) => {
 
   const { globalFilter } = state;
 
-  // Function to open and close the modal
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const pageCount = Math.ceil(rows.length / itemsPerPage);
+
+  const offset = currentPage * itemsPerPage;
+  const paginatedRows = rows.slice(offset, offset + itemsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
   };
 
-  // Function to handle changes in the modal form
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewTicketData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
-  // Function to handle the submission of the modal form
-  const handleCreateTicket = async (e) => {
-    e.preventDefault();
-    const success = await createNewTicket(newTicketData);
-    if (success) {
-      toggleModal(); // Close the modal after successfully creating the ticket
-    }
-  };
+
+
+
 
   return (
     <div className={styles.container}>
@@ -157,20 +255,52 @@ const TicketList = ({ tickets, createNewTicket }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+        {paginatedRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className={styles.ticketRow}>
                 {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {/* Renderizar la nueva columna de ID del ticket */}
+                      {cell.column.id === 'id' ? (
+                        <span
+                          className={styles.ticketIdLink}
+                          onClick={() => setSelectedTicket(row.original)}
+                        >
+                          {cell.render('Cell')}
+                        </span>
+                      ) : (
+                        cell.render('Cell')
+                      )}
+                    </td>
+                  );
                 })}
               </tr>
             );
           })}
         </tbody>
       </table>
+      <div className={styles['pagination-container']}>
+      <ReactPaginate
+        previousLabel={'←'}
+        nextLabel={'→'}
+        breakLabel={'...'}
+        breakClassName={'break-me'}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={'pagination'}
+        subContainerClassName={'pages pagination'}
+        activeClassName={'active'}
+      />
+      
+
+    </div>
     </div>
   );
+
 };
 
 export default TicketList;
