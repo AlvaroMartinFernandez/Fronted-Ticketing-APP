@@ -39,7 +39,7 @@ const TicketList = ({ tickets }) => {
   };
 
   const itemsPerPage = 10; // Definir la cantidad de elementos por página
-  
+
 
   const deleteTicket = async (ticketId) => {
     try {
@@ -79,7 +79,7 @@ const TicketList = ({ tickets }) => {
 
 
   const columns = React.useMemo(
-    
+
     () => [
       {
         Header: 'ID',
@@ -111,10 +111,19 @@ const TicketList = ({ tickets }) => {
         accessor: 'messages[0].subject',
         canFilter: true,
         sortType: 'basic',
-        //  Cell: ({ value }) => {
-        //    const shortenedSubject = shortenSubject( value ); // Acortar el asunto
-        //    return <span>{shortenedSubject}</span>;
-        //  },
+        Cell: ({ cell }) => (
+          <div>
+            {cell.value && typeof cell.value === 'string' ? (
+              cell.value.length > 80 ? (
+                <span>{cell.value.substring(0, 80)}...</span>
+              ) : (
+                <span>{cell.value}</span>
+              )
+            ) : (
+              <span> </span>
+            )}
+          </div>
+        ),
       },
       {
         Header: 'Departamento',
@@ -124,20 +133,24 @@ const TicketList = ({ tickets }) => {
       },
       {
         Header: 'Usuario',
-        accessor: 'users', // Acceder al nombre del cliente
+        accessor: 'user', // Acceder al nombre del cliente
         canFilter: true,
         sortType: 'basic',
-        // Cell: ({ cell }) => (
-        //   <div >
-        //     {
-        //     cell.value.map(user => (
-        //       <div >
-        //         <span>Ticket {user.name}</span>
-        //       </div>
+        Cell: ({ cell }) => (
+          <div>
+            {cell.value.length > 0 && Array.isArray(cell.value) ? (
+              cell.value.map((user, index) => (
+                <div key={index}>
+                  <span>{user.name}</span>
+                </div>
+              ))
+            ) : (
+              <span>No hay usuarios</span>
+            )
+            }
 
-        //     ))}
-        //   </div>
-        // ),
+          </div>
+        ),
       },
       {
         Header: 'Fecha de Creación',
@@ -257,7 +270,7 @@ const TicketList = ({ tickets }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-        {paginatedRows.map((row) => {
+          {paginatedRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className={styles.ticketRow}>
@@ -284,22 +297,22 @@ const TicketList = ({ tickets }) => {
         </tbody>
       </table>
       <div className={styles['pagination-container']}>
-      <ReactPaginate
-        previousLabel={'←'}
-        nextLabel={'→'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName={'pagination'}
-        subContainerClassName={'pages pagination'}
-        activeClassName={'active'}
-      />
-      
+        <ReactPaginate
+          previousLabel={'←'}
+          nextLabel={'→'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
 
-    </div>
+
+      </div>
     </div>
   );
 

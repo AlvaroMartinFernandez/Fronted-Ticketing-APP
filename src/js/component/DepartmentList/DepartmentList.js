@@ -18,8 +18,8 @@ const DepartmentList = ({ departments, createDepartment }) => {
     port_email: 0,
     password_email: '',
     port_smtp: 0,
-    smtp_server:""
-    
+    smtp_server: ""
+
   });
 
   const columns = useMemo(
@@ -42,31 +42,26 @@ const DepartmentList = ({ departments, createDepartment }) => {
         canFilter: true,
         sortType: 'basic',
       },
-
-
       {
-        Header: 'Cliente ID',
-        accessor: 'client_id',
+        Header: 'Usuarios',
+        accessor: 'users',
         canFilter: true,
         sortType: 'basic',
-      },
-      {
-        Header: 'Número de Usuarios',
-        accessor: 'name', 
-        canFilter: false,
-        sortType: 'none',
-        // Cell: ({ cell }) => (
-        //   <div className={styles.userContainer}>
-        //     {cell.value.map(user => (
-        //       <Link key={user.id} >
-        //         <div className={styles.ticketCard}>
-        //           <span className={styles.ticketTitle}>{user.name}</span>
-        //           {/* Opcional: Mostrar más información del ticket aquí */}
-        //         </div>
-        //       </Link>
-        //     ))}
-        //   </div>
-        // ),
+        Cell: ({ cell }) => (
+          <div className='Row d-flex flex-wrap'>
+            {cell.value.length > 0 && Array.isArray(cell.value) ? (
+              cell.value.map((user, index) => (
+                <div className='col-4' key={index}>
+                  <span>{user.name}</span>
+                </div>
+              ))
+            ) : (
+              <span>No hay usuarios</span>
+            )
+            }
+
+          </div>
+        ),
       },
 
       {
@@ -76,18 +71,24 @@ const DepartmentList = ({ departments, createDepartment }) => {
         sortType: 'none', // No permite ordenar esta columna
         Cell: ({ cell }) => (
           <div className={styles.ticketContainer}>
-            {cell.value.map(ticket => (
-              <Link key={ticket.id} to={`/TicketDetailView/${ticket.id}`} className={styles.ticketLink}>
-                <div className={styles.ticketCard}>
-                  <span className={styles.ticketTitle}>Ticket {ticket.id}</span>
-                  {/* Opcional: Mostrar más información del ticket aquí */}
+            <div className='Row d-flex flex-wrap'>
+              {cell.value.length > 0 && Array.isArray(cell.value) ? (cell.value.map(ticket => (
+                <div className="col-3">
+                  <Link key={ticket.id} to={`/TicketDetailView/${ticket.id}`} className={styles.ticketLink}>
+                    <div className={styles.ticketCard}>
+                      <span className={styles.ticketTitle}>Ticket {ticket.id}</span>
+                      {/* Opcional: Mostrar más información del ticket aquí */}
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            ))}
+              ))) : (
+                <span>No hay Tickets</span>
+              )}
+            </div>
           </div>
         ),
       },
-      
+
     ],
     []
   );
