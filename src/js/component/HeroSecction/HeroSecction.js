@@ -7,7 +7,7 @@ const HeroSection = () => {
   return (
     <section className={styles.hero}>
       <div className={styles['hero-content']}>
-        <h1 className='Cabecera'>WizzMail</h1>
+        <h1>WizzMail</h1>
         <h2>¡Bienvenidos a nuestra aplicación de gestión de tickets, impulsada por ChatGPT!</h2>
       </div>
       <div className={styles['hero-image']}>

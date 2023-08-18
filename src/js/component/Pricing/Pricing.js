@@ -37,7 +37,7 @@
                     className="p-3 mx-n3 mb-4"
                     style={{ backgroundColor: "#eff1f2" }}
                   >
-                    <h5 className="mb-0">Precio: 15€ al mes</h5>
+                    <h5 className="mb-0">Precio: 49€ al mes</h5>
                   </div>
   
                   <div className="d-flex flex-column mb-4">
@@ -55,13 +55,8 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                  <MDBBtn
-                    color="primary"
-                    rippleColor="dark"
-                    className="flex-fill ms-1"
-                  >
-                    Learn more
-                  </MDBBtn>
+                <a href="#" className="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Contacto</a>
+
                   
                 </div>
               </MDBCardBody>
@@ -85,7 +80,7 @@
                     className="p-3 mx-n3 mb-4"
                     style={{ backgroundColor: "#eff1f2" }}
                   >
-                    <h5 className="mb-0">Precio: 49€ al mes</h5>
+                    <h5 className="mb-0">Precio: 199€ al mes</h5>
                   </div>
   
                   <div className="d-flex flex-column mb-4">
@@ -104,13 +99,8 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                  <MDBBtn
-                    color="primary"
-                    rippleColor="dark"
-                    className="flex-fill ms-1"
-                  >
-                    Learn more
-                  </MDBBtn>
+                <a href="#" className="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
+   
                   
                 </div>
               </MDBCardBody>
@@ -152,13 +142,12 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                  <MDBBtn
-                    color="primary"
-                    rippleColor="dark"
-                    className="flex-fill ms-1"
-                  >
-                    Learn more
-                  </MDBBtn>
+                <div className= "enlacecontacto">
+           
+                <a href="#" className="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
+      
+       
+          </div>
                   
                 </div>
               </MDBCardBody>
