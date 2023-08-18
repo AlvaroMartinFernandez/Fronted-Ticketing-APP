@@ -244,9 +244,27 @@ const getState = ({ getStore, getActions, setStore }) => {
       //Funcion de contestacion
 
       sendTicketReply: async (message) => {
-        //const messageid = getStore().ticketDetails.sort((a, b) => a.message_id - b.message_id).filter(el =>)
+        const messages = getStore().ticketDetails.sort((a, b) => a.message_id - b.message_id);
+        const emailSender = messages[0].sender;
+        const emailRegex = /<([^>]+)>/;
+        const matches = emailRegex.exec(emailSender);
+        const targetEmail = matches[1];
+
+        const filteredMessages = messages.filter(item => {
+          const matches = emailRegex.exec(item.sender);
+          if (matches && matches.length > 1) {
+            const emailAddress = matches[1];
+            return emailAddress === targetEmail;
+          }
+          return false;
+        });
+        console.log(filteredMessages)
+        const messageID = filteredMessages[filteredMessages.length - 1]
+
+
+
         try {
-          const response = await fetch(`https://backend-ticketing-app-production.up.railway.app/messages/${ticketId}`, {
+          const response = await fetch(`https://backend-ticketing-app-production.up.railway.app/messages/${messageID}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
