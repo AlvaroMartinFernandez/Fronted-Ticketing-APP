@@ -35,40 +35,40 @@ const TicketDetailView = () => {
     loadTicketAndMessages();
   }, []);
 
-// Función para acortar los asuntos largos
+  // Función para acortar los asuntos largos
 
-const shortenSubject = (subject) => {
-  return subject.replace(/(Re:)+/g, 'Re:'); // Reemplazar múltiples "Re:" con uno solo
-};
+  const shortenSubject = (subject) => {
+    return subject.replace(/(Re:)+/g, 'Re:'); // Reemplazar múltiples "Re:" con uno solo
+  };
 
-// Funcion para contestar
+  // Funcion para contestar
 
-const handleReply = async () => {
-  try {
-    if (messageInput.trim() === '') {
-      // Mostrar mensaje de advertencia si la respuesta está vacía
-      alert('Por favor, escribe una respuesta.');
-      return;
+  const handleReply = async () => {
+    try {
+      if (messageInput.trim() === '') {
+        // Mostrar mensaje de advertencia si la respuesta está vacía
+        alert('Por favor, escribe una respuesta.');
+        return;
+      }
+
+      setIsReplying(true); // Iniciar indicador de carga al enviar
+
+      const response = await actions.sendTicketReply(selectedTicket.id, messageInput);
+
+      if (response.status === 200) {
+        // Respuesta enviada exitosamente, actualizar automáticamente el historial de mensajes
+        await actions.loadTicketMessages(selectedTicket.id);
+        setMessageInput('');
+      } else {
+        alert('Error al enviar la respuesta. Por favor, intenta nuevamente.'); // Mostrar mensaje de error al usuario
+      }
+
+      setIsReplying(false); // Finalizar indicador de carga al enviar
+    } catch (error) {
+      console.error('Error al enviar la respuesta:', error);
+      setIsReplying(false); // Finalizar indicador de carga al enviar en caso de error
     }
-
-    setIsReplying(true); // Iniciar indicador de carga al enviar
-
-    const response = await actions.sendTicketReply(selectedTicket.id, messageInput);
-
-    if (response.status === 200) {
-      // Respuesta enviada exitosamente, actualizar automáticamente el historial de mensajes
-      await actions.loadTicketMessages(selectedTicket.id);
-      setMessageInput('');
-    } else {
-      alert('Error al enviar la respuesta. Por favor, intenta nuevamente.'); // Mostrar mensaje de error al usuario
-    }
-
-    setIsReplying(false); // Finalizar indicador de carga al enviar
-  } catch (error) {
-    console.error('Error al enviar la respuesta:', error);
-    setIsReplying(false); // Finalizar indicador de carga al enviar en caso de error
-  }
-};
+  };
 
   return (
     <div className={styles.ticketDetailContainer}>
@@ -80,8 +80,8 @@ const handleReply = async () => {
         <div className={styles.ticketDetailContent}>
           <h2 className={styles.ticketHeader}>Detalles del Ticket</h2>
           <p className={styles.ticketInfo}><strong>ID:</strong> {selectedTicket.id}</p>
-          
-          
+
+
           {/* ... Otros detalles del ticket ... */}
 
           {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
@@ -99,7 +99,17 @@ const handleReply = async () => {
                           data-bs-target={`#messageCollapse${message.id}`}
                           aria-expanded="false"
                         >
-                          {shortenSubject(message.subject)}
+                          <div className="row d-flex justify-content-around">
+                            <div className='col-8'>
+                              <p>Remitente: {message.sender}</p>
+                            </div>
+                            <div className='col-4'>
+                              <p>Fecha: {new Date(message.createdAt).toLocaleString()}</p>
+                            </div>
+                            <div className='col-12'>
+                              Asunto: {shortenSubject(message.subject)}
+                            </div>
+                          </div>
                         </button>
                       </h4>
                       <div
@@ -109,8 +119,12 @@ const handleReply = async () => {
                       >
                         <div className="accordion-body">
                           <p>{message.message}</p>
-                          
-                         
+                          <div className="row d-flex justify-content-start">
+                            {message.list_adjunts.map(adjunt => {
+                              return (<img className='col-4' key={adjunt.id} src={adjunt.url_adjunt} />)
+                            })}
+                          </div>
+
                         </div>
                       </div>
                     </div>
