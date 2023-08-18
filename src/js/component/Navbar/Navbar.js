@@ -56,7 +56,7 @@ const isDashboardPage = location.pathname === '/dashboard';
         // Mostrar elementos para usuarios autenticados
         <>
           <div className={styles['auth-buttons']}>
-            <span className={styles['user-name']}>  {store.name}</span>
+            <span className={styles['user-name']}> "Bienvenido, {store.name} Nos alegra verte de nuevo en nuestra web."</span>
             <button onClick={() => actions.logout()} className={`${styles['button']} ${styles['logout-button']}`}>
               Cerrar sesión
             </button>
