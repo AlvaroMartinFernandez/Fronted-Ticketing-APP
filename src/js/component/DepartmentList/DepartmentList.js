@@ -4,10 +4,12 @@ import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styles from './DepartmentList.module.css';
+import { FaTrashAlt } from 'react-icons/fa';
+
 
 const DepartmentList = ({ departments, createDepartment }) => {
   const { store, actions } = useContext(Context);
-  console.log(departments)
+  
 
   const data = useMemo(() => departments, [departments]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +23,23 @@ const DepartmentList = ({ departments, createDepartment }) => {
     smtp_server: ""
 
   });
+
+  
+
+  // Función para eliminar un departamento por su ID
+const handleDeleteDepartment = async (departmentId) => {
+  const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este departamento?');
+
+  if (confirmed) {
+    const success = await actions.deleteDepartment(departmentId);
+    if (success) {
+      
+      // Actualiza la lista de departamentos después de eliminar
+      // Puedes implementar esta función según cómo estés manejando tus datos
+    }
+  }
+};
+
 
   const columns = useMemo(
     () => [
@@ -88,9 +107,24 @@ const DepartmentList = ({ departments, createDepartment }) => {
           </div>
         ),
       },
+      {
+        Header: 'Acciones',
+        accessor: 'actions',
+        show: store.userRole === 'Director',
+        Cell: ({ row }) => (
+          <div>
+            <button
+              className={styles.deleteButton}
+              onClick={() => handleDeleteDepartment(row.original.id)}
+            >
+              <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+            </button>
+          </div>
+        ),
+      },
 
     ],
-    []
+    [store.departments]
   );
 
   const {
