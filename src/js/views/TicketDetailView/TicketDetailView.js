@@ -53,7 +53,7 @@ const TicketDetailView = () => {
 
       setIsReplying(true); // Iniciar indicador de carga al enviar
 
-      const response = await actions.sendTicketReply(selectedTicket.id, messageInput);
+      const response = await actions.sendTicketReply(messageInput);
 
       if (response.status === 200) {
         // Respuesta enviada exitosamente, actualizar automáticamente el historial de mensajes

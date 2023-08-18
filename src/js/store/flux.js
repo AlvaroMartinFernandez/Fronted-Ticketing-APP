@@ -243,7 +243,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //Funcion de contestacion
 
-      sendTicketReply: async (ticketId, message) => {
+      sendTicketReply: async (message) => {
+        //const messageid = getStore().ticketDetails.sort((a, b) => a.message_id - b.message_id).filter(el =>)
         try {
           const response = await fetch(`https://backend-ticketing-app-production.up.railway.app/messages/${ticketId}`, {
             method: 'POST',
@@ -385,7 +386,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               email: response.data.user.email,
               department: response.data.department,
               role: response.data.user.role,
-              
+
 
             });
 

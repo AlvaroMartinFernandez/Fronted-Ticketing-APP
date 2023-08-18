@@ -139,6 +139,8 @@ const DepartmentList = ({ departments, createDepartment }) => {
     }
   };
 
+ 
+
   return (
     <div className={styles.container}>
       <h2>Lista de Departamentos</h2>
