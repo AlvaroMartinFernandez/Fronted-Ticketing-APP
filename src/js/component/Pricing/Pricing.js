@@ -1,5 +1,5 @@
  import React from 'react';
- import './pricing.module.css';
+ import './pricing.css';
   import {
     MDBContainer,
     MDBRow,
@@ -55,7 +55,7 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                <a href="#" className="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Contacto</a>
+                <a href="#" className="btn btn-primary disabled botonEnlace" tabindex="-1" role="button" aria-disabled="true">Contacto</a>
 
                   
                 </div>
@@ -99,7 +99,7 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                <a href="#" className="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
+                <a href="#" className="btn btn-primary disabled botonEnlace"  tabindex="-1" role="button" aria-disabled="true">Contacto</a>
    
                   
                 </div>
@@ -144,7 +144,7 @@
                 <div className="d-flex flex-row">
                 <div className= "enlacecontacto">
            
-                <a href="#" className="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
+                <a href="#" className="btn btn-primary disabled botonEnlace" tabindex="-1" role="button" aria-disabled="true">Contacto</a>
       
        
           </div>

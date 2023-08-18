@@ -1,0 +1,12 @@
+
+.d-flex.flex-row {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100%; 
+}
+
+.enlacecontacto {
+  margin: 20px;
+  color: linear-gradient(to right, #2e75b6, #4ab19d);
+}
