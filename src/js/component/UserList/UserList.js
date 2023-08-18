@@ -258,9 +258,9 @@ const UserList = ({ users, createUser }) => {
           const ticketsCount = row.values['tickets.length'];
 
           return (
-            <Link to={`/TicketDetailView/${userId}`}>
-              Ver Tickets ({ticketsCount})
-            </Link>
+
+            <span>{ticketsCount} Tickets</span>
+
           );
         },
       },
@@ -268,8 +268,8 @@ const UserList = ({ users, createUser }) => {
 
       {
         Header: 'Acciones',
-        accessor: 'actions', 
-        show: store.role === 'Admin',
+        accessor: 'actions',
+        show: false,
         Cell: ({ row }) => (
 
 
