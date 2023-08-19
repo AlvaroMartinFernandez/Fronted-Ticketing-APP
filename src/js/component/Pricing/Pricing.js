@@ -1,5 +1,6 @@
  import React from 'react';
  import './pricing.css';
+ import { Link } from 'react-router-dom';
   import {
     MDBContainer,
     MDBRow,
@@ -55,10 +56,10 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                <a href="#" className="btn btn-primary disabled botonEnlace" tabindex="-1" role="button" aria-disabled="true">Contacto</a>
-
-                  
-                </div>
+              <Link to="/contact" className='link'>
+              Contacto
+              </Link>
+            </div>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -99,10 +100,10 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                <a href="#" className="btn btn-primary disabled botonEnlace"  tabindex="-1" role="button" aria-disabled="true">Contacto</a>
-   
-                  
-                </div>
+              <Link to="/contact" className='link'>
+              Contacto
+              </Link>
+            </div>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -142,14 +143,12 @@
                 </div>
   
                 <div className="d-flex flex-row">
-                <div className= "enlacecontacto">
-           
-                <a href="#" className="btn btn-primary disabled botonEnlace" tabindex="-1" role="button" aria-disabled="true">Contacto</a>
-      
-       
-          </div>
+              <Link to="/contact" className='link'>
+              Contacto
+              </Link>
+            </div>
                   
-                </div>
+          
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
