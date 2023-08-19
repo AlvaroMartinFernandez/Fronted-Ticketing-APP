@@ -18,7 +18,7 @@ import NevVideoComponent from '../component/NevVideoComponent/NevVideoComponent'
 export const Home = () => (
   <div >
 
-<DashboardEntry />
+
   
   <HeroSection />
   <Fortalezas />
