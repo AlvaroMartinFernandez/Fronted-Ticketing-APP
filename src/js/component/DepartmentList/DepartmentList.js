@@ -4,7 +4,8 @@ import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styles from './DepartmentList.module.css';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+
 
 
 const DepartmentList = ({ departments, createDepartment }) => {
@@ -13,6 +14,18 @@ const DepartmentList = ({ departments, createDepartment }) => {
 
   const data = useMemo(() => departments, [departments]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [isDepartmentModalOpen, setIsDepartmentModalOpen] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [editedDepartmentData, setEditedDepartmentData] = useState({
+    name_department: '',
+    email: '',
+    host_email: '',
+    port_email: 0,
+    password_email: '',
+    port_smtp: 0,
+    smtp_server: '',
+  });
   const [newDepartmentData, setNewDepartmentData] = useState({
     name_department: '',
     email: '',
@@ -24,6 +37,68 @@ const DepartmentList = ({ departments, createDepartment }) => {
 
   });
 
+  const toggleDepartmentModal = () => {
+    setIsDepartmentModalOpen(!isDepartmentModalOpen);
+  };
+  
+
+ // Función para manejar los cambios en el formulario de edición
+ const handleEditDepartmentChange = (e) => {
+  const { name, value } = e.target;
+  setEditedDepartmentData((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
+};
+
+
+const handleEditClick = (department) => {
+  setSelectedDepartment(department);
+  setEditedDepartmentData({
+    name_department: department.name_department,
+    email: department.email,
+    host_email: department.host_email,
+    port_email: department.port_email,
+    password_email: department.password_email,
+    port_smtp: department.port_smtp,
+    smtp_server: department.smtp_server,
+  });
+  setEditModalOpen(true);
+};
+
+ // Función para actualizar el departamento
+ const handleUpdateDepartment = async () => {
+  try {
+    const response = await axios.patch(
+      `https://backend-ticketing-app-production.up.railway.app/departments/${selectedDepartment.id}`,
+      editedDepartmentData,
+      {
+        headers: {
+          Authorization: `Bearer ${getStore().accessToken}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      // Actualización exitosa, cierra el modal de edición de departamento y reinicia los valores
+      setEditModalOpen(false);
+      setSelectedDepartment(null);
+      setEditedDepartmentData({
+        name_department: '',
+        email: '',
+        host_email: '',
+        port_email: 0,
+        password_email: '',
+        port_smtp: 0,
+        smtp_server: '',
+      });
+    } else {
+      console.error('Error al actualizar el departamento:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error al actualizar el departamento:', error);
+  }
+};
   
 
   // Función para eliminar un departamento por su ID
@@ -113,6 +188,13 @@ const handleDeleteDepartment = async (departmentId) => {
         show: store.userRole === 'Director',
         Cell: ({ row }) => (
           <div>
+
+<button
+            className={styles.editButton}
+            onClick={() => handleEditClick(row.original)}
+          >
+            <FaEdit className={styles.actionsIcon} /> Editar
+          </button>
             <button
               className={styles.deleteButton}
               onClick={() => handleDeleteDepartment(row.original.id)}
@@ -224,10 +306,13 @@ const handleDeleteDepartment = async (departmentId) => {
         </tbody>
       </table>
 
+      
+
       {/* Botón para abrir el modal */}
       <button className={styles.addButton} onClick={toggleModal}>
         <FaPlus className={styles.addIcon} /> Crear Departamento
       </button>
+      
 
       {isModalOpen && (
         <div className={styles.modal}>
@@ -314,6 +399,99 @@ const handleDeleteDepartment = async (departmentId) => {
           </div>
         </div>
       )}
+
+      
+    {selectedDepartment && (
+      <button className={styles.editButton} onClick={toggleDepartmentModal}>
+        <FaEdit className={styles.actionsIcon} /> Editar Departamento
+      </button>
+    )}
+
+     {/* Modal de edición de departamento */}
+     {isDepartmentModalOpen && selectedDepartment && (
+      <div className={styles.modal}>
+        <div className={styles.modalContent}>
+          <h2>Editar Departamento</h2>
+          <form onSubmit={handleUpdateDepartment}>
+          <div className={styles.formGroup}>
+                <label>Nombre Departamento:</label>
+                <input
+                  type='text'
+                  name="name_department"
+                  value={newDepartmentData.name_department}
+                  onChange={handleChange}
+                />
+
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Correo:</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={newDepartmentData.email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Host IMAP:</label>
+                <input
+                  type="text"
+                  name="host_email"
+                  value={newDepartmentData.host_email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Puerto IMAP:</label>
+                <input
+                  type="number"
+                  name="port_email"
+                  value={newDepartmentData.port_email}
+                  onChange={handleChange}
+                />
+                <div className={styles.formGroup}>
+                  <label>Port SMTP:</label>
+                  <input
+                    type="number"
+                    name="port_smtp"
+                    value={newDepartmentData.port_smtp}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>SMTP host:</label>
+                  <input
+                    type="text"
+                    name="smtp_server"
+                    value={newDepartmentData.smtp_server}
+                    onChange={handleChange}
+                  />
+                </div>
+
+
+              </div>
+              <div className={styles.formGroup}>
+                <label>Contraseña del Correo:</label>
+                <input
+                  type="password"
+                  name="password_email"
+                  value={newDepartmentData.password_email}
+                  onChange={handleChange}
+                />
+              </div>
+            {/* Renderiza los campos del formulario de edición de departamento aquí */}
+            <button type="submit" className={styles.submitButton}>
+              Guardar Cambios
+            </button>
+          </form>
+          <button className={styles.closeButton} onClick={toggleDepartmentModal}>
+            Cancelar
+          </button>
+        </div>
+      </div>
+    )}
 
 
 

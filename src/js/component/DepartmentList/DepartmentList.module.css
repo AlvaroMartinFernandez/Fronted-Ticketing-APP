@@ -183,7 +183,7 @@
   margin-left: 10px;
 }
 
-/* ... tus otros estilos ... */
+
 
 .deleteButton {
   background-color: #ff6b6b;
@@ -205,4 +205,18 @@
   vertical-align: middle;
 }
 
+/* Estilos para el botón de editar */
+.editButton {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  
+}
 
+.editButton:hover {
+  background-color: #0056b3;
+}
