@@ -58,35 +58,33 @@
 }
 
 /* Estilos para los botones de autenticación */
-.auth-buttons {
+.login-button,
+.signup-button,
+.cta-link {
+  background-color: #2e75b6;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
   display: flex;
   align-items: center;
-  margin-left: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 10px 0;
+  margin-left: 15px;
+  transition: background-color 0.3s, color 0.3s; /* Agrega una transición para suavizar el cambio de colores */
 }
 
-.login-button,
-  .signup-button {
-    background-color: #2e75b6;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    text-decoration: none;
-    margin: 10px 0;
-  }
-  
-  .signup-button {
-    background-color: #4ab19d;
-  }
-  
-  .signup-button:hover,
-  .login-button:hover {
-    background-color: #28669f;
-  }
+
+
+.login-button:hover,
+.signup-button:hover,
+.cta-link:hover {
+  background-color: #28669f;
+  color: #fff; /* Cambia el color del texto a blanco en el hover */  
+  transition: background-color 0.3s, color 0.3s;
+}
 
 .userIcon {
   margin-right: 8px;

@@ -6,18 +6,19 @@ import { AiOutlineRobot, AiOutlineCheckCircle } from 'react-icons/ai';
 import { Context } from '../../store/appContext';
 import logo2 from "../../../img/logo2.png";
 
+
 const Navbar = () => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
 
- const handleScrollTo = (id) => {
+  const handleScrollTo = (id) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-const isDashboardPage = location.pathname === '/dashboard';
+  const isDashboardPage = location.pathname === '/dashboard';
 
   return (
     <nav className={styles.navbar}>
@@ -28,7 +29,7 @@ const isDashboardPage = location.pathname === '/dashboard';
       </div>
       {!store.isLoggedIn || !isDashboardPage ? ( 
         <ul className={styles['nav-links']}>
-            <li>
+          <li>
             <span onClick={() => handleScrollTo('fortalezas')} className={styles['nav-link']}>
               Empresa
             </span>
@@ -38,19 +39,16 @@ const isDashboardPage = location.pathname === '/dashboard';
               Testimonios
             </span>
           </li>
-             
           <li>
             <span onClick={() => handleScrollTo('features')} className={styles['nav-link']}>
               Servicios
             </span>
           </li>
-
           <li>
             <span onClick={() => handleScrollTo('pricing')} className={styles['nav-link']}>
               Precios
             </span>
           </li>
-          
         </ul>
       ) : null}
       {store.isLoggedIn ? (
@@ -66,6 +64,12 @@ const isDashboardPage = location.pathname === '/dashboard';
       ) : (
         // Mostrar elementos para usuarios no autenticados
         <>
+
+        <div className={styles['dashboard-entry']}>
+              <Link to="/dashboard" className={styles['cta-link']}>
+              Ver Dashboard
+              </Link>
+            </div>
           <div className={styles['auth-buttons']}>
             <Link to="/login" className={styles['login-button']}>
               <BiUser size={20} className={styles.userIcon} />
