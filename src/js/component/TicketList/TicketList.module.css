@@ -167,3 +167,26 @@
   color: white;
   border-radius: 5px;
 }
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.statusIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.statusText {
+  font-size: 14px;
+}

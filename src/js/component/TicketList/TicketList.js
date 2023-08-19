@@ -33,6 +33,23 @@ const TicketList = ({ tickets }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
 
+  const SelectStatusFilter = ({ column }) => {
+    const { filterValue, setFilter } = column;
+  
+    return (
+      <select
+        value={filterValue || ''}
+        onChange={(e) => setFilter(e.target.value)}
+      >
+        <option value="">Todos</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Resuelto">Resuelto</option>
+        <option value="Finalizado">Finalizado</option>
+        {/* Agrega otras opciones de estado aquí */}
+      </select>
+    );
+  };
+
   // Función para acortar los asuntos largos
   const shortenSubject = (subject) => {
     return subject.replace(/(Re:)+/g, 'Re:'); // Reemplazar múltiples "Re:" con uno solo
@@ -101,10 +118,20 @@ const TicketList = ({ tickets }) => {
         accessor: 'status',
         canFilter: true,
         sortType: 'basic',
-
+        Filter: SelectStatusFilter, 
+        Cell: ({ cell }) => {
+          const { icon, color } = getStatusIconAndColor(cell.value);
+          return (
+            <div className={styles.statusContainer}>
+              <span className={styles.statusIcon} style={{ backgroundColor: color }}>
+                {icon}
+              </span>
+              <span className={styles.statusText}>{cell.value}</span>
+            </div>
+          );
+        },
       },
-
-
+      
 
       {
         Header: 'Asunto',

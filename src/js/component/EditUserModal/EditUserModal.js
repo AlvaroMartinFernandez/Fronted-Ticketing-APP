@@ -18,7 +18,8 @@ const EditUserModal = ({ user, onSave, onCancel }) => {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault();
     onSave(editedUser);
   };
 

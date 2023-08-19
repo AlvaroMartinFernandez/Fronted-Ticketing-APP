@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Asegúrate de importar axios
+import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios';
+import styles from './PasswordRecoveryForm.module.css'; 
 
 const PasswordRecoveryForm = () => {
   const [email, setEmail] = useState('');
   const [isPasswordRecovered, setIsPasswordRecovered] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Obtiene la función navigate para redirigir
+  const navigate = useNavigate();
 
   const handleRecoverPassword = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await axios.patch(
         'https://backend-ticketing-app-production.up.railway.app/users/recoverpassword',
@@ -19,9 +24,12 @@ const PasswordRecoveryForm = () => {
           },
         }
       );
-      
+
       if (response.status === 200) {
         setIsPasswordRecovered(true);
+        
+        // Redirige a la nueva ruta después de la recuperación exitosa
+        navigate('/');
       } else {
         setError('No se pudo recuperar la contraseña. Por favor, intenta de nuevo más tarde.');
       }
@@ -31,7 +39,7 @@ const PasswordRecoveryForm = () => {
   };
 
   return (
-    <div>
+    <div className={styles['password-recovery-form']}>
       {isPasswordRecovered ? (
         <p>Se ha enviado un correo para recuperar la contraseña.</p>
       ) : (
@@ -41,9 +49,10 @@ const PasswordRecoveryForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Correo electrónico"
+            className={styles['input']}
           />
-          <button type="submit">Recuperar contraseña</button>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <button type="submit" className={styles['button']}>Recuperar contraseña</button>
+          {error && <p className={styles['error-message']}>{error}</p>}
         </form>
       )}
     </div>
