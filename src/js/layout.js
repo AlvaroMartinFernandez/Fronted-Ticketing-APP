@@ -9,6 +9,7 @@ import Signup from "./component/Signup/Signup";
 import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./component/PasswordRecoveryForm/PasswordRecoveryForm";
 import FloatingMenu from "./component/FloatingMenu/floatingMenu";
+import Contacto from "./component/contacto/contacto";
 
 // Importa los componentes Home y Demo aquí
 import { Home } from "./views/home";
@@ -32,6 +33,7 @@ const Layout = () => {
           <Route path="/faq" element={<Faq />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
+          <Route path="/contact" element={<Contacto />} />
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </BrowserRouter>

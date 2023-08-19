@@ -38,15 +38,16 @@ const isDashboardPage = location.pathname === '/dashboard';
               Testimonios
             </span>
           </li>
-          <li>
-            <span onClick={() => handleScrollTo('pricing')} className={styles['nav-link']}>
-              Precios
-            </span>
-          </li>
-        
+             
           <li>
             <span onClick={() => handleScrollTo('features')} className={styles['nav-link']}>
               Servicios
+            </span>
+          </li>
+
+          <li>
+            <span onClick={() => handleScrollTo('pricing')} className={styles['nav-link']}>
+              Precios
             </span>
           </li>
           

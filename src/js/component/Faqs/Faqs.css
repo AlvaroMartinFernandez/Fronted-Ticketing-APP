@@ -1,29 +1,24 @@
 /* Estilos personalizados para los acordeones */
 /* Cambia el color de fondo del acordeón activo en hover */
 
+.accordion-item {
+    margin: 100px, 100px, 100px, 100px;
+}
 
-.accordion-item:hover {
-    background-color:#4ab19d;
-  }
-  
-  /* Cambia el color de fondo del acordeón inactivo en hover */
-  .accordion-item:not(.active):hover {
-    background-color: #4ab19d;
-  }
+
+ 
   
   /* Cambia el color de fondo del acordeón activo */
   .accordion-item.active {
     background-color: #2e75b6;
   }
   
-  /* Cambia el color del botón del acordeón en estado normal */
-  .accordion-button {
-    background-color: #4ab19d;
-    color: white;
-  }
-  
-  /* Cambia el color del botón del acordeón activo */
-  .accordion-button[aria-expanded="true"] {
+ /* Cambia el color del botón del acordeón en estado normal */
+ .accordion-button {
     background-color: #2e75b6;
   }
+  
+ 
+  
+ 
   
