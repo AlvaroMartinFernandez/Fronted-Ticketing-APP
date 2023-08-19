@@ -168,6 +168,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       loadAllTicketsData: async () => {
         try {
+          console.log("ticket")
           const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/tickets/', {
             headers: {
               Authorization: `Bearer ${getStore().accessToken}`,
@@ -331,7 +332,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Función para actualizar un departamento por su ID
       updateDepartment: async (departmentId, departmentData) => {
         try {
-          const response = await axios.patch(`https://backend-ticketing-app-production.up.railway.app/departments/${departmentId}`, departmentData, {
+          const response = await axios.put(`https://backend-ticketing-app-production.up.railway.app/departments/${departmentId}`, departmentData, {
             headers: {
               Authorization: `Bearer ${getStore().accessToken}`,
             },

@@ -102,6 +102,7 @@ const TicketDetailView = () => {
                           data-bs-toggle="collapse"
                           data-bs-target={`#messageCollapse${message.id}`}
                           aria-expanded="false"
+                          
                         >
                           <div className="row d-flex justify-content-around">
                             <div className='col-8'>
@@ -120,6 +121,7 @@ const TicketDetailView = () => {
                         id={`messageCollapse${message.id}`}
                         className="collapse"
                         data-bs-parent={`#messageCollapse${message.id}`}
+                        
                       >
                         <div className="accordion-body">
                           <p>{message.message}</p>

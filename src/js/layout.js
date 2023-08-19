@@ -10,6 +10,7 @@ import Signup from "./views/Signup/Signup";
 import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./views/PasswordRecoveryForm/PasswordRecoveryForm";
 import TicketDetailView from "./views/TicketDetailView/TicketDetailView";
+import PasswordConfirmation from "./views/PasswordRecoveryForm/PasswordConfirm";
 
 
 
@@ -29,6 +30,7 @@ const Layout = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
           <Route path="/TicketDetailView/:id" element={<TicketDetailView />} />
+          <Route path="/PasswordConfirmation/:id" element={<PasswordConfirmation />} />
 
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>

@@ -182,3 +182,41 @@
 .modalButtons button {
   margin-left: 10px;
 }
+
+
+
+.deleteButton {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: #ff4f4f;
+}
+
+.actionsIcon {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* Estilos para el botón de editar */
+.editButton {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  
+}
+
+.editButton:hover {
+  background-color: #0056b3;
+}
