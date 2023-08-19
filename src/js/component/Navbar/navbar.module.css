@@ -90,6 +90,9 @@
 .userIcon {
   margin-right: 8px;
 }
+.checkIcon{
+  margin-left: 8px;
+}
 
 /* Estilos para el botón de cerrar sesión */
 .logout-button {
@@ -134,7 +137,8 @@
   }
 
   .login-button,
-  .signup-button {
+  .signup-button,
+  .cta-link { /* Añade la clase cta-link aquí */
     display: block;
     width: 100%;
     margin-bottom: 10px;
