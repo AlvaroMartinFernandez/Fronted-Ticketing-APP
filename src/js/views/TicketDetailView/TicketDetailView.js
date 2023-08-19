@@ -3,7 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { Context } from '../../store/appContext.js';
 import styles from './TicketDetailView.module.css';
 import { DotLoader } from 'react-spinners';
-
+import SelectStatus from '../../component/SelectStatus/SelectStatus.js'
+import AddUser from '../../component/AddUser/AddUser.js';
 
 
 const TicketDetailView = () => {
@@ -80,9 +81,12 @@ const TicketDetailView = () => {
         <div className={styles.ticketDetailContent}>
           <h2 className={styles.ticketHeader}>Detalles del Ticket</h2>
           <p className={styles.ticketInfo}><strong>ID:</strong> {selectedTicket.id}</p>
+          <div className='d-inline-flex gap-2'>
+            <p className={styles.ticketInfo}><strong>Estado:</strong> </p>
+            <SelectStatus />
+          </div>
+          <AddUser />
 
-
-          {/* ... Otros detalles del ticket ... */}
 
           {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
             <>

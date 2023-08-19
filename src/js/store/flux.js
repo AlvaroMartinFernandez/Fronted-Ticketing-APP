@@ -259,9 +259,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           return false;
         });
-        console.log(filteredMessages)
-        const messageID = filteredMessages[filteredMessages.length - 1]
-
+        console.log(filteredMessages);
+        const lastMessage = filteredMessages[filteredMessages.length - 1];
+        const messageID = lastMessage.id;
 
 
         try {
@@ -478,6 +478,62 @@ const getState = ({ getStore, getActions, setStore }) => {
             return true;
           } else {
             // Realiza las acciones necesarias si la recuperación de contraseña falló
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al recuperar la contraseña:', error);
+          return false;
+        }
+      },
+
+      changeStatusTicket: async (status, ticketID) => {
+        try {
+          const response = await axios.patch(
+            `https://backend-ticketing-app-production.up.railway.app/tickets/${ticketID}`,
+            {
+              status: status,
+            },
+            {
+              headers: {
+                method: 'PATCH',
+                Authorization: `Bearer ${getStore().accessToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            return true;
+          } else {
+
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al recuperar la contraseña:', error);
+          return false;
+        }
+      },
+      AddUserTicket: async (ticket_id, user_id) => {
+        try {
+          const response = await axios.post(
+            `https://backend-ticketing-app-production.up.railway.app/ticket_users/`,
+            {
+              ticket_id: ticket_id,
+              user_id: user_id
+            },
+            {
+              headers: {
+                method: 'POST',
+                Authorization: `Bearer ${getStore().accessToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            return true;
+          } else {
+
             return false;
           }
         } catch (error) {
