@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useContext } from 'react';
 import { Context } from "../../store/appContext.js";
+import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -67,14 +68,15 @@ const handleEditClick = (department) => {
 };
 
  // Función para actualizar el departamento
- const handleUpdateDepartment = async () => {
+ const handleUpdateDepartment = async (e) => {
+  e.preventDefault();
   try {
-    const response = await axios.patch(
+    const response = await axios.put(
       `https://backend-ticketing-app-production.up.railway.app/departments/${selectedDepartment.id}`,
       editedDepartmentData,
       {
         headers: {
-          Authorization: `Bearer ${getStore().accessToken}`,
+          Authorization: `Bearer ${store.accessToken}`,
         },
       }
     );

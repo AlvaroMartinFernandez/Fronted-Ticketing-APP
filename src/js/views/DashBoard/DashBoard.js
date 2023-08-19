@@ -5,7 +5,6 @@ import Sidebar from '../../component/Sidebar/Sidebar.js';
 import UserList from '../../component/UserList/UserList.js';
 import TicketList from '../../component/TicketList/TicketList.js';
 import DepartmentList from '../../component/DepartmentList/DepartmentList.js';
-import MiPerfil from '../../component/MiPerfil/MiPerfil.js';
 import styles from './dashboard.module.css';
 import { Navigate } from "react-router-dom";
 
@@ -65,12 +64,11 @@ const Dashboard = () => {
         {activeSection === 'Departamentos' && (
           <DepartmentList departments={departments} />
         )}
-        {activeSection === 'MiPerfil' && (
 
-          <MiPerfil user={selectedUser} />
-        )}
+
       </div>
     </div>
+
   );
 };
 

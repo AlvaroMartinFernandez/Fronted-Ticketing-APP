@@ -53,6 +53,8 @@ const UserList = ({ users, createUser }) => {
         userData,
         {
           headers: {
+            method: 'PUT',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${store.accessToken}`,
           },
         }
@@ -213,7 +215,8 @@ const UserList = ({ users, createUser }) => {
 
 
   const columns = useMemo(
-    () => [
+    () =>{ 
+     const columns = [
       {
         Header: 'ID',
         accessor: 'id',
@@ -247,7 +250,6 @@ const UserList = ({ users, createUser }) => {
         sortType: 'basic',
       },
 
-
       {
         Header: 'Tickets',
         accessor: 'tickets.length',
@@ -265,28 +267,30 @@ const UserList = ({ users, createUser }) => {
         },
       },
 
-
-      {
-        Header: 'Acciones',
-        accessor: 'actions',
-        show: false,
-        Cell: ({ row }) => (
-
-
-          <div>
-            <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
-              <FaEdit className={styles.actionsIcon} /> Editar
-            </button>
-            <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
-              <FaTrashAlt className={styles.actionsIcon} /> Eliminar
-            </button>
-
-          </div>
-        ),
-      },
+    ];
+  if(store.role === "Admin") {
+    columns.push({
+      Header: 'Acciones',
+      accessor: 'actions',
+      show: false,
+      Cell: ({ row }) => (
 
 
-    ],
+        <div>
+          <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+            <FaEdit className={styles.actionsIcon} /> Editar
+          </button>
+          <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+            <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+          </button>
+
+        </div>
+      ),
+    },);
+  }
+  console.log(store.role)
+  return columns;
+},
     [departments]
   );
 

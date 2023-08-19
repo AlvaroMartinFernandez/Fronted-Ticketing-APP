@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import styles from './PasswordRecoveryForm.module.css'; // Asegúrate de tener un archivo CSS para los estilos
+import styles from './PasswordRecoveryForm.module.css'; 
 
 const PasswordRecoveryForm = () => {
   const [email, setEmail] = useState('');
   const [isPasswordRecovered, setIsPasswordRecovered] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Obtiene la función navigate para redirigir
+  const navigate = useNavigate();
 
   const handleRecoverPassword = async (e) => {
     e.preventDefault();
@@ -23,6 +27,9 @@ const PasswordRecoveryForm = () => {
 
       if (response.status === 200) {
         setIsPasswordRecovered(true);
+        
+        // Redirige a la nueva ruta después de la recuperación exitosa
+        navigate('/');
       } else {
         setError('No se pudo recuperar la contraseña. Por favor, intenta de nuevo más tarde.');
       }

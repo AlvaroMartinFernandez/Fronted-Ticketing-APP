@@ -132,10 +132,6 @@ const TicketList = ({ tickets }) => {
         },
       },
       
-      
-      
-
-
 
       {
         Header: 'Asunto',
