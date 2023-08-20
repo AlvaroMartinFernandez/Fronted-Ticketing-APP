@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useContext } from 'react';
+import React, { useMemo, useState, useContext, useEffect } from 'react';
 import { Context } from "../../store/appContext.js";
 import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
@@ -174,7 +174,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
+    });
   }
 
 
@@ -326,7 +326,10 @@ const DepartmentList = ({ departments, createDepartment }) => {
     }
   };
 
-
+  useEffect(() => {
+  
+    actions.loadAllDepartmentsData();
+  }, [])
 
   return (
     <div className={styles.container}>
