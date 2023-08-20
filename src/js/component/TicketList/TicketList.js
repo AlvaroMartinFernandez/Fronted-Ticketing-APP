@@ -35,7 +35,7 @@ const TicketList = ({ tickets }) => {
 
   const SelectStatusFilter = ({ column }) => {
     const { filterValue, setFilter } = column;
-  
+
     return (
       <select
         value={filterValue || ''}
@@ -97,128 +97,133 @@ const TicketList = ({ tickets }) => {
 
   const columns = React.useMemo(
 
-    () => [
-      {
-        Header: 'ID',
-        accessor: 'id',
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ row }) => (
-          <Link
-            to={`/TicketDetailView/${row.original.id}`} // Establece la ruta correcta a la vista de detalles del ticket
-            className={styles.ticketIdLink}
-          >
-            {row.original.id}
-          </Link>
-        ),
-      },
-
-      {
-        Header: 'Estado',
-        accessor: 'status',
-        canFilter: true,
-        sortType: 'basic',
-        Filter: SelectStatusFilter, 
-        Cell: ({ cell }) => {
-          const { icon, color } = getStatusIconAndColor(cell.value);
-          return (
-            <div className={styles.statusContainer}>
-              <span className={styles.statusIcon} style={{ backgroundColor: color }}>
-                {icon}
-              </span>
-              <span className={styles.statusText}>{cell.value}</span>
-            </div>
-          );
-        },
-      },
-      
-
-      {
-        Header: 'Asunto',
-        accessor: 'messages[0].subject',
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ cell }) => (
-          <div>
-            {cell.value && typeof cell.value === 'string' ? (
-              cell.value.length > 80 ? (
-                <span>{cell.value.substring(0, 80)}...</span>
-              ) : (
-                <span>{cell.value}</span>
-              )
-            ) : (
-              <span> </span>
-            )}
-          </div>
-        ),
-      },
-      {
-        Header: 'Departamento',
-        accessor: 'department[0].name_department', // Acceder al nombre del primer departamento
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Usuario',
-        accessor: 'user', // Acceder al nombre del cliente
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ cell }) => (
-          <div>
-            {cell.value.length > 0 && Array.isArray(cell.value) ? (
-              cell.value.map((user, index) => (
-                <div key={index}>
-                  <span>{user.name}</span>
-                </div>
-              ))
-            ) : (
-              <span>No hay usuarios</span>
-            )
-            }
-
-          </div>
-        ),
-      },
-      {
-        Header: 'Fecha de Creación',
-        accessor: 'createdAt', // Agregar columna para mostrar la fecha de creación del ticket
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ value }) => {
-          // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
-          const formattedDate = new Date(value).toLocaleString();
-          return <span>{formattedDate}</span>;
-        },
-      },
-      {
-        Header: 'Fecha de Actualizacion',
-        accessor: 'updatedAt', // Agregar columna para mostrar la fecha de creación del ticket
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ value }) => {
-          // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
-          const formattedDate = new Date(value).toLocaleString();
-          return <span>{formattedDate}</span>;
-        },
-      },
-      {
-        Header: 'Acciones',
-        accessor: 'actions',
-        show: store.userRole === 'Director',
-        Cell: ({ row }) => (
-          <div>
-            <button
-              className={styles.deleteButton}
-              onClick={() => handleDeleteTicket(row.original.id)}
+    () => {
+      const columns = [
+        {
+          Header: 'ID',
+          accessor: 'id',
+          canFilter: true,
+          sortType: 'basic',
+          Cell: ({ row }) => (
+            <Link
+              to={`/TicketDetailView/${row.original.id}`} // Establece la ruta correcta a la vista de detalles del ticket
+              className={styles.ticketIdLink}
             >
-              <FaTrashAlt className={styles.actionsIcon} /> Eliminar
-            </button>
-          </div>
-        ),
-      },
+              {row.original.id}
+            </Link>
+          ),
+        },
+
+        {
+          Header: 'Estado',
+          accessor: 'status',
+          canFilter: true,
+          sortType: 'basic',
+          Filter: SelectStatusFilter,
+          Cell: ({ cell }) => {
+            const { icon, color } = getStatusIconAndColor(cell.value);
+            return (
+              <div className={styles.statusContainer}>
+                <span className={styles.statusIcon} style={{ backgroundColor: color }}>
+                  {icon}
+                </span>
+                <span className={styles.statusText}>{cell.value}</span>
+              </div>
+            );
+          },
+        },
 
 
-    ],
+        {
+          Header: 'Asunto',
+          accessor: 'messages[0].subject',
+          canFilter: true,
+          sortType: 'basic',
+          Cell: ({ cell }) => (
+            <div>
+              {cell.value && typeof cell.value === 'string' ? (
+                cell.value.length > 80 ? (
+                  <span>{cell.value.substring(0, 80)}...</span>
+                ) : (
+                  <span>{cell.value}</span>
+                )
+              ) : (
+                <span> </span>
+              )}
+            </div>
+          ),
+        },
+        {
+          Header: 'Departamento',
+          accessor: 'department[0].name_department', // Acceder al nombre del primer departamento
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Usuario',
+          accessor: 'user', // Acceder al nombre del cliente
+          canFilter: true,
+          sortType: 'basic',
+          Cell: ({ cell }) => (
+            <div>
+              {cell.value.length > 0 && Array.isArray(cell.value) ? (
+                cell.value.map((user, index) => (
+                  <div key={index}>
+                    <span>{user.name}</span>
+                  </div>
+                ))
+              ) : (
+                <span>No hay usuarios</span>
+              )
+              }
+
+            </div>
+          ),
+        },
+        {
+          Header: 'Fecha de Creación',
+          accessor: 'createdAt', // Agregar columna para mostrar la fecha de creación del ticket
+          canFilter: true,
+          sortType: 'basic',
+          Cell: ({ value }) => {
+            // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
+            const formattedDate = new Date(value).toLocaleString();
+            return <span>{formattedDate}</span>;
+          },
+        },
+        {
+          Header: 'Fecha de Actualizacion',
+          accessor: 'updatedAt', // Agregar columna para mostrar la fecha de creación del ticket
+          canFilter: true,
+          sortType: 'basic',
+          Cell: ({ value }) => {
+            // Formatear la fecha para que se muestre de manera legible (por ejemplo, DD/MM/AAAA HH:MM)
+            const formattedDate = new Date(value).toLocaleString();
+            return <span>{formattedDate}</span>;
+          },
+        },
+
+      ];
+      if (store.role === "Admin") {
+        columns.push({
+          Header: 'Acciones',
+          accessor: 'actions',
+          show: store.userRole === 'Director',
+          Cell: ({ row }) => (
+            <div>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDeleteTicket(row.original.id)}
+              >
+                <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+              </button>
+            </div>
+          ),
+        },
+        )
+      }
+      return columns;
+    },
     [store.tickets]
   );
 

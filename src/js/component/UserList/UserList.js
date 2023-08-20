@@ -99,6 +99,10 @@ const UserList = ({ users, createUser }) => {
 
   const handleEditUser = (userId) => {
     const userToEdit = store.users.find(user => user.id === userId);
+    delete userToEdit.client;
+    delete userToEdit.tickets;
+    delete userToEdit.createdAt;
+    delete userToEdit.updatedAt;
     setShowEditModal(true);
     setUserToEdit(userToEdit); // Asegúrate de estar configurando correctamente el usuario a editar
   };
@@ -215,82 +219,82 @@ const UserList = ({ users, createUser }) => {
 
 
   const columns = useMemo(
-    () =>{ 
-     const columns = [
-      {
-        Header: 'ID',
-        accessor: 'id',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Nombre',
-        accessor: 'name',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Correo',
-        accessor: 'email',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Rol',
-        accessor: 'role',
-        Filter: SelectRoleFilter,
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Departamento',
-        accessor: 'department.name_department', // Asegúrate de usar el nombre correcto de la propiedad
-        Filter: SelectDepartmentFilter, // Utiliza el mismo componente de filtro para departamentos
-        canFilter: true,
-        sortType: 'basic',
-      },
-
-      {
-        Header: 'Tickets',
-        accessor: 'tickets.length',
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ row }) => {
-          const userId = row.original.id;
-          const ticketsCount = row.values['tickets.length'];
-
-          return (
-
-            <span>{ticketsCount} Tickets</span>
-
-          );
+    () => {
+      const columns = [
+        {
+          Header: 'ID',
+          accessor: 'id',
+          canFilter: true,
+          sortType: 'basic',
         },
-      },
+        {
+          Header: 'Nombre',
+          accessor: 'name',
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Correo',
+          accessor: 'email',
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Rol',
+          accessor: 'role',
+          Filter: SelectRoleFilter,
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Departamento',
+          accessor: 'department.name_department', // Asegúrate de usar el nombre correcto de la propiedad
+          Filter: SelectDepartmentFilter, // Utiliza el mismo componente de filtro para departamentos
+          canFilter: true,
+          sortType: 'basic',
+        },
 
-    ];
-  if(store.role === "Admin") {
-    columns.push({
-      Header: 'Acciones',
-      accessor: 'actions',
-      show: false,
-      Cell: ({ row }) => (
+        {
+          Header: 'Tickets',
+          accessor: 'tickets.length',
+          canFilter: true,
+          sortType: 'basic',
+          Cell: ({ row }) => {
+            const userId = row.original.id;
+            const ticketsCount = row.values['tickets.length'];
+
+            return (
+
+              <span>{ticketsCount} Tickets</span>
+
+            );
+          },
+        },
+
+      ];
+      if (store.role === "Admin") {
+        columns.push({
+          Header: 'Acciones',
+          accessor: 'actions',
+          show: false,
+          Cell: ({ row }) => (
 
 
-        <div>
-          <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
-            <FaEdit className={styles.actionsIcon} /> Editar
-          </button>
-          <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
-            <FaTrashAlt className={styles.actionsIcon} /> Eliminar
-          </button>
+            <div>
+              <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+                <FaEdit className={styles.actionsIcon} /> Editar
+              </button>
+              <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+                <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+              </button>
 
-        </div>
-      ),
-    },);
-  }
-  console.log(store.role)
-  return columns;
-},
+            </div>
+          ),
+        },);
+      }
+      console.log(store.role)
+      return columns;
+    },
     [departments]
   );
 
@@ -405,12 +409,12 @@ const UserList = ({ users, createUser }) => {
       {showEditModal && (
         <EditUserModal user={userToEdit} onSave={handleSaveEdit} onCancel={handleCancelEdit} />
       )}
-
-      <button onClick={toggleModal} className={styles.addButton}>
-        <FaPlus />
-        Agregar Usuario
-      </button>
-
+      {store.role === 'Admin' ? (
+        <button onClick={toggleModal} className={styles.addButton}>
+          <FaPlus />
+          Agregar Usuario
+        </button>
+      ) : (<></>)}
       {isModalOpen && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
