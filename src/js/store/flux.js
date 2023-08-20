@@ -9,7 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       ticketDetails: null,
       departments: [],
       messages: [],
-      accessToken: localStorage.getItem('accessToken') || null,
+      accessToken: null,
       isLoggedIn: false,
       name: "",
       password: "",
@@ -542,11 +542,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      updateToken: () => {
+        if (localStorage.getItem("accessToken")) {
+          setStore({
+            accessToken: localStorage.getItem("accessToken"),
+            isLoggedIn: true
+          })
+        }
+
+      },
+
+
 
       // Función para cerrar sesión y eliminar el token del estado y del localStorage
       logout: async () => {
         try {
-          localStorage.removeItem('accesToken');
+          localStorage.removeItem('accessToken');
           window.location.href = '/';
 
         } catch (error) {

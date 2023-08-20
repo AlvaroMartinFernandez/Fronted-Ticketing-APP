@@ -25,6 +25,12 @@ const Dashboard = () => {
     return <Navigate to="/login" />;
   }
 
+  useEffect(() => {
+    actions.loadAllUsersData();
+    actions.loadAllDepartmentsData();
+    actions.loadAllTicketsData();
+  }, [])
+
 
   // Agregar una función para manejar la selección de un usuario
   const handleSelectUser = (user) => {
