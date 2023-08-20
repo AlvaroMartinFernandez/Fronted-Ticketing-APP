@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../store/appContext.js';
 import { useParams } from 'react-router-dom'
 
@@ -11,6 +11,8 @@ const AddUser = () => {
     const user = ticket.user;
     const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
     const [mostrarBoton, setMostrarBoton] = useState(false);
+    const [modalContent, setModalContent] = useState(null);
+
 
     const usersSelect = users.filter(usuario => {
         return !user.some(u => u.id === usuario.id);
@@ -33,7 +35,19 @@ const AddUser = () => {
             actions.loadTicketMessages(id);
         }
     };
-
+    useEffect(() => {
+        const ticket = store.tickets.find(element => element.id === ticketID);
+        const user = ticket.user;
+        const updatedContent = (
+            <div>
+                {user.map(user => {
+                    return (<p key={user.id} className='col-4'>{user.name}</p>)
+                })}
+            </div>
+        );
+        setModalContent(updatedContent);
+        console.log("Hola")
+    }, [store.tickets]);
     return (
         <div>
             {/* Botón para abrir el modal */}
@@ -68,10 +82,7 @@ const AddUser = () => {
                         </div>
                         <div className="modal-body">
                             <div className='d-flex row'>
-                                {console.log(user)}
-                                {user.map(user => {
-                                    return (<p key={user.id} className='col-4'>{user.name}</p>)
-                                })}
+                                {modalContent}
                             </div>
                             <div className='d-flex row'>
                                 <div>
@@ -90,7 +101,7 @@ const AddUser = () => {
 
                         <div className="modal-footer">
                             {mostrarBoton && (
-                                <button type="button" class="btn btn-primary" onClick={handleConfirmClick} data-bs-dismiss="modal">Confirmar</button>
+                                <button type="button" className="btn btn-primary" onClick={handleConfirmClick} data-bs-dismiss="modal">Confirmar</button>
                             )}
                             <button
                                 type="button"

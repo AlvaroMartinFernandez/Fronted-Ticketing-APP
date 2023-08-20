@@ -84,15 +84,18 @@ const TicketDetailView = () => {
           <div className='d-inline-flex gap-2'>
             <p className={styles.ticketInfo}><strong>Estado:</strong> </p>
             <SelectStatus />
+
           </div>
-          <AddUser />
+          {store.role !== 'Employee' ? (<AddUser />) : (<></>)}
+
 
 
           {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
             <>
               <h3 className={styles.messageHistory}>Historial de Mensajes:</h3>
               <div className={styles.messageCardContainer}>
-                {store.ticketDetails?.sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
+
+                {Array.isArray(store.ticketDetails) ? (store.ticketDetails?.sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
                   .map(message => (
                     <div key={message.id} className={styles.messageCard}>
                       <h4>
@@ -102,7 +105,7 @@ const TicketDetailView = () => {
                           data-bs-toggle="collapse"
                           data-bs-target={`#messageCollapse${message.id}`}
                           aria-expanded="false"
-                          
+
                         >
                           <div className="row d-flex justify-content-around">
                             <div className='col-8'>
@@ -121,7 +124,7 @@ const TicketDetailView = () => {
                         id={`messageCollapse${message.id}`}
                         className="collapse"
                         data-bs-parent={`#messageCollapse${message.id}`}
-                        
+
                       >
                         <div className="accordion-body">
                           <p>{message.message}</p>
@@ -134,7 +137,7 @@ const TicketDetailView = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  ))) : (<p>No hay mensajes disponibles.</p>)}
               </div>
             </>
           ) : (
