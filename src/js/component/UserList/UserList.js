@@ -9,6 +9,10 @@ import { FaTrashAlt } from 'react-icons/fa';
 import EditUserModal from '../EditUserModal/EditUserModal.js';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Asegúrate de importar también los estilos
 
 
 
@@ -124,17 +128,30 @@ const UserList = ({ users, createUser }) => {
   };
 
   const handleDeleteUser = async (userId) => {
-    // Mostrar una alerta de confirmación antes de eliminar al usuario
-    const confirmDelete = window.confirm('¿Seguro que quieres eliminar a este usuario?');
-
-    if (confirmDelete) {
-      const success = await deleteUserData(userId);
-      if (success) {
-        console.log('Usuario eliminado exitosamente:', userId);
-      } else {
-        console.log('Error al eliminar usuario:', userId);
-      }
-    }
+    // Mostrar una alerta de confirmación utilizando react-confirm-alert
+    confirmAlert({
+      title: 'Confirmar eliminación',
+      message: '¿Estás seguro de querer eliminar a este usuario?',
+      buttons: [
+        {
+          label: 'Sí',
+          onClick: async () => {
+            const success = await deleteUserData(userId);
+            if (success) {
+              toast.success('Usuario eliminado exitosamente.', {
+                autoClose: 2000, // Cambia este valor según tus preferencias
+              });
+            } else {
+              toast.error('Error al eliminar usuario.')
+            }
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => { /* No hacer nada si se selecciona "No" */ },
+        },
+      ],
+    });
   };
 
   const toggleModal = () => {
@@ -217,6 +234,19 @@ const UserList = ({ users, createUser }) => {
     );
   };
 
+  const showToast = () => {
+    toast.error('¿Estás seguro de querer eliminar a este usuario?', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+
 
   const columns = useMemo(
     () => {
@@ -284,9 +314,11 @@ const UserList = ({ users, createUser }) => {
               <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
                 <FaEdit className={styles.actionsIcon} /> Editar
               </button>
-              <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+              <button className={styles.deleteButton} onClick={() => { showToast(); handleDeleteUser(row.original.id); }}>
+
                 <FaTrashAlt className={styles.actionsIcon} /> Eliminar
               </button>
+              
 
             </div>
           ),
@@ -389,7 +421,7 @@ const UserList = ({ users, createUser }) => {
                             <FaEdit className={styles.actionsIcon} /> Editar
                           </button>
                           {/* Botón de eliminar */}
-                          <button className={styles.deleteButton} onClick={() => handleDeleteUser(row.original.id)}>
+                          <button className={styles.deleteButton} onClick={(toast) => handleDeleteUser(row.original.id)}>
                             <FaTrashAlt className={styles.actionsIcon} /> Eliminar
                           </button>
                         </div>
@@ -478,6 +510,7 @@ const UserList = ({ users, createUser }) => {
           activeClassName={'active'}
         />
       </div>
+      <ToastContainer />
     </div>
   );
 };

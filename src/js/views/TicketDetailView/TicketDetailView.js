@@ -93,7 +93,7 @@ const TicketDetailView = () => {
           {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
             <>
               <h3 className={styles.messageHistory}>Historial de Mensajes:</h3>
-              <div className={styles.messageCardContainer}>
+              <div className={styles.messageCardContainer}> 
 
                 {Array.isArray(store.ticketDetails) ? (store.ticketDetails?.sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
                   .map(message => (
@@ -105,6 +105,7 @@ const TicketDetailView = () => {
                           data-bs-toggle="collapse"
                           data-bs-target={`#messageCollapse${message.id}`}
                           aria-expanded="false"
+                          
 
                         >
                           <div className="row d-flex justify-content-around">
@@ -124,6 +125,7 @@ const TicketDetailView = () => {
                         id={`messageCollapse${message.id}`}
                         className="collapse"
                         data-bs-parent={`#messageCollapse${message.id}`}
+                      
 
                       >
                         <div className="accordion-body">
