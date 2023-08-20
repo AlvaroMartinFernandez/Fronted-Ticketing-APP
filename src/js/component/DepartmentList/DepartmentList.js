@@ -6,6 +6,11 @@ import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styles from './DepartmentList.module.css';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Asegúrate de importar también los estilos
+
 
 
 
@@ -109,21 +114,68 @@ const DepartmentList = ({ departments, createDepartment }) => {
     }
   };
 
+  const deleteDepartmentData = async (departmentId) => {
+    try {
+      const response = await axios.delete(`https://backend-ticketing-app-production.up.railway.app/departments/${departmentId}`, {
+        headers: {
+          Authorization: `Bearer ${store.accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        // Actualizamos el estado eliminando el usuario del array de usuarios
+        actions.loadAllDepartmentsData(); // Actualiza la lista de usuarios
+        return true;
+      } else {
+        console.error('Error al eliminar usuario:', response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error);
+      return false;
+    }
+  };
+
 
   // Función para eliminar un departamento por su ID
   const handleDeleteDepartment = async (departmentId) => {
-    const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este departamento?');
-
-    if (confirmed) {
-      const success = await actions.deleteDepartment(departmentId);
-      if (success) {
-        actions.loadAllDepartmentsData();
-
-        // Actualiza la lista de departamentos después de eliminar
-        // Puedes implementar esta función según cómo estés manejando tus datos
-      }
-    }
+    confirmAlert({
+      title: 'Confirmar eliminación',
+      message: '¿Estás seguro de querer eliminar a este departamento?',
+      buttons: [
+        {
+          label: 'Sí',
+          onClick: async () => {
+            const success = await deleteDepartmentData(departmentId);
+            if (success) {
+              toast.success('Departamento eliminado exitosamente.', {
+                autoClose: 2000, // Cambia este valor según tus preferencias
+              });
+            } else {
+              toast.error('Error al eliminar departamento.')
+            }
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => { /* No hacer nada si se selecciona "No" */ },
+        },
+      ],
+    });
   };
+
+  const showToast = () => {
+    toast.error('Esta acción es irreversible', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
 
 
   const columns = useMemo(
@@ -207,10 +259,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
               >
                 <FaEdit className={styles.actionsIcon} /> Editar
               </button>
-              <button
-                className={styles.deleteButton}
-                onClick={() => handleDeleteDepartment(row.original.id)}
-              >
+              <button className={styles.deleteButton} onClick={() => { showToast(); handleDeleteDepartment(row.original.id); }}>
                 <FaTrashAlt className={styles.actionsIcon} /> Eliminar
               </button>
             </div>
@@ -509,9 +558,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
           </div>
         </div>
       )}
-
-
-
+      <ToastContainer />
 
     </div>
   );

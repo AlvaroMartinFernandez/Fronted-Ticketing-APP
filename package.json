@@ -91,6 +91,7 @@
 		"react-bootstrap": "^2.8.0",
 		"react-bootstrap-sidebar-menu": "^2.0.3",
 		"react-collapse": "^5.1.1",
+		"react-confirm-alert": "^3.0.6",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.10.1",
 		"react-modal": "^3.16.1",

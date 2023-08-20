@@ -7,6 +7,10 @@ import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styles from './TicketList.module.css';
 import { FaTrashAlt } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 
 
@@ -32,6 +36,8 @@ const TicketList = ({ tickets }) => {
   const { store, actions } = useContext(Context);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
+
+  
 
   const SelectStatusFilter = ({ column }) => {
     const { filterValue, setFilter } = column;
@@ -81,16 +87,44 @@ const TicketList = ({ tickets }) => {
   };
 
   const handleDeleteTicket = async (ticketId) => {
-    const confirmDelete = window.confirm('¿Seguro que quieres eliminar este ticket?');
-    if (confirmDelete) {
-      const success = await deleteTicket(ticketId)
-      if (success) {
-        console.log('Ticket eliminado exitosamente:', ticketId);
-      } else {
-        console.log('Error al eliminar usuario:', ticketId);
-      }
-    }
+    // Mostrar una alerta de confirmación utilizando react-confirm-alert
+    confirmAlert({
+      title: 'Confirmar eliminación',
+      message: '¿Estás seguro de querer eliminar este Ticket?',
+      buttons: [
+        {
+          label: 'Sí',
+          onClick: async () => {
+            const success = await deleteTicket(ticketId);
+            if (success) {
+              toast.success('Ticket eliminado exitosamente.', {
+                autoClose: 2000, // Cambia este valor según tus preferencias
+              });
+            } else {
+              toast.success('Ticket eliminado exitosamente.')
+            }
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => { /* No hacer nada si se selecciona "No" */ },
+        },
+      ],
+    });
   };
+
+  const showToast = () => {
+    toast.error('Esta acción es irreversible', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
 
 
 
@@ -211,10 +245,7 @@ const TicketList = ({ tickets }) => {
           show: store.userRole === 'Director',
           Cell: ({ row }) => (
             <div>
-              <button
-                className={styles.deleteButton}
-                onClick={() => handleDeleteTicket(row.original.id)}
-              >
+              <button className={styles.deleteButton} onClick={() => { showToast(); handleDeleteTicket(row.original.id); }}>
                 <FaTrashAlt className={styles.actionsIcon} /> Eliminar
               </button>
             </div>
@@ -345,6 +376,7 @@ const TicketList = ({ tickets }) => {
 
 
       </div>
+      <ToastContainer />
     </div>
   );
 

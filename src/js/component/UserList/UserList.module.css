@@ -194,6 +194,7 @@ th {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.2s;
+  border-radius: 10%;
 }
 
 .editButton:hover {
@@ -210,6 +211,7 @@ th {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.2s;
+  border-radius: 10%;
 }
 
 .deleteButton:hover {
