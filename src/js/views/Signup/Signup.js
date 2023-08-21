@@ -63,7 +63,12 @@ const Signup = () => {
         <input type="text" placeholder="Dirección" value={address} onChange={(e) => setAdress(e.target.value)} />
         <input type="text" placeholder="Ciudad" value={city} onChange={(e) => setCity(e.target.value)} />
         <input type="text" placeholder="Código Postal" value={cp} onChange={(e) => setCp(e.target.value)} />
-        <input type="text" placeholder="Plan" value={plan} onChange={(e) => setPlan(e.target.value)} />
+        <select className={styles['plan-select']} value={plan} onChange={(e) => setPlan(e.target.value)}>
+          <option value="">Seleccionar Plan</option>
+          <option value="basico">Plan Básico</option>
+          <option value="premium">Plan Premium</option>
+          <option value="ilimitado">Plan Business Ilimitado</option>
+        </select>
         <input type="number" placeholder="Teléfono" value={phone} onChange={(e) => setPhone(e.target.value)} />
         <button type="submit" className={styles['signup-button']}>
           Registrarse

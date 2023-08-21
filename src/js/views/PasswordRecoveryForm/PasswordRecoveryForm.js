@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styles from './PasswordRecoveryForm.module.css'; 
+import styles from './PasswordRecoveryForm.module.css';
 
 const PasswordRecoveryForm = () => {
   const [email, setEmail] = useState('');
   const [isPasswordRecovered, setIsPasswordRecovered] = useState(false);
   const [error, setError] = useState(null);
-  
+
   // Obtiene la función navigate para redirigir
   const navigate = useNavigate();
 
@@ -27,9 +27,7 @@ const PasswordRecoveryForm = () => {
 
       if (response.status === 200) {
         setIsPasswordRecovered(true);
-        
-        // Redirige a la nueva ruta después de la recuperación exitosa
-        navigate('/');
+        setError(null); // Limpia cualquier mensaje de error existente
       } else {
         setError('No se pudo recuperar la contraseña. Por favor, intenta de nuevo más tarde.');
       }
@@ -41,7 +39,9 @@ const PasswordRecoveryForm = () => {
   return (
     <div className={styles['password-recovery-form']}>
       {isPasswordRecovered ? (
-        <p>Se ha enviado un correo para recuperar la contraseña.</p>
+        <div className={styles['success-message']}>
+          Se ha enviado un correo para recuperar la contraseña.
+        </div>
       ) : (
         <form onSubmit={handleRecoverPassword}>
           <input
@@ -51,7 +51,9 @@ const PasswordRecoveryForm = () => {
             placeholder="Correo electrónico"
             className={styles['input']}
           />
-          <button type="submit" className={styles['button']}>Recuperar contraseña</button>
+          <button type="submit" className={styles['button']}>
+            Recuperar contraseña
+          </button>
           {error && <p className={styles['error-message']}>{error}</p>}
         </form>
       )}
