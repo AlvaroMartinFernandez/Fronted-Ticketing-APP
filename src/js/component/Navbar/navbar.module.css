@@ -1,4 +1,6 @@
 .navbar {
+  position: fixed; /* Fijar el navbar en la parte superior de la ventana */
+  top: 0; /* Colocarlo en la parte superior */
   background-color: #fff;
   color: #333;
   display: flex;
@@ -7,7 +9,9 @@
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 70px;
-  margin-bottom: 50px;
+  width: 100%; /* Ocupar el ancho completo de la ventana */
+  z-index: 1000; /* Asegurarse de que el navbar esté en el frente de otros elementos */
+  transition: background-color 0.3s, color 0.3s; /* Agrega transiciones para suavizar cambios */
 }
 
 /* Estilos para la imagen del logo */
