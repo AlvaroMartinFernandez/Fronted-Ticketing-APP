@@ -1,0 +1,37 @@
+/* Faqs.module.css */
+
+/* Estilos para el componente FAQ */
+.faqContainer {
+    /* Estilos para el contenedor principal */
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+  }
+  
+  .faqTitle {
+    /* Estilos para el título principal */
+    color: #004080;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .faqText {
+    /* Estilos para el texto principal */
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+  
+  .question {
+    /* Estilos para el título de la pregunta */
+    color: #004080;
+    font-weight: bold;
+  }
+  
+  .answer {
+    /* Estilos para la respuesta */
+    text-align: justify;
+  }
+  
+  /* Agrega más estilos si es necesario */
+  

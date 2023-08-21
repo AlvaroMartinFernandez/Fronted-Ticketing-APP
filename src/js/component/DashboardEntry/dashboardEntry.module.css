@@ -1,27 +1,26 @@
 /* src/styles/modules/dashboardEntry.module.css */
 
 .dashboard-entry {
-  margin: 25px 0;
+  margin: 0px 0px 20px 0px;
   display: flex;
-  justify-content: center;
-  align-items: center; /* Centrar verticalmente el contenido */
+  justify-content: center; /* Centrar horizontalmente el contenido */
 }
 
 .cta-link {
-  width: auto; /* Ancho automático para adaptarse al contenido */
-  max-width: 400px; /* Ajusta el valor según tus necesidades */
-  padding: 10px 15px; /* Reduce el padding para hacer el botón más estrecho */
-  background-color: #4ab19d;
-  color: #ffffff;
+  width: 100%; /* Ancho del botón al 100% */
+  max-width: 800px; /* Opcional: Agrega un máximo para limitar el ancho del botón */
+  padding: 10px 20px;
+  background-color: #4ab19d; /* Color de fondo del botón */
+  color: #ffffff; /* Color de texto del botón */
   font-size: 18px;
   font-weight: bold;
   border: none;
   border-radius: 4px;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease; /* Transición suave al pasar el cursor */
 }
 
 .cta-link:hover {
-  background-color: #2e75b6;
+  background-color: #2e75b6; /* Cambiar color de fondo al pasar el cursor */
 }
