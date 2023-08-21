@@ -9,25 +9,21 @@ import Footer from "../component/Footer/footer";
 import HeroSection from "../component/HeroSecction/HeroSecction";
 import Fortalezas from "../component/Fortalezas/Fortalezas";
 import VideoBackground2 from '../component/VideoBackground2/VideoBackground2';
-import NevVideoComponent from '../component/NevVideoComponent/NevVideoComponent'; 
-
-
 
 
 
 export const Home = () => (
-  <div >
+  <div className="text-center mt-5">
 
-
+    <DashboardEntry />
   
-  <HeroSection />
-  <Fortalezas />
-  <NevVideoComponent />
-  <Testimonials />
-  <Pricing />
-  <Footer />
-  
-    
+    <HeroSection />
+    <Fortalezas />
+    <VideoBackground2 />
+    <Features />
+    <Testimonials />
+    <Pricing />
+    <Footer />
 
 
   </div>
