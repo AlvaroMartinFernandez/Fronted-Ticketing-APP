@@ -1,4 +1,5 @@
 /* Estilos para el contenedor del dashboard */
+
 .container {
   display: flex;
   flex-direction: column; /* Cambia la dirección de flexión a columna en pantallas pequeñas */
@@ -36,7 +37,7 @@
 
 .content {
   flex: 1;
-  padding: 20px; /* Puedes ajustar el espacio según lo necesites */
+  padding: 20px;  /* Puedes ajustar el espacio según lo necesites */
 }
 
 /* Estilos para hacer responsive en pantallas pequeñas */

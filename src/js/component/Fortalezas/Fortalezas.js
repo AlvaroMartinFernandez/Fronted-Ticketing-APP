@@ -34,7 +34,11 @@ const Fortalezas = () => {
   const currentFortaleza = fortalezasData[currentIndex];
 
   return (
+   
+
     <div id='fortalezas' className={styles.container}>
+
+
       <div className={styles['fortaleza-container']} onClick={handleNext}>
         <motion.div
           className={styles['fortaleza-text-container']}
@@ -44,7 +48,7 @@ const Fortalezas = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className={styles['fortaleza-title']}>
-            TicketsIA {currentFortaleza.id}
+            WizzMail {currentFortaleza.id}
           </h2>
           <p className={styles['fortaleza-text']}>
             {currentFortaleza.text}

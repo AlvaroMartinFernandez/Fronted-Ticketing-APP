@@ -5,7 +5,6 @@ import styles from './features.module.css';
 const Features = () => {
   return (
     <section id="features" className={styles.features}>
-      <h2 className={styles['section-title']}>Características destacadas</h2>
       <div className={styles.feature}>
         <i className={styles.icon}><FaClipboardList /></i>
         <h3 className={styles['feature-title']}>Gestión de tickets</h3>

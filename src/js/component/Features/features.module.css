@@ -1,41 +1,42 @@
-
 /* Estilos para la sección de características */
 .features {
-    padding: 40px 0;
-    background-color: #f8f8f8;
-    text-align: center;
-  }
-  
-  /* Estilos para el título de la sección */
-  .section-title {
-    font-size: 24px;
-    margin-bottom: 30px;
-  }
-  
-  /* Estilos para cada característica */
-  .feature {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 40px;
-  }
-  
-  /* Estilos para el icono */
-  .icon {
-    font-size: 36px;
-    color: #007bff; /* Color del ícono, puedes cambiarlo según tus preferencias */
-    margin-bottom: 10px;
-  }
-  
-  /* Estilos para el título de la característica */
-  .feature-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  /* Estilos para la descripción de la característica */
-  .feature-description {
-    font-size: 16px;
-  }
-  
+  padding: 40px 0;
+  background-color: transparent; /* Cambio del color de fondo a transparente */
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos fluyan en varias filas */
+  justify-content: space-between; /* Distribución uniforme en el eje principal */
+  gap: 40px; /* Espacio entre las características */
+}
+
+/* Estilos para cada característica */
+.feature {
+  flex: 0 1 calc(50% - 20px); /* Ocupar la mitad del ancho, con espacio entre las características */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo transparente con opacidad */
+  padding: 20px; /* Agrega un poco de espacio alrededor del contenido */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Estilos para el icono */
+.icon {
+  font-size: 36px;
+  color: #007bff; /* Color del ícono, puedes cambiarlo según tus preferencias */
+  margin-bottom: 10px;
+}
+
+/* Estilos para el título de la característica */
+.feature-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Estilos para la descripción de la característica */
+.feature-description {
+  font-size: 16px;
+}
