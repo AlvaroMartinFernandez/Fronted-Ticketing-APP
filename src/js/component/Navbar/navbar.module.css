@@ -1,6 +1,4 @@
 .navbar {
-  position: fixed; /* Fijar el navbar en la parte superior de la ventana */
-  top: 0; /* Colocarlo en la parte superior */
   background-color: #fff;
   color: #333;
   display: flex;
@@ -9,9 +7,7 @@
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 70px;
-  width: 100%; /* Ocupar el ancho completo de la ventana */
-  z-index: 1000; /* Asegurarse de que el navbar esté en el frente de otros elementos */
-  transition: background-color 0.3s, color 0.3s; /* Agrega transiciones para suavizar cambios */
+  margin-bottom: 50px;
 }
 
 /* Estilos para la imagen del logo */
@@ -106,6 +102,30 @@
   font-size: 16px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+.auth-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente */
+}
+
+.user-name {
+  margin-right: 10px; /* Agrega un margen derecho para separar del botón */
+}
+
+/* Estilos para el botón de cerrar sesión */
+.logout-button {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
   text-decoration: none;
 }
