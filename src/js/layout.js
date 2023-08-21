@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./views/home";
 import { Demo } from "./views/demo";
@@ -11,8 +11,7 @@ import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./views/PasswordRecoveryForm/PasswordRecoveryForm";
 import TicketDetailView from "./views/TicketDetailView/TicketDetailView";
 import PasswordConfirmation from "./views/PasswordRecoveryForm/PasswordConfirm";
-
-
+import Contacto from "./component/contacto/contacto"
 
 const Layout = () => {
   const basename = process.env.BASENAME || "";
@@ -21,7 +20,9 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <Navbar />
+
         <Routes>
+          {/* Agrega las rutas de Home y Demo aquí */}
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/demo" element={<Demo />} />
@@ -31,6 +32,7 @@ const Layout = () => {
           <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
           <Route path="/TicketDetailView/:id" element={<TicketDetailView />} />
           <Route path="/PasswordConfirmation/:id" element={<PasswordConfirmation />} />
+          <Route path="/contact" element={<Contacto />} />
 
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
