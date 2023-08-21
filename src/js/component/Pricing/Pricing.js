@@ -55,7 +55,7 @@
                   </div>
                 </div>
   
-                <div className="d-flex flex-row">
+                <div className="d-flex flex-row boton">
               <Link to="/contact" className='link'>
               Contacto
               </Link>
@@ -99,7 +99,7 @@
                   </div>
                 </div>
   
-                <div className="d-flex flex-row">
+                <div className="d-flex flex-row boton">
               <Link to="/contact" className='link'>
               Contacto
               </Link>
@@ -142,7 +142,7 @@
                   </div>
                 </div>
   
-                <div className="d-flex flex-row">
+                <div className="d-flex flex-row boton">
               <Link to="/contact" className='link'>
               Contacto
               </Link>

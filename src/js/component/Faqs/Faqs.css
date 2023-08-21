@@ -1,20 +1,23 @@
 /* Estilos personalizados para los acordeones */
 /* Cambia el color de fondo del acordeón activo en hover */
 
-.accordion-item {
-    margin: 100px, 100px, 100px, 100px;
+.accordion{
+  margin-left: 50px;
+  margin-right: 50px;
+
 }
 
 
- 
   
   /* Cambia el color de fondo del acordeón activo */
   .accordion-item.active {
     background-color: #2e75b6;
+    
   }
   
  /* Cambia el color del botón del acordeón en estado normal */
  .accordion-button {
+  
     background-color: #2e75b6;
   }
   

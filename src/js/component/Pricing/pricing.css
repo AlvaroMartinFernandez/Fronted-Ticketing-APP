@@ -1,15 +1,14 @@
 .d-flex.flex-row {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
-  height: 100%; 
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 /* Estilos para el efecto hover en los enlaces */
 .link:hover::before {
   content: '';
   position: absolute;
-  color: #fff;
   left: 0;
   right: 0;
   bottom: -3px;
@@ -17,28 +16,30 @@
   background-color: #333;
 }
 
-/* Estilos para los botones de autenticación */
-.contactButton {
+/* Estilos para los botones de contacto */
+.boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.boton a {
   background-color: #2e75b6;
   color: #fff;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
   font-size: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  display: inline-block;
   text-decoration: none;
-  margin: 10px 0;
-  margin-left: 15px;
-  transition: background-color 0.3s, color 0.3s; /* Agrega una transición para suavizar el cambio de colores */
-  width: fit-content; /* Ajusta el ancho al tamaño del contenido */
-  text-align: center; /* Centra el texto horizontalmente */
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.contactButton:hover {
+.boton a:hover {
   background-color: #28669f;
-  color: #fff; /* Cambia el color del texto a blanco en el hover */  
-  transition: background-color 0.3s, color 0.3s;
+}
+
+.boton a:hover {
+  color: #fff; /* Cambia el color del texto a blanco en el hover */
 }
