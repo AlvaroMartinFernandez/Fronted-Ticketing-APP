@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useContext } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./views/home";
 import { Demo } from "./views/demo";
@@ -11,6 +12,8 @@ import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./views/PasswordRecoveryForm/PasswordRecoveryForm";
 import TicketDetailView from "./views/TicketDetailView/TicketDetailView";
 import PasswordConfirmation from "./views/PasswordRecoveryForm/PasswordConfirm";
+import Contacto from "./component/contacto/contacto";
+import FloatingMenu from "./component/FloatingMenu/floatingMenu";
 
 
 
@@ -31,6 +34,7 @@ const Layout = () => {
           <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
           <Route path="/TicketDetailView/:id" element={<TicketDetailView />} />
           <Route path="/PasswordConfirmation/:id" element={<PasswordConfirmation />} />
+          <Route path="/contact" element={<Contacto />} />
 
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
