@@ -14,6 +14,7 @@ import PasswordConfirmation from "./views/PasswordRecoveryForm/PasswordConfirm";
 
 
 
+
 const Layout = () => {
   const basename = process.env.BASENAME || "";
 
