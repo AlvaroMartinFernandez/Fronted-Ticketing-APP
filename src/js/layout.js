@@ -1,29 +1,31 @@
-
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "./views/home";
-import { Demo } from "./views/demo";
-import injectContext from "./store/appContext";
+import injectContext, { Context } from "./store/appContext";
+
 import Navbar from "./component/Navbar/Navbar";
 import DashBoard from "./views/DashBoard/DashBoard";
 import Login from "./views/Login/Login";
 import Signup from "./views/Signup/Signup";
 import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./views/PasswordRecoveryForm/PasswordRecoveryForm";
+import FloatingMenu from "./component/FloatingMenu/floatingMenu";
+import Contacto from "./component/contacto/contacto";
 import TicketDetailView from "./views/TicketDetailView/TicketDetailView";
 import PasswordConfirmation from "./views/PasswordRecoveryForm/PasswordConfirm";
-import Contacto from "./component/contacto/contacto";
-import FloatingMenu from "./component/FloatingMenu/floatingMenu";
 
-
+// Importa los componentes Home y Demo aquí
+import { Home } from "./views/home";
+import { Demo } from "./views/demo";
 
 const Layout = () => {
   const basename = process.env.BASENAME || "";
+
 
   return (
     <div>
       <BrowserRouter basename={basename}>
         <Navbar />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<DashBoard />} />
