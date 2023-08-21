@@ -4,179 +4,156 @@ import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
 import { FaSort, FaSortUp, FaSortDown, FaPlus } from 'react-icons/fa';
 import styles from './UserList.module.css';
+import { FaEdit } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
+import EditUserModal from '../EditUserModal/EditUserModal.js';
+import { Link } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Asegúrate de importar también los estilos
 
 
-const SelectColumnFilter = ({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) => {
-  const options = useMemo(() => {
-    const allDepartments = new Set();
-    preFilteredRows.forEach(row => {
-      row.values[id].split(', ').forEach(dep => allDepartments.add(dep));
-    });
-    return [...allDepartments.values()];
-  }, [id, preFilteredRows]);
 
-  return (
-    <select
-      value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined);
-      }}
-    >
-      <option value="">Todos</option>
-      {options.map((dep, index) => (
-        <option key={index} value={dep}>
-          {dep}
-        </option>
-      ))}
-    </select>
-  );
-};
-
-
-const SelectRoleFilter = ({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) => {
-  const options = useMemo(() => {
-    const allRoles = new Set();
-    preFilteredRows.forEach(row => {
-      allRoles.add(row.values[id]);
-    });
-    return [...allRoles.values()];
-  }, [id, preFilteredRows]);
-
-  return (
-    <select
-      value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined);
-      }}
-    >
-      <option value="">Todos</option>
-      {options.map((role, index) => (
-        <option key={index} value={role}>
-          {role}
-        </option>
-      ))}
-    </select>
-  );
-};
 
 const UserList = ({ users, createUser }) => {
   const { store, actions } = useContext(Context);
   const data = useMemo(() => users, [users]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userToEdit, setUserToEdit] = useState({
+    name: '',
+    email: '',
+    role: '',
+    department: '',
+    password: '',
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUserData, setNewUserData] = useState({
     name: '',
     email: '',
-    role: 'directivo',
+    role: '',
     department: '',
+    password: '',
   });
-  const [departments, setDepartments] = useState([]);
-  
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'ID',
-        accessor: 'id',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Nombre',
-        accessor: 'name',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Correo',
-        accessor: 'email',
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Rol',
-        accessor: 'role',
-        Filter: SelectRoleFilter, 
-        filter: 'includes', 
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Fecha de Creación',
-        accessor: 'createdAt',
-        canFilter: true,
-        sortType: 'basic',
-        Cell: ({ value }) => {
-          const formattedDate = new Date(value).toLocaleString();
-          return <span>{formattedDate}</span>;
-        },
-      },
-      {
-        Header: 'Departamentos',
-        accessor: row => row.departments.map(dep => dep.name_department).join(', '),
-        Filter: SelectColumnFilter, 
-        filter: 'includes', 
-        canFilter: true,
-        sortType: 'basic',
-      },
-      {
-        Header: 'Tickets',
-        accessor: 'tickets.length',
-        canFilter: true,
-        sortType: 'basic',
-      },
-    ],
-    [departments] 
-  );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    state,
-    setGlobalFilter,
-  } = useTable(
-    {
-      columns,
-      data:store.users,
-      initialState: {
-        hiddenColumns: ['id'],
-      },
-    },
-    useFilters,
-    useGlobalFilter,
-    useSortBy
-  );
 
-  const { globalFilter } = state;
 
-  const fetchUsersData = async () => {
-    try{
-      const response = await axios.get("https://backend-ticketing-app-production.up.railway.app/users/");
-      setUsers(response.data);
-    } catch (error) {
-      console.log ("error")
-    }
-  }
 
-  const fetchDepartmentsData = async () => {
+
+  const [departments, setDepartments] = useState([])
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const itemsPerPage = 10; // Definir la cantidad de elementos por página
+
+
+
+  const updateUserData = async (userId, userData) => {
     try {
-      const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/departments/');
-      setDepartments(response.data);
+      const response = await axios.put(
+        `https://backend-ticketing-app-production.up.railway.app/users/${userId}`,
+        userData,
+        {
+          headers: {
+            method: 'PUT',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        actions.loadAllUsersData(); // Actualiza la lista de usuarios
+        return true;
+      } else {
+        console.error('Error al actualizar datos del usuario:', response.statusText);
+        return false;
+      }
     } catch (error) {
-      console.error('Error al obtener los departamentos:', error);
+      console.error('Error al actualizar datos del usuario:', error);
+      return false;
     }
   };
 
-  useEffect(() => {
-    fetchDepartmentsData();
-    fetchUsersData();
-  }, []);
+  const deleteUserData = async (userId) => {
+    try {
+      const response = await axios.delete(`https://backend-ticketing-app-production.up.railway.app/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${store.accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        // Actualizamos el estado eliminando el usuario del array de usuarios
+        actions.loadAllUsersData(); // Actualiza la lista de usuarios
+        actions.loadAllDepartmentsData();
+        return true;
+      } else {
+        console.error('Error al eliminar usuario:', response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error);
+      return false;
+    }
+  };
+
+
+
+  const handleEditUser = (userId) => {
+    const userToEdit = store.users.find(user => user.id === userId);
+    delete userToEdit.client;
+    delete userToEdit.tickets;
+    delete userToEdit.createdAt;
+    delete userToEdit.updatedAt;
+    setShowEditModal(true);
+    setUserToEdit(userToEdit); // Asegúrate de estar configurando correctamente el usuario a editar
+  };
+
+  const handleSaveEdit = async (updatedUserData) => {
+    if (!userToEdit) {
+      console.error('No se encontró el usuario a editar.');
+      return;
+    }
+
+    const success = await updateUserData(userToEdit.id, updatedUserData);
+    if (success) {
+      setShowEditModal(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setShowEditModal(false);
+  };
+
+  const handleDeleteUser = async (userId) => {
+    // Mostrar una alerta de confirmación utilizando react-confirm-alert
+    confirmAlert({
+      title: 'Confirmar eliminación',
+      message: '¿Estás seguro de querer eliminar a este usuario?',
+      buttons: [
+        {
+          label: 'Sí',
+          onClick: async () => {
+            const success = await deleteUserData(userId);
+            if (success) {
+              toast.success('Usuario eliminado exitosamente.', {
+                autoClose: 2000, // Cambia este valor según tus preferencias
+              });
+            } else {
+              toast.error('Error al eliminar usuario.')
+            }
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => { /* No hacer nada si se selecciona "No" */ },
+        },
+      ],
+    });
+  };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -192,11 +169,206 @@ const UserList = ({ users, createUser }) => {
 
   const handleCreateUser = async e => {
     e.preventDefault();
-    const success = await createUser(newUserData);
+    console.log(newUserData)
+    const success = await actions.createUser(newUserData);
+    console.log(newUserData)
     if (success) {
+      actions.loadAllUsersData();
       toggleModal();
     }
   };
+
+  const SelectDepartmentFilter = ({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) => {
+    const options = useMemo(() => {
+      const allDepartments = new Set();
+      preFilteredRows.forEach(row => {
+        allDepartments.add(row.values[id]);
+      });
+      return [...allDepartments.values()];
+    }, [id, preFilteredRows]);
+
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined);
+        }}
+      >
+        <option value="">Todos</option>
+        {options.map((department, index) => (
+          <option key={index} value={department}>
+            {department}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+
+  const SelectRoleFilter = ({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) => {
+    const options = useMemo(() => {
+      const allRoles = new Set();
+      preFilteredRows.forEach(row => {
+        allRoles.add(row.values[id]);
+      });
+      return [...allRoles.values()];
+    }, [id, preFilteredRows]);
+
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined);
+        }}
+      >
+        <option value="">Todos</option>
+        {options.map((role, index) => (
+          <option key={index} value={role}>
+            {role}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+  const showToast = () => {
+    toast.error('¿Estás seguro de querer eliminar a este usuario?', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
+
+  const columns = useMemo(
+    () => {
+      const columns = [
+        {
+          Header: 'ID',
+          accessor: 'id',
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Nombre',
+          accessor: 'name',
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Correo',
+          accessor: 'email',
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Rol',
+          accessor: 'role',
+          Filter: SelectRoleFilter,
+          canFilter: true,
+          sortType: 'basic',
+        },
+        {
+          Header: 'Departamento',
+          accessor: 'department.name_department', // Asegúrate de usar el nombre correcto de la propiedad
+          Filter: SelectDepartmentFilter, // Utiliza el mismo componente de filtro para departamentos
+          canFilter: true,
+          sortType: 'basic',
+        },
+
+        {
+          Header: 'Tickets',
+          accessor: 'tickets.length',
+          canFilter: true,
+          sortType: 'basic',
+          Cell: ({ row }) => {
+            const userId = row.original.id;
+            const ticketsCount = row.values['tickets.length'];
+
+            return (
+
+              <span>{ticketsCount} Tickets</span>
+
+            );
+          },
+        },
+
+      ];
+      if (store.role === "Admin") {
+        columns.push({
+          Header: 'Acciones',
+          accessor: 'actions',
+          show: false,
+          Cell: ({ row }) => (
+
+
+            <div>
+              <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+                <FaEdit className={styles.actionsIcon} /> Editar
+              </button>
+              <button className={styles.deleteButton} onClick={() => { showToast(); handleDeleteUser(row.original.id); }}>
+
+                <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+              </button>
+
+
+            </div>
+          ),
+        },);
+      }
+      console.log(store.role)
+      return columns;
+    },
+    [departments]
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    setGlobalFilter,
+  } = useTable(
+    {
+      columns,
+      data: store.users,
+      initialState: {
+        hiddenColumns: ['id'],
+      },
+    },
+    useFilters,
+    useGlobalFilter,
+    useSortBy
+  );
+
+  const { globalFilter } = state;
+
+  const pageCount = Math.ceil(rows.length / itemsPerPage);
+
+  const offset = currentPage * itemsPerPage;
+  const paginatedRows = rows.slice(offset, offset + itemsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+
+  useEffect(() => {
+
+    actions.loadAllUsersData();
+  }, [])
+
 
   return (
     <div className={styles.container}>
@@ -240,12 +412,30 @@ const UserList = ({ users, createUser }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
+          {paginatedRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className={styles.userRow}>
                 {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {cell.column.id === 'actions' ? (
+                        <div>
+                          {/* Botón de editar */}
+                          <button className={styles.editButton} onClick={() => handleEditUser(row.original.id)}>
+                            <FaEdit className={styles.actionsIcon} /> Editar
+                          </button>
+                          {/* Botón de eliminar */}
+                          <button className={styles.deleteButton} onClick={(toast) => handleDeleteUser(row.original.id)}>
+                            <FaTrashAlt className={styles.actionsIcon} /> Eliminar
+                          </button>
+                        </div>
+                      ) : (
+                        cell.render('Cell')
+                      )}
+                    </td>
+
+                  );
                 })}
               </tr>
             );
@@ -253,11 +443,15 @@ const UserList = ({ users, createUser }) => {
         </tbody>
       </table>
 
-      <button onClick={toggleModal} className={styles.addButton}>
-        <FaPlus />
-        Agregar Usuario
-      </button>
-
+      {showEditModal && (
+        <EditUserModal user={userToEdit} onSave={handleSaveEdit} onCancel={handleCancelEdit} />
+      )}
+      {store.role === 'Admin' ? (
+        <button onClick={toggleModal} className={styles.addButton}>
+          <FaPlus />
+          Agregar Usuario
+        </button>
+      ) : (<></>)}
       {isModalOpen && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
@@ -274,25 +468,28 @@ const UserList = ({ users, createUser }) => {
               <div className={styles.formGroup}>
                 <label>Rol:</label>
                 <select name="role" value={newUserData.role} onChange={handleChange}>
-                  <option value="directivo">Directivo</option>
-                  <option value="administrador">Administrador</option>
-                  <option value="empleado">Empleado</option>
+                  <option value="">Seleccionar rol</option>
+                  <option value="Director">Directivo</option>
+                  <option value="Admin">Administrador</option>
+                  <option value="Employee">Empleado</option>
                 </select>
               </div>
               <div className={styles.formGroup}>
                 <label>Contraseña:</label>
                 <input type="password" name="password" value={newUserData.password} onChange={handleChange} />
               </div>
-              <div className={styles.formGroup}>
+              {<div className={styles.formGroup}>
                 <label>Departamento:</label>
                 <select name="department" value={newUserData.department} onChange={handleChange}>
-                  {departments.map(department => (
+                  <option value="">Seleccionar departamento</option>
+                  {store.departments.map(department => (
                     <option key={department.id} value={department.id}>
-                      {department.name}
+                      {department.name_department}
                     </option>
                   ))}
                 </select>
-              </div>
+
+              </div>}
               <div className={styles.modalButtons}>
                 <button type="submit">Guardar</button>
                 <button type="button" onClick={toggleModal} className={styles.cancelButton}>
@@ -303,8 +500,25 @@ const UserList = ({ users, createUser }) => {
           </div>
         </div>
       )}
+      <div className={styles['pagination-container']}>
+        <ReactPaginate
+          previousLabel={'←'}
+          nextLabel={'→'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </div>
+      <ToastContainer />
     </div>
   );
 };
+
 
 export default UserList;

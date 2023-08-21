@@ -5,23 +5,33 @@ import styles from './signup.module.css';
 
 const Signup = () => {
   const { actions } = useContext(Context);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [country, setCountry] = useState('');
+  const [address, setAdress] = useState('');
+  const [city, setCity] = useState('');
+  const [cp, setCp] = useState('');
+  const [plan, setPlan] = useState('');
+  const [phone, setPhone] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (firstName && lastName && email && password) {
+    if (name && email && password && country && address && city && cp && plan && phone) {
       try {
-        const signupSuccess = await actions.signup(firstName, lastName, email, password);
+        const signupSuccess = await actions.signup(name, email, password, country, address, city, cp, plan, phone);
         if (signupSuccess) {
-          setFirstName('');
-          setLastName('');
+          setName('');
           setEmail('');
           setPassword('');
+          setCountry('');
+          setAdress('');
+          setCity('');
+          setCp('');
+          setPlan('');
+          setPhone('');
           navigate('/login');
         } else {
           setErrorMessage('Error al registrarse. Por favor, inténtalo nuevamente más tarde.');
@@ -40,8 +50,8 @@ const Signup = () => {
       <h2>Registrarse</h2>
       <form onSubmit={handleSignup}>
         {/* Campos de registro */}
-        <input type="text" placeholder="Nombre" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-        <input type="text" placeholder="Apellido" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        <input type="text" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
+
         <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input
           type="password"
@@ -49,6 +59,17 @@ const Signup = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <input type="text" placeholder="País" value={country} onChange={(e) => setCountry(e.target.value)} />
+        <input type="text" placeholder="Dirección" value={address} onChange={(e) => setAdress(e.target.value)} />
+        <input type="text" placeholder="Ciudad" value={city} onChange={(e) => setCity(e.target.value)} />
+        <input type="text" placeholder="Código Postal" value={cp} onChange={(e) => setCp(e.target.value)} />
+        <select className={styles['plan-select']} value={plan} onChange={(e) => setPlan(e.target.value)}>
+          <option value="">Seleccionar Plan</option>
+          <option value="basico">Plan Básico</option>
+          <option value="premium">Plan Premium</option>
+          <option value="ilimitado">Plan Business Ilimitado</option>
+        </select>
+        <input type="number" placeholder="Teléfono" value={phone} onChange={(e) => setPhone(e.target.value)} />
         <button type="submit" className={styles['signup-button']}>
           Registrarse
         </button>

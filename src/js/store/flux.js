@@ -1,30 +1,21 @@
 import axios from 'axios';
+import { actions } from 'react-table';
 
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       users: [],
       tickets: [],
+      ticketDetails: null,
       departments: [],
-      accessToken: localStorage.getItem('accessToken') || null,
+      messages: [],
+      accessToken: null,
       isLoggedIn: false,
       name: "",
       password: "",
       email: "",
-      user_name: "",
-      role: "",
       department: "",
-      role: [
-        {
-          nombre: "Director",
-        },
-        {
-          nombre: "Admin",
-        },
-        {
-          nombre: "Employee",
-        },
-      ],
+      role: "",
     },
 
     actions: {
@@ -116,28 +107,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+
       // Función para crear un nuevo usuario
       createUser: async (userData) => {
+
         try {
+          console.log("<<<<<<<<<<<", userData)
           const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/users/signup',
-            {
-              name: userData.name,
-              email: userData.email,
-              role: userData.role,
-              department: userData.department,
-              password: userData.password, 
-            },
+            'https://backend-ticketing-app-production.up.railway.app/users/',
+            userData,
             {
               headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${getStore().accessToken}`,
+                'Content-Type': 'application/json',
               },
             }
           );
 
-          if (response.status === 200) {
-            getActions().loadAllUsersData();
+          if (response.status === 201) {
+            // Actualizamos el estado con los usuarios obtenidos de la API
+            setStore({ users: [...getStore().users, response.data] });
             return true;
           } else {
             console.error('Error al crear el usuario:', response.statusText);
@@ -150,10 +139,36 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
 
+
       //////////TICKETS////////////
+
+      loadTicketMessages: async (ticketId) => {
+        try {
+          const response = await axios.get(`https://backend-ticketing-app-production.up.railway.app/messages/ticket/${ticketId}`, {
+            headers: {
+              Authorization: `Bearer ${getStore().accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+
+            setStore({ ticketDetails: response.data })
+
+
+            // setStore({ ...getStore(), tickets: updatedTickets });
+          } else {
+            console.error('Error al cargar los mensajes del ticket:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error al cargar los mensajes del ticket:', error);
+        }
+      },
+
+
 
       loadAllTicketsData: async () => {
         try {
+          console.log("ticket")
           const response = await axios.get('https://backend-ticketing-app-production.up.railway.app/tickets/', {
             headers: {
               Authorization: `Bearer ${getStore().accessToken}`,
@@ -216,12 +231,52 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
 
           if (response.status === 200) {
+            setStore({ tickets: getStore().tickets.filter((ticket) => ticket.id !== id) });
+            return true;
             // El ticket se eliminó exitosamente, puedes realizar alguna acción adicional si lo deseas
           } else {
             console.error('Error al eliminar el ticket:', response.statusText);
           }
         } catch (error) {
           console.error('Error al eliminar el ticket:', error);
+        }
+      },
+
+      //Funcion de contestacion
+
+      sendTicketReply: async (message) => {
+        const messages = getStore().ticketDetails.sort((a, b) => a.message_id - b.message_id);
+        const emailSender = messages[0].sender;
+        const emailRegex = /<([^>]+)>/;
+        const matches = emailRegex.exec(emailSender);
+        const targetEmail = matches[1];
+
+        const filteredMessages = messages.filter(item => {
+          const matches = emailRegex.exec(item.sender);
+          if (matches && matches.length > 1) {
+            const emailAddress = matches[1];
+            return emailAddress === targetEmail;
+          }
+          return false;
+        });
+        console.log(filteredMessages);
+        const lastMessage = filteredMessages[filteredMessages.length - 1];
+        const messageID = lastMessage.id;
+
+
+        try {
+          const response = await fetch(`https://backend-ticketing-app-production.up.railway.app/messages/${messageID}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getStore().accessToken}`,
+            },
+            body: JSON.stringify({ message }), // Enviamos el mensaje en el cuerpo del JSON
+          });
+
+          return response;
+        } catch (error) {
+          throw error;
         }
       },
 
@@ -239,7 +294,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           if (response.status === 200) {
             // Actualizamos el estado con los departamentos obtenidos de la API
-            setStore({ departments: response.data.results });
+            setStore({ departments: response.data });
           } else {
             console.error('Error al cargar datos de departamentos:', response.statusText);
           }
@@ -253,6 +308,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await axios.post('https://backend-ticketing-app-production.up.railway.app/departments/', departmentData, {
             headers: {
+              method: 'POST',
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${getStore().accessToken}`,
             },
           });
@@ -275,7 +332,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Función para actualizar un departamento por su ID
       updateDepartment: async (departmentId, departmentData) => {
         try {
-          const response = await axios.patch(`https://backend-ticketing-app-production.up.railway.app/departments/${departmentId}`, departmentData, {
+          const response = await axios.put(`https://backend-ticketing-app-production.up.railway.app/departments/${departmentId}`, departmentData, {
             headers: {
               Authorization: `Bearer ${getStore().accessToken}`,
             },
@@ -344,11 +401,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             localStorage.setItem('accessToken', response.data.access_token);
             // Actualizamos los datos del usuario en el estado
             setStore({
-              name: response.data.name,
-              email: response.data.email,
-              //user_name: response.data.user_name,
-              //role: response.data.role,
-              password: response.data.password,
+              name: response.data.user.name,
+              email: response.data.user.email,
+              department: response.data.department,
+              role: response.data.user.role,
+
 
             });
 
@@ -362,16 +419,21 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
-      signup: async (firstName, lastName, email, password) => {
+      signup: async (name, email, password, country, address, city, cp, plan, phone) => {
         try {
           // Hacer una solicitud POST al backend para registrar al nuevo usuario
           const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/users/signup',
+            'https://backend-ticketing-app-production.up.railway.app/clients/',
             {
-              firstName: firstName,
-              lastName: lastName,
-              email: email,
-              password: password,
+              name,
+              email,
+              password,
+              country,
+              address,
+              city,
+              cp,
+              plan,
+              phone
             },
             {
               headers: {
@@ -397,13 +459,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Función para recuperar la contraseña del usuario
       recoverPassword: async (email) => {
         try {
-          const response = await axios.post(
+          const response = await axios.patch(
             'https://backend-ticketing-app-production.up.railway.app/users/recoverpassword',
             {
               email: email,
             },
             {
               headers: {
+                method: 'PATCH',
+
                 'Content-Type': 'application/json',
               },
             }
@@ -422,16 +486,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-
-      // Función para cerrar sesión y eliminar el token del estado y del localStorage
-      logout: async () => {
+      changeStatusTicket: async (status, ticketID) => {
         try {
-          // Hacemos una solicitud POST a la API para cerrar sesión
-          const response = await axios.post(
-            'https://backend-ticketing-app-production.up.railway.app/users/logout/',
-            {},
+          const response = await axios.patch(
+            `https://backend-ticketing-app-production.up.railway.app/tickets/${ticketID}`,
+            {
+              status: status,
+            },
             {
               headers: {
+                method: 'PATCH',
                 Authorization: `Bearer ${getStore().accessToken}`,
                 'Content-Type': 'application/json',
               },
@@ -439,21 +503,63 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
 
           if (response.status === 200) {
-            // Eliminamos el token del estado y del localStorage
-            setStore({ accessToken: null, isLoggedIn: false });
-            localStorage.removeItem('accessToken');
-            // Restablecemos los datos del usuario en el estado
-            setStore({
-              name: "",
-              email: "",
-              user_name: "",
-              role: "",
-
-            });
-            return true; // Devolvemos true si el cierre de sesión fue exitoso
+            return true;
           } else {
-            return false; // Devolvemos false si el cierre de sesión falló
+
+            return false;
           }
+        } catch (error) {
+          console.error('Error al recuperar la contraseña:', error);
+          return false;
+        }
+      },
+      AddUserTicket: async (ticket_id, user_id) => {
+        try {
+          const response = await axios.post(
+            `https://backend-ticketing-app-production.up.railway.app/ticket_users/`,
+            {
+              ticket_id: ticket_id,
+              user_id: user_id
+            },
+            {
+              headers: {
+                method: 'POST',
+                Authorization: `Bearer ${getStore().accessToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            return true;
+          } else {
+
+            return false;
+          }
+        } catch (error) {
+          console.error('Error al recuperar la contraseña:', error);
+          return false;
+        }
+      },
+
+      updateToken: () => {
+        if (localStorage.getItem("accessToken")) {
+          setStore({
+            accessToken: localStorage.getItem("accessToken"),
+            isLoggedIn: true
+          })
+        }
+
+      },
+
+
+
+      // Función para cerrar sesión y eliminar el token del estado y del localStorage
+      logout: async () => {
+        try {
+          localStorage.removeItem('accessToken');
+          window.location.href = '/';
+
         } catch (error) {
           console.error('Error al cerrar sesión:', error);
           return false;

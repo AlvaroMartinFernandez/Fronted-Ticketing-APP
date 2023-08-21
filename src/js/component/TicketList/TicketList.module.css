@@ -105,4 +105,89 @@
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
+  .ticketIdLink {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+    color: blue; /* Puedes ajustar el color según tu diseño */
+  }
   
+  .deleteButton {
+    margin-right: 5px;
+    margin-left: 20px;
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    background-color: #dc3545;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 10%;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c82333;
+  }
+  
+
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pagination {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination > li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.pagination > li.active > a,
+.pagination > li.active > span {
+  background-color: #36d7b7;
+  color: white;
+  border-radius: 5px;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.statusIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.statusText {
+  font-size: 14px;
+}

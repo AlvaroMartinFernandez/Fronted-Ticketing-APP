@@ -112,6 +112,7 @@
   background-color: #c0392b;
 }
 
+<<<<<<< HEAD
 /* Estilos para pantallas pequeñas */
 @media screen and (max-width: 768px) {
   .navbar {
@@ -145,3 +146,12 @@
     margin-left: 0;
   }
 }
+=======
+.user-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 20px;
+  margin-top: 5px;
+}
+>>>>>>> d20555bd4df83068b4c16ab0caf0ba1273e2031c
