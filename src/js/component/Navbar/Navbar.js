@@ -57,7 +57,9 @@ const isDashboardPage = location.pathname === '/dashboard';
         <>
           <div className={styles['auth-buttons']}>
           <span className={styles['user-name']}>
+          <strong>
     Bienvenido, {store.name}. Nos alegra verte de nuevo en nuestra web.
+    </strong>
   </span>
             <button onClick={() => actions.logout()} className={`${styles['button']} ${styles['logout-button']}`}>
               Cerrar sesión
