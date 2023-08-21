@@ -11,7 +11,7 @@ import Faq from "./component/Faqs/faq";
 import PasswordRecoveryForm from "./views/PasswordRecoveryForm/PasswordRecoveryForm";
 import TicketDetailView from "./views/TicketDetailView/TicketDetailView";
 import PasswordConfirmation from "./views/PasswordRecoveryForm/PasswordConfirm";
-
+import Contacto from "./component/contacto/contacto"
 
 const Layout = () => {
   const basename = process.env.BASENAME || "";
@@ -32,6 +32,7 @@ const Layout = () => {
           <Route path="/passwordRecoveryForm" element={<PasswordRecoveryForm />} />
           <Route path="/TicketDetailView/:id" element={<TicketDetailView />} />
           <Route path="/PasswordConfirmation/:id" element={<PasswordConfirmation />} />
+          <Route path="/contact" element={<Contacto />} />
 
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
