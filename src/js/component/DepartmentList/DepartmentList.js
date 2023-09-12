@@ -462,6 +462,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
                   onChange={handleChange}
                 />
               </div>
+             
 
               <button type="submit" className={styles.submitButton1}>
                 Crear

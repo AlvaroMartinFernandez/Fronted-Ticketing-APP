@@ -28,21 +28,45 @@ const SelectStatus = () => {
 
     return (
         <div>
-            <select onChange={handleSelectChange} value={opcionSeleccionada}>
-                <option value="">{status}</option>
-                {opciones.map((opcion, index) => (
-                    opcion !== status ? (
-                        <option key={index} value={opcion}>
-                            {opcion}
-                        </option>
-                    ) : null
-                ))}
-            </select>
-            {mostrarBoton && (
-                <button onClick={handleConfirmClick}>Confirmar</button>
-            )}
+          <select
+            onChange={handleSelectChange}
+            value={opcionSeleccionada}
+            style={{
+              padding: "5px 10px",
+              fontSize: "14px",
+              border: "1px solid #ccc",
+              borderRadius: "10px",
+              marginRight: "10px", // Añade margen derecho para separar del botón
+            }}
+          >
+            <option value="">{status}</option>
+            {opciones.map((opcion, index) => (
+              opcion !== status ? (
+                <option key={index} value={opcion}>
+                  {opcion}
+                </option>
+              ) : null
+            ))}
+          </select>
+          {mostrarBoton && (
+            <button
+              onClick={handleConfirmClick}
+              style={{
+                backgroundColor: "#007bff",
+                color: "#fff",
+                padding: "5px 10px",
+                fontSize: "14px",
+                border: "none",
+                borderRadius: "10%",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+              }}
+            >
+              Confirmar
+            </button>
+          )}
         </div>
-    );
+      );
 };
 
 export default SelectStatus;
