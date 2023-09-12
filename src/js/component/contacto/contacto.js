@@ -29,7 +29,7 @@ const Contacto = () => {
                 <label htmlFor="lname">Apellido</label>
                 <input type="text" id="lname" name="lastname" />
 
-                <label htmlFor="country">Country</label>
+                <label htmlFor="country">Pais</label>
                 <select id="country" name="country">
                     <option value="">Selecciona un país</option>
                     <option value="australia">Australia</option>
@@ -49,7 +49,7 @@ const Contacto = () => {
 
                 </select>
 
-                <label htmlFor="subject">Subject</label>
+                <label htmlFor="subject">Mensaje</label>
                 <textarea id="subject" name="subject" placeholder="Pregunte lo que quiera, nos pondremos en contacto lo mas rápido posible" style={{ height: '200px' }}></textarea>
 
                 <input type="submit" value="Enviar" id='botonContacto' />

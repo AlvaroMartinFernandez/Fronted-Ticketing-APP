@@ -462,12 +462,13 @@ const DepartmentList = ({ departments, createDepartment }) => {
                   onChange={handleChange}
                 />
               </div>
+             
 
-              <button type="submit" className={styles.submitButton}>
+              <button type="submit" className={styles.submitButton1}>
                 Crear
               </button>
             </form>
-            <button className={styles.closeButton} onClick={toggleModal}>
+            <button className={styles.closeButton1} onClick={toggleModal}>
               Cerrar
             </button>
           </div>
@@ -551,11 +552,11 @@ const DepartmentList = ({ departments, createDepartment }) => {
                 />
               </div>
               {/* Renderiza los campos del formulario de edición de departamento aquí */}
-              <button type="submit" className={styles.submitButton}>
+              <button type="submit" className={styles.submitButton2}>
                 Guardar Cambios
               </button>
             </form>
-            <button className={styles.closeButton} onClick={toggleDepartmentModal}>
+            <button className={styles.closeButton2} onClick={toggleDepartmentModal}>
               Cancelar
             </button>
           </div>

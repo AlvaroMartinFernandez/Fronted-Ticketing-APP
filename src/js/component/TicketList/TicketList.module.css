@@ -88,22 +88,24 @@
   
   /* Estilos para el botón de búsqueda */
   .searchContainer {
-    position: relative;
     margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
   }
   
   .searchIcon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
+    margin-right: 5px;
+    
   }
   
   .searchInput {
-    padding: 8px 30px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    outline: none;
+    flex: 1; /* Ocupar el espacio restante */
+    margin-top: 10px;
   }
 
   .ticketIdLink {
