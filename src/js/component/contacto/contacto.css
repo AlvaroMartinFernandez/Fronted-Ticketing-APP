@@ -1,53 +1,50 @@
-label {
-  display: block; /* Cambiar la presentación a bloque para que ocupen toda la línea */
-  margin-bottom: 6px; /* Agregar un margen inferior para separar las etiquetas de los campos */
-}
-
+/* contacto.css */
 .container {
-  border-radius: 5px;
-  background-color: #f2f2f2;
+  max-width: 500px;
+  margin: 0 auto;
   padding: 20px;
-  text-align: center; /* Centrar el contenido dentro del contenedor */
+  background-color: #f5f5f5;
   border-radius: 5px;
-  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.fname {
-  width: 80%; /* Ocupa el 80% del ancho del contenedor */
-  padding: 10px; /* Ajusta el padding según tu preferencia */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-  resize: vertical;
-  display: block;
-  margin: 0 auto;
-}
-.lname {
-  width: 80%; /* Ocupa el 80% del ancho del contenedor */
-  padding: 10px; /* Ajusta el padding según tu preferencia */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-  resize: vertical;
-  display: block;
-  margin: 0 auto;
+form {
+  display: flex;
+  flex-direction: column;
 }
 
-input[type="submit"] {
-  display: block;
-  margin: 0 auto; /* Centrar horizontalmente */
-  background-color: #04aa6d;
+label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+input[type="text"],
+select,
+textarea {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+select {
+  appearance: none;
+  padding: 10px;
+}
+
+#botonContacto {
+  background-color: #2e75b6;
   color: white;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
-  background-color: #45a049;
+#botonContacto:hover {
+  background-color: #0056b3;
+}
+
+#botonContacto:focus {
+  outline: none;
 }

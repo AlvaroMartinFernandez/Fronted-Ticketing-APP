@@ -22,24 +22,37 @@ const Contacto = () => {
     return (
         <div className="container">
             <form onSubmit={handleSubmit}>
-                <label htmlFor="fname">First Name</label>
-                <input type="text" id="fname" name="firstname" placeholder="Your name.." />
+                <label htmlFor="fname">Nombre</label>
+                <input type="text" id="fname" name="firstname" />
 
 
-                <label htmlFor="lname">Last Name</label>
-                <input type="text" id="lname" name="lastname" placeholder="Your last name.." />
+                <label htmlFor="lname">Apellido</label>
+                <input type="text" id="lname" name="lastname" />
 
                 <label htmlFor="country">Country</label>
                 <select id="country" name="country">
-                    <option value="australia">España</option>
-                    <option value="canada">Protugal</option>
-                    <option value="usa">USA</option>
+                    <option value="">Selecciona un país</option>
+                    <option value="australia">Australia</option>
+                    <option value="canada">Canadá</option>
+                    <option value="usa">Estados Unidos</option>
+                    <option value="spain">España</option>
+                    <option value="portugal">Portugal</option>
+                    <option value="france">Francia</option>
+                    <option value="germany">Alemania</option>
+                    <option value="uk">Reino Unido</option>
+                    <option value="brazil">Brasil</option>
+                    <option value="argentina">Argentina</option>
+                    <option value="chile">Chile</option>
+                    <option value="colombia">Colombia</option>
+                    <option value="peru">Perú</option>
+                    <option value="mexico">México</option>
+
                 </select>
 
                 <label htmlFor="subject">Subject</label>
-                <textarea id="subject" name="subject" placeholder="Write something.." style={{ height: '200px' }}></textarea>
+                <textarea id="subject" name="subject" placeholder="Pregunte lo que quiera, nos pondremos en contacto lo mas rápido posible" style={{ height: '200px' }}></textarea>
 
-                <input type="submit" value="Submit" id='botonContacto' />
+                <input type="submit" value="Enviar" id='botonContacto' />
             </form>
         </div>
     );
