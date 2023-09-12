@@ -14,6 +14,7 @@ const AddUser = () => {
     const [modalContent, setModalContent] = useState(null);
 
 
+
     const usersSelect = users.filter(usuario => {
         return !user.some(u => u.id === usuario.id);
     });
@@ -48,6 +49,8 @@ const AddUser = () => {
         setModalContent(updatedContent);
         console.log("Hola")
     }, [store.tickets]);
+
+
     return (
         <div>
             {/* Botón para abrir el modal */}

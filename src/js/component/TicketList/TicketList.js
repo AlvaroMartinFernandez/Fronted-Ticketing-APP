@@ -293,6 +293,10 @@ const TicketList = ({ tickets }) => {
   };
 
 
+  useEffect(() => {
+  
+    actions.loadAllTicketsData();
+  }, [])
 
 
 

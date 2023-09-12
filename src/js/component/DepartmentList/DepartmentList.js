@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useContext } from 'react';
+import React, { useMemo, useState, useContext, useEffect } from 'react';
 import { Context } from "../../store/appContext.js";
 import axios from 'axios';
 import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table';
@@ -174,7 +174,7 @@ const DepartmentList = ({ departments, createDepartment }) => {
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
+    });
   }
 
 
@@ -205,10 +205,10 @@ const DepartmentList = ({ departments, createDepartment }) => {
           canFilter: true,
           sortType: 'basic',
           Cell: ({ cell }) => (
-            <div className='Row d-flex flex-wrap'>
+            <div className='Row d-flex flex-wrap gap-4'>
               {cell.value.length > 0 && Array.isArray(cell.value) ? (
                 cell.value.map((user, index) => (
-                  <div className='col-4' key={index}>
+                  <div className='col-4 ' key={index}>
                     <span>{user.name}</span>
                   </div>
                 ))
@@ -326,7 +326,10 @@ const DepartmentList = ({ departments, createDepartment }) => {
     }
   };
 
+  useEffect(() => {
 
+    actions.loadAllDepartmentsData();
+  }, [])
 
   return (
     <div className={styles.container}>

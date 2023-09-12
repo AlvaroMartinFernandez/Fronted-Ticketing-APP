@@ -1,0 +1,69 @@
+/* Estilos para la sección de características */
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 60vh; /* Ajusta la altura según tus necesidades */
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.content-container {
+  padding: 40px 40px;
+  background-color: transparent; /* Cambio del color de fondo a transparente */
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos fluyan en varias filas */
+  justify-content: space-between; /* Distribución uniforme en el eje principal */
+  gap: 20px; /* Espacio entre las características, ahora más pequeño */
+  z-index: 1;
+  
+}
+
+.feature {
+  flex: 0 1 calc(50% - 20px); /* Ajusta el ancho de las características para 2 elementos en una fila */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px; /* Margen inferior más pequeño */
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px; /* Menos espacio de relleno */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el icono */
+.icon {
+  font-size: 24px; /* Iconos más pequeños */
+  color: #007bff; /* Color del ícono, puedes cambiarlo según tus preferencias */
+  margin-bottom: 5px; /* Margen inferior más pequeño */
+  
+}
+
+/* Estilos para el título de la característica */
+.feature-title {
+  font-size: 16px; /* Títulos más pequeños */
+  font-weight: bold;
+  margin-bottom: 5px; /* Margen inferior más pequeño */
+}
+
+/* Estilos para la descripción de la característica */
+.feature-description {
+  font-size: 14px; /* Descripciones más pequeñas */
+}
+
+.feature-title{
+  font-size: 24px;
+}
+
+.feature-description{
+  font-size: 18px;
+}

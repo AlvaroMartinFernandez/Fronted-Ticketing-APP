@@ -16,10 +16,15 @@
 }
 
 .hero-content h1 {
-  font-size: 2.5rem;
+  font-size: 5rem;
   margin-bottom: 1rem;
 }
 
+.hero-content h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
 .hero-content p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
@@ -42,7 +47,7 @@
 /* Imagen del héroe */
 .hero-image {
   flex: 1;
-  max-width: 500px; /* Establece el ancho máximo de la imagen */
+  max-width: 800px; /* Establece el ancho máximo de la imagen */
   overflow: hidden; /* Oculta cualquier parte de la imagen que sobrepase el contenedor */
 }
 

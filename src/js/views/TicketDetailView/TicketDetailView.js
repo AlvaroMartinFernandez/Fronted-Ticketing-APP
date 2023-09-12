@@ -93,53 +93,56 @@ const TicketDetailView = () => {
           {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
             <>
               <h3 className={styles.messageHistory}>Historial de Mensajes:</h3>
-              <div className={styles.messageCardContainer}> 
+              <div className={styles.messageCardContainer}>
 
                 {Array.isArray(store.ticketDetails) ? (store.ticketDetails?.sort((a, b) => a.id - b.id) // Ordenar mensajes por ID ascendente
-                  .map(message => (
-                    <div key={message.id} className={styles.messageCard}>
-                      <h4>
-                        <button
-                          className={`accordion-button ${styles.customAccordionButton}`}
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#messageCollapse${message.id}`}
-                          aria-expanded="false"
-                          
+                  .map(message => {
+                    const body = message.message.split("\r\n\r\nEl");
+                    return (
+                      <div key={message.id} className={styles.messageCard}>
+                        <h4>
+                          <button
+                            className={`accordion-button ${styles.customAccordionButton}`}
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={`#messageCollapse${message.id}`}
+                            aria-expanded="false"
+
+
+                          >
+                            <div className="row d-flex justify-content-around">
+                              <div className='col-8'>
+                                <p>Remitente: {message.sender}</p>
+                              </div>
+                              <div className='col-4'>
+                                <p>Fecha: {new Date(message.createdAt).toLocaleString()}</p>
+                              </div>
+                              <div className='col-12'>
+                                Asunto: {shortenSubject(message.subject)}
+                              </div>
+                            </div>
+                          </button>
+                        </h4>
+                        <div
+                          id={`messageCollapse${message.id}`}
+                          className="collapse"
+                          data-bs-parent={`#messageCollapse${message.id}`}
+
 
                         >
-                          <div className="row d-flex justify-content-around">
-                            <div className='col-8'>
-                              <p>Remitente: {message.sender}</p>
+                          <div className="accordion-body">
+                            <p>{body[0]}</p>
+                            <div className="row d-flex justify-content-start">
+                              {message.list_adjunts.map(adjunt => {
+                                return (<img className='col-4' key={adjunt.id} src={adjunt.url_adjunt} />)
+                              })}
                             </div>
-                            <div className='col-4'>
-                              <p>Fecha: {new Date(message.createdAt).toLocaleString()}</p>
-                            </div>
-                            <div className='col-12'>
-                              Asunto: {shortenSubject(message.subject)}
-                            </div>
-                          </div>
-                        </button>
-                      </h4>
-                      <div
-                        id={`messageCollapse${message.id}`}
-                        className="collapse"
-                        data-bs-parent={`#messageCollapse${message.id}`}
-                      
 
-                      >
-                        <div className="accordion-body">
-                          <p>{message.message}</p>
-                          <div className="row d-flex justify-content-start">
-                            {message.list_adjunts.map(adjunt => {
-                              return (<img className='col-4' key={adjunt.id} src={adjunt.url_adjunt} />)
-                            })}
                           </div>
-
                         </div>
                       </div>
-                    </div>
-                  ))) : (<p>No hay mensajes disponibles.</p>)}
+                    )
+                  })) : (<p>No hay mensajes disponibles.</p>)}
               </div>
             </>
           ) : (
