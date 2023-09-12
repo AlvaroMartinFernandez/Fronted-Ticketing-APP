@@ -88,22 +88,23 @@
   
   /* Estilos para el botón de búsqueda */
   .searchContainer {
-    position: relative;
     margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
   }
   
   .searchIcon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
+    margin-right: 5px;
   }
   
   .searchInput {
-    padding: 8px 30px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    outline: none;
+    flex: 1; /* Ocupar el espacio restante */
+    margin-top: 10px;
   }
   
   /* DepartmentList.module.css */
@@ -156,21 +157,28 @@
 }
 
 .submitButton {
-  background-color: #007bff;
-  color: white;
-  padding: 0.5rem 1rem;
+  margin-right: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
   border: none;
-  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10%;
 }
 
 .closeButton {
-  background-color: #fa0a0a;
-  color: white;
-  padding: 0.5rem 1rem;
+  margin-right: 5px;
+  margin-left: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
   border: none;
-  border-radius: 4px;
+  background-color: #dc3545;
+  color: #fff;
   cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10%;
 }
 
 .modalButtons {
@@ -186,14 +194,17 @@
 
 
 .deleteButton {
-  background-color: #ff6b6b;
-  color: white;
-  border: none;
+  margin-right: 5px;
+  margin-top: 10px;
+  margin-left: 20px;
   padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 4px;
   font-size: 14px;
-  transition: background-color 0.3s ease;
+  border: none;
+  background-color: #dc3545;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10%;
 }
 
 .deleteButton:hover {
@@ -208,16 +219,71 @@
 
 /* Estilos para el botón de editar */
 .editButton {
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
+  margin-right: 5px;
   padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.2s;
+  border-radius: 10%;
+  margin-left: 15%;
   
 }
 
 .editButton:hover {
   background-color: #0056b3;
+}
+
+.submitButton1 {
+  background-color: #4ab19d;
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10%;
+  max-width: 150px; /* Establece un ancho máximo para el primer botón */
+}
+
+.closeButton1 {
+  background-color: #c82333;
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10%;
+  max-width: 150px;
+}
+
+.submitButton2 {
+  background-color: #4ab19d;
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10%;
+  max-width: 150px; /* Establece un ancho máximo para el primer botón */
+}
+
+.closeButton2 {
+  background-color: #c82333;
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 10%;
+  max-width: 150px;
 }

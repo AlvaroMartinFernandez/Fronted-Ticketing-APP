@@ -26,6 +26,7 @@ h2 {
   border: none;
   outline: none;
   flex: 1; /* Ocupar el espacio restante */
+  margin-top: 10px;
 }
 
 /* Estilos para la tabla de usuarios */
@@ -227,7 +228,7 @@ th {
   border-radius: 4px;
 }
 
-/* TicketList.module.css */
+
 .pagination-container {
   display: flex;
   justify-content: center;
