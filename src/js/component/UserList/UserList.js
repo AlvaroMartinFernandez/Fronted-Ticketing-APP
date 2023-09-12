@@ -88,6 +88,7 @@ const UserList = ({ users, createUser }) => {
       if (response.status === 200) {
         // Actualizamos el estado eliminando el usuario del array de usuarios
         actions.loadAllUsersData(); // Actualiza la lista de usuarios
+        actions.loadAllDepartmentsData();
         return true;
       } else {
         console.error('Error al eliminar usuario:', response.statusText);
@@ -244,7 +245,7 @@ const UserList = ({ users, createUser }) => {
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
+    });
   }
 
 
@@ -318,7 +319,7 @@ const UserList = ({ users, createUser }) => {
 
                 <FaTrashAlt className={styles.actionsIcon} /> Eliminar
               </button>
-              
+
 
             </div>
           ),
@@ -363,6 +364,10 @@ const UserList = ({ users, createUser }) => {
   };
 
 
+  useEffect(() => {
+
+    actions.loadAllUsersData();
+  }, [])
 
 
   return (
