@@ -55,10 +55,14 @@ const Navbar = () => {
       {store.isLoggedIn ? (
         // Mostrar elementos para usuarios autenticados
         <>
-          <div className={styles['auth-container']}>
-            <span className={styles['user-name']}>
-              Bienvenido, {store.name}. Nos alegra verte de nuevo en nuestra web.
-            </span>
+
+          <div className={styles['auth-buttons']}>
+          <span className={styles['user-name']}>
+          <strong>
+    Bienvenido, {store.name}. Nos alegra verte de nuevo en nuestra web.
+    </strong>
+  </span>
+
             <button onClick={() => actions.logout()} className={`${styles['button']} ${styles['logout-button']}`}>
               Cerrar sesión
             </button>
