@@ -33,65 +33,58 @@ const Login = () => {
   }
 
   return (
-    <div className={`container mt-2 ${styles["login-container"]}`}>
-      <div className="row justify-content-center">
-        <div className="col-xl-8 col-md-10 col-sm-12">
-          <div className={`card-group mb-0 shadow p-3 mb-5 bg-body-tertiary rounded ${styles.loginForm}`}>
-            <div className="card p-2 ">
-             
-              <form onSubmit={handleLogin}>
-                <div className="card-body">
-                  <h1 className={`text-center mb-4 ${styles.loginTitle}`}>Iniciar sesión</h1>
-                  <div className="input-group mb-3">
-                    <span className="input-group-text bg-white py-2 border border-radius-0">
-                      <i className="fa fa-user"></i>
-                    </span>
-                    <input
-                      type="email"
-                      className={`form-control ${styles.loginInput}`}
-                      placeholder="Email"
-                      onChange={(e) => setEmail(e.target.value)}
-                      value={email}
-                    />
-                  </div>
-                  <div className="input-group mb-4">
-                    <span className="input-group-text bg-white py-2 border border-radius-0">
-                      <i className="fa fa-lock"></i>
-                    </span>
-                    <input
-                      type="password"
-                      className={`form-control ${styles.loginInput}`}
-                      placeholder="Contraseña"
-                      inputMode="numeric"
-                      minLength="8"
-                      maxLength="12"
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                      required
-                    />
-                  </div>
-                  {errorMessage && (
-                    <div className="alert alert-danger" role="alert">
-                      {errorMessage}
-                    </div>
-                  )}
-                  <div className="d-flex justify-content-center">
-                    <button type="submit" className={`btn btn-primary px-3 ${styles.loginButton}`}>
-                      Ingresar
-                    </button>
-                  </div>
-                  {showForgotPassword && (
-                    <div className="d-flex">
-                      <Link to="/PasswordRecoveryForm">
-                        <span>Olvidé mi contraseña</span>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </form>
+    <div className={styles["login-container"]}>
+      <div className={styles["login-form"]}>
+        <form onSubmit={handleLogin}>
+          <div className={styles["login-card"]}>
+            <h1 className={styles["login-title"]}>Iniciar sesión</h1>
+            <div className={styles["input-group"]}>
+              <span className={styles["input-group-text"]}>
+                <i className="fa fa-user"></i>
+              </span>
+              <input
+                type="email"
+                className={styles["form-control"]}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
             </div>
+            <div className={styles["input-group"]}>
+              <span className={styles["input-group-text"]}>
+                <i className="fa fa-lock"></i>
+              </span>
+              <input
+                type="password"
+                className={styles["form-control"]}
+                placeholder="Contraseña"
+                inputMode="numeric"
+                minLength="8"
+                maxLength="12"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                required
+              />
+            </div>
+            {errorMessage && (
+              <div className={styles["alert-danger"]} role="alert">
+                {errorMessage}
+              </div>
+            )}
+            <div className={styles["login-button"]}>
+              <button type="submit" className={styles["btn-primary"]}>
+                Ingresar
+              </button>
+            </div>
+            {showForgotPassword && (
+              <div className={styles["forgot-password-link"]}>
+                <Link to="/PasswordRecoveryForm">
+                  <span>Olvidé mi contraseña</span>
+                </Link>
+              </div>
+            )}
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
