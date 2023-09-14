@@ -50,7 +50,7 @@ const Contacto = () => {
                 </select>
 
                 <label htmlFor="subject">Mensaje</label>
-                <textarea id="subject" name="subject" placeholder="Pregunte lo que quiera, nos pondremos en contacto lo mas rápido posible" style={{ height: '200px' }}></textarea>
+                <textarea id="subject" name="subject" placeholder="Pregunte lo que quiera, nos pondremos en contacto lo más rápido posible" style={{ height: '200px' }}></textarea>
 
                 <input type="submit" value="Enviar" id='botonContacto' />
             </form>

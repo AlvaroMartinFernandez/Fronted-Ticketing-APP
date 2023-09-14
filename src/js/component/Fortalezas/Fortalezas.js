@@ -44,7 +44,7 @@ const Fortalezas = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className={styles['fortaleza-title']}>
-            TicketsIA {currentFortaleza.id}
+            Wizz-Mail {currentFortaleza.id}
           </h2>
           <p className={styles['fortaleza-text']}>
             {currentFortaleza.text}
